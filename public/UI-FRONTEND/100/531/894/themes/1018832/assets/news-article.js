@@ -3,8 +3,27 @@
     return img?.currentSrc || img?.src || "";
   }
 
+  function isInlineEmojiImage(img) {
+    if (!img) return false;
+    var src = imageSrc(img).toLowerCase();
+    if (src.indexOf("emoji.php") !== -1 || src.indexOf("/emoji/") !== -1) {
+      return true;
+    }
+    var w = parseInt(img.getAttribute("width") || "0", 10);
+    var h = parseInt(img.getAttribute("height") || "0", 10);
+    if ((w > 0 && w <= 32) || (h > 0 && h <= 32)) {
+      return true;
+    }
+    if (img.naturalWidth > 0 && img.naturalWidth <= 32 && img.naturalHeight <= 32) {
+      return true;
+    }
+    return false;
+  }
+
   function wrapImageToSpotlight(img) {
     if (!img || img.closest(".swiper-spotlight")) return;
+    // Không bọc emoji / icon nhỏ — tránh xuống dòng và lightbox
+    if (isInlineEmojiImage(img)) return;
 
     var src = imageSrc(img);
     if (!src || src.indexOf("default-image") !== -1) return;

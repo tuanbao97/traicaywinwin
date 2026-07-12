@@ -137,6 +137,33 @@ ol.toc-list  {
 	border-radius: var(--rounded-sm, 0.25rem);
 }
 
+/* Emoji / icon nhỏ (dán từ Facebook…): giữ inline cùng dòng với chữ */
+.main-article .article-content img[width="16"],
+.main-article .article-content img[height="16"],
+.main-article .article-content img[width="18"],
+.main-article .article-content img[height="18"],
+.main-article .article-content img[src*="emoji.php"],
+.main-article .article-content img[src*="/emoji/"],
+.main-article .rte.content img[width="16"],
+.main-article .rte.content img[height="16"],
+.main-article .rte.content img[src*="emoji.php"],
+.main-article .rte.content img[src*="/emoji/"] {
+	display: inline !important;
+	width: 1.2em !important;
+	height: 1.2em !important;
+	max-width: 1.2em !important;
+	max-height: 1.2em !important;
+	margin: 0 0.12em !important;
+	vertical-align: -0.2em;
+	border-radius: 0;
+	object-fit: contain;
+}
+
+.main-article .article-content span.html-span,
+.main-article .rte.content span.html-span {
+	display: inline !important;
+}
+
 .section-main-blog .card-article__image,
 .main-article .card-article__image {
 	overflow: hidden;
