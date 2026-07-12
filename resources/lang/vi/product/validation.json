@@ -1,0 +1,7 @@
+{
+    "max" : ":attribute tối đa :max MB.",
+    "required_if" : ":attribute không được để trống khi :other là :value.",
+    "url" : ":attribute phải là một URL hợp lệ.",
+    "KEYWORDS_SEO_WEBSITE.required": "Từ khóa SEO không được để trống.",
+    "KEYWORDS_SEO_WEBSITE.max": "Từ khóa SEO không được vượt quá :max ký tự."
+}

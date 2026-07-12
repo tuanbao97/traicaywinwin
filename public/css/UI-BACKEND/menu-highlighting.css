@@ -1,0 +1,721 @@
+/* Menu Highlighting Styles */
+.sidebar .nav .nav-item.active > .nav-link {
+  background: #f7f8fc;
+  position: relative;
+  color: #12253f;
+  font-weight: 600;
+}
+
+.sidebar .nav .nav-item.active > .nav-link i,
+.sidebar .nav .nav-item.active > .nav-link .menu-title,
+.sidebar .nav .nav-item.active > .nav-link .menu-arrow {
+  color: #12253f;
+  font-weight: 600;
+}
+
+.sidebar .nav .nav-item.active > .nav-link i.menu-icon {
+  color: #844fc1;
+}
+
+/* Menu con được highlight - chỉ áp dụng cho menu con được click */
+.sidebar .nav .nav-link.sub-menu-active {
+  color: #000000;
+  font-weight: 700;
+  background: rgba(132, 79, 193, 0.1);
+  /* border-left: 3px solid #844fc1; */
+  padding-left: calc(1rem - 3px);
+}
+
+.sidebar .nav .nav-link.sub-menu-active:hover {
+  color: #000000;
+  background: rgba(132, 79, 193, 0.15);
+}
+
+/* Menu cha khi có menu con active - chỉ highlight menu cha, không ảnh hưởng menu con khác */
+.sidebar .nav .nav-item.active > .nav-link {
+  background: #f7f8fc;
+  color: #12253f;
+  font-weight: 600;
+}
+
+/* Hover effect cho menu cha khi active - không ảnh hưởng menu con */
+.sidebar .nav .nav-item.active:hover > .nav-link {
+  background: #f0f2f7;
+  color: #12253f;
+}
+
+/* Đảm bảo menu con không bị ảnh hưởng khi hover menu cha */
+.sidebar .nav .nav-item.active:hover .sub-menu .nav-link:not(.sub-menu-active) {
+  background: transparent;
+  color: inherit;
+  font-weight: normal;
+  border-left: none;
+  padding-left: 1rem;
+}
+
+/* Hover effect cho menu con bình thường */
+.sidebar .nav .sub-menu .nav-link:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: #000;
+}
+
+/* Hover effect cho menu con đang active */
+.sidebar .nav .sub-menu .nav-link.sub-menu-active:hover {
+  background: rgba(0, 0, 0, 0.13);
+  color: #000;
+}
+
+/* ===== MÀU SẮC RIÊNG CHO TỪNG LOẠI MENU CHA ===== */
+
+/* 1. MENU SẢN PHẨM - Màu xanh lá */
+#MENU_PARENT_LIEN_QUAN_SAN_PHAM > .nav-link {
+  background: rgba(40, 167, 69, 0.05);
+  border-left: 3px solid #28a745;
+}
+
+#MENU_PARENT_LIEN_QUAN_SAN_PHAM > .nav-link i.menu-icon {
+  color: #28a745;
+}
+
+#MENU_PARENT_LIEN_QUAN_SAN_PHAM > .nav-link .menu-title {
+  color: #155724;
+  font-weight: 500;
+}
+
+#MENU_PARENT_LIEN_QUAN_SAN_PHAM > .nav-link:hover {
+  background: rgba(40, 167, 69, 0.1);
+}
+
+#MENU_PARENT_LIEN_QUAN_SAN_PHAM.active > .nav-link {
+  background: rgba(40, 167, 69, 0.15);
+  border-left: 3px solid #28a745;
+}
+
+#MENU_PARENT_LIEN_QUAN_SAN_PHAM.active > .nav-link i.menu-icon {
+  color: #28a745;
+}
+
+#MENU_PARENT_LIEN_QUAN_SAN_PHAM.active > .nav-link .menu-title {
+  color: #155724;
+  font-weight: 600;
+}
+
+#MENU_PARENT_LIEN_QUAN_SAN_PHAM.active:hover > .nav-link {
+  background: rgba(40, 167, 69, 0.2);
+}
+
+#MENU_PARENT_LIEN_QUAN_SAN_PHAM .sub-menu .nav-link.sub-menu-active {
+  background: rgba(40, 167, 69, 0.1);
+  border-left: 3px solid #28a745;
+  color: #155724;
+}
+
+#MENU_PARENT_LIEN_QUAN_SAN_PHAM .sub-menu .nav-link.sub-menu-active:hover {
+  background: rgba(40, 167, 69, 0.15);
+}
+
+/* 2. MENU TIN TỨC - Màu cam */
+#MENU_PARENT_LIEN_QUAN_TIN_TUC > .nav-link {
+  background: rgba(255, 193, 7, 0.05);
+  border-left: 3px solid #ffc107;
+}
+
+#MENU_PARENT_LIEN_QUAN_TIN_TUC > .nav-link i.menu-icon {
+  color: #ffc107;
+}
+
+#MENU_PARENT_LIEN_QUAN_TIN_TUC > .nav-link .menu-title {
+  color: #856404;
+  font-weight: 500;
+}
+
+#MENU_PARENT_LIEN_QUAN_TIN_TUC > .nav-link:hover {
+  background: rgba(255, 193, 7, 0.1);
+}
+
+#MENU_PARENT_LIEN_QUAN_TIN_TUC.active > .nav-link {
+  background: rgba(255, 193, 7, 0.15);
+  border-left: 3px solid #ffc107;
+}
+
+#MENU_PARENT_LIEN_QUAN_TIN_TUC.active > .nav-link i.menu-icon {
+  color: #ffc107;
+}
+
+#MENU_PARENT_LIEN_QUAN_TIN_TUC.active > .nav-link .menu-title {
+  color: #856404;
+  font-weight: 600;
+}
+
+#MENU_PARENT_LIEN_QUAN_TIN_TUC.active:hover > .nav-link {
+  background: rgba(255, 193, 7, 0.2);
+}
+
+#MENU_PARENT_LIEN_QUAN_TIN_TUC .sub-menu .nav-link.sub-menu-active {
+  background: rgba(255, 193, 7, 0.1);
+  border-left: 3px solid #ffc107;
+  color: #856404;
+}
+
+#MENU_PARENT_LIEN_QUAN_TIN_TUC .sub-menu .nav-link.sub-menu-active:hover {
+  background: rgba(255, 193, 7, 0.15);
+}
+
+/* 3. MENU CÁ NHÂN - Màu xanh dương */
+#MENU_PARENT_THONG_TIN_CA_NHAN > .nav-link {
+  background: rgba(0, 123, 255, 0.05);
+  border-left: 3px solid #007bff;
+}
+
+#MENU_PARENT_THONG_TIN_CA_NHAN > .nav-link i.menu-icon {
+  color: #007bff;
+}
+
+#MENU_PARENT_THONG_TIN_CA_NHAN > .nav-link .menu-title {
+  color: #004085;
+  font-weight: 500;
+}
+
+#MENU_PARENT_THONG_TIN_CA_NHAN > .nav-link:hover {
+  background: rgba(0, 123, 255, 0.1);
+}
+
+#MENU_PARENT_THONG_TIN_CA_NHAN.active > .nav-link {
+  background: rgba(0, 123, 255, 0.15);
+  border-left: 3px solid #007bff;
+}
+
+#MENU_PARENT_THONG_TIN_CA_NHAN.active > .nav-link i.menu-icon {
+  color: #007bff;
+}
+
+#MENU_PARENT_THONG_TIN_CA_NHAN.active > .nav-link .menu-title {
+  color: #004085;
+  font-weight: 600;
+}
+
+#MENU_PARENT_THONG_TIN_CA_NHAN.active:hover > .nav-link {
+  background: rgba(0, 123, 255, 0.2);
+}
+
+#MENU_PARENT_THONG_TIN_CA_NHAN .sub-menu .nav-link.sub-menu-active {
+  background: rgba(0, 123, 255, 0.1);
+  border-left: 3px solid #007bff;
+  color: #004085;
+}
+
+#MENU_PARENT_THONG_TIN_CA_NHAN .sub-menu .nav-link.sub-menu-active:hover {
+  background: rgba(0, 123, 255, 0.15);
+}
+
+/* 4. MENU NGƯỜI DÙNG - Màu tím */
+#MENU_PARENT_LIEN_QUAN_NGUOI_DUNG > .nav-link {
+  background: rgba(111, 66, 193, 0.05);
+  border-left: 3px solid #6f42c1;
+}
+
+#MENU_PARENT_LIEN_QUAN_NGUOI_DUNG > .nav-link i.menu-icon {
+  color: #6f42c1;
+}
+
+#MENU_PARENT_LIEN_QUAN_NGUOI_DUNG > .nav-link .menu-title {
+  color: #4a2b7a;
+  font-weight: 500;
+}
+
+#MENU_PARENT_LIEN_QUAN_NGUOI_DUNG > .nav-link:hover {
+  background: rgba(111, 66, 193, 0.1);
+}
+
+#MENU_PARENT_LIEN_QUAN_NGUOI_DUNG.active > .nav-link {
+  background: rgba(111, 66, 193, 0.15);
+  border-left: 3px solid #6f42c1;
+}
+
+#MENU_PARENT_LIEN_QUAN_NGUOI_DUNG.active > .nav-link i.menu-icon {
+  color: #6f42c1;
+}
+
+#MENU_PARENT_LIEN_QUAN_NGUOI_DUNG.active > .nav-link .menu-title {
+  color: #4a2b7a;
+  font-weight: 600;
+}
+
+#MENU_PARENT_LIEN_QUAN_NGUOI_DUNG.active:hover > .nav-link {
+  background: rgba(111, 66, 193, 0.2);
+}
+
+#MENU_PARENT_LIEN_QUAN_NGUOI_DUNG .sub-menu .nav-link.sub-menu-active {
+  background: rgba(111, 66, 193, 0.1);
+  border-left: 3px solid #6f42c1;
+  color: #4a2b7a;
+}
+
+#MENU_PARENT_LIEN_QUAN_NGUOI_DUNG .sub-menu .nav-link.sub-menu-active:hover {
+  background: rgba(111, 66, 193, 0.15);
+}
+
+/* 5. MENU CÀI ĐẶT - Màu xám đậm */
+#MENU_PARENT_CAI_DAT > .nav-link {
+  background: rgba(108, 117, 125, 0.05);
+  border-left: 3px solid #6c757d;
+}
+
+#MENU_PARENT_CAI_DAT > .nav-link i.menu-icon {
+  color: #6c757d;
+}
+
+#MENU_PARENT_CAI_DAT > .nav-link .menu-title {
+  color: #495057;
+  font-weight: 500;
+}
+
+#MENU_PARENT_CAI_DAT > .nav-link:hover {
+  background: rgba(108, 117, 125, 0.1);
+}
+
+#MENU_PARENT_CAI_DAT.active > .nav-link {
+  background: rgba(108, 117, 125, 0.15);
+  border-left: 3px solid #6c757d;
+}
+
+#MENU_PARENT_CAI_DAT.active > .nav-link i.menu-icon {
+  color: #6c757d;
+}
+
+#MENU_PARENT_CAI_DAT.active > .nav-link .menu-title {
+  color: #495057;
+  font-weight: 600;
+}
+
+#MENU_PARENT_CAI_DAT.active:hover > .nav-link {
+  background: rgba(108, 117, 125, 0.2);
+}
+
+#MENU_PARENT_CAI_DAT .sub-menu .nav-link.sub-menu-active {
+  background: rgba(108, 117, 125, 0.1);
+  border-left: 3px solid #6c757d;
+  color: #495057;
+}
+
+#MENU_PARENT_CAI_DAT .sub-menu .nav-link.sub-menu-active:hover {
+  background: rgba(108, 117, 125, 0.15);
+}
+
+/* Dark theme support */
+.sidebar-dark .sidebar .nav .nav-item.active > .nav-link {
+  background: #3b424c;
+  color: #ffffff;
+}
+
+.sidebar-dark .sidebar .nav .nav-item.active > .nav-link i,
+.sidebar-dark .sidebar .nav .nav-item.active > .nav-link .menu-title,
+.sidebar-dark .sidebar .nav .nav-item.active > .nav-link .menu-arrow {
+  color: #ffffff;
+}
+
+.sidebar-dark .sidebar .nav .nav-item.active > .nav-link i.menu-icon {
+  color: #844fc1;
+}
+
+.sidebar-dark .sidebar .nav .nav-link.sub-menu-active {
+  color: #ffffff;
+  background: rgba(132, 79, 193, 0.2);
+}
+
+.sidebar-dark .sidebar .nav .nav-link.sub-menu-active:hover {
+  color: #ffffff;
+  background: rgba(132, 79, 193, 0.3);
+}
+
+/* Dark theme - menu con không bị ảnh hưởng khi hover menu cha */
+.sidebar-dark .sidebar .nav .nav-item.active:hover .sub-menu .nav-link:not(.sub-menu-active) {
+  background: transparent;
+  color: inherit;
+  font-weight: normal;
+  border-left: none;
+  padding-left: 1rem;
+}
+
+/* Dark theme - hover effect cho menu con bình thường */
+.sidebar-dark .sidebar .nav .sub-menu .nav-link:hover:not(.sub-menu-active) {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+/* Dark theme - Màu sắc riêng cho từng loại menu cha */
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_SAN_PHAM > .nav-link {
+  background: rgba(40, 167, 69, 0.1);
+  border-left: 3px solid #28a745;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_SAN_PHAM > .nav-link i.menu-icon {
+  color: #28a745;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_SAN_PHAM > .nav-link .menu-title {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_SAN_PHAM > .nav-link:hover {
+  background: rgba(40, 167, 69, 0.15);
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_SAN_PHAM.active > .nav-link {
+  background: rgba(40, 167, 69, 0.2);
+  border-left: 3px solid #28a745;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_SAN_PHAM.active > .nav-link i.menu-icon {
+  color: #28a745;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_SAN_PHAM .sub-menu .nav-link.sub-menu-active {
+  background: rgba(40, 167, 69, 0.2);
+  border-left: 3px solid #28a745;
+  color: #ffffff;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_TIN_TUC > .nav-link {
+  background: rgba(255, 193, 7, 0.1);
+  border-left: 3px solid #ffc107;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_TIN_TUC > .nav-link i.menu-icon {
+  color: #ffc107;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_TIN_TUC > .nav-link .menu-title {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_TIN_TUC > .nav-link:hover {
+  background: rgba(255, 193, 7, 0.15);
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_TIN_TUC.active > .nav-link {
+  background: rgba(255, 193, 7, 0.2);
+  border-left: 3px solid #ffc107;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_TIN_TUC.active > .nav-link i.menu-icon {
+  color: #ffc107;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_TIN_TUC .sub-menu .nav-link.sub-menu-active {
+  background: rgba(255, 193, 7, 0.2);
+  border-left: 3px solid #ffc107;
+  color: #ffffff;
+}
+
+.sidebar-dark #MENU_PARENT_THONG_TIN_CA_NHAN > .nav-link {
+  background: rgba(0, 123, 255, 0.1);
+  border-left: 3px solid #007bff;
+}
+
+.sidebar-dark #MENU_PARENT_THONG_TIN_CA_NHAN > .nav-link i.menu-icon {
+  color: #007bff;
+}
+
+.sidebar-dark #MENU_PARENT_THONG_TIN_CA_NHAN > .nav-link .menu-title {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.sidebar-dark #MENU_PARENT_THONG_TIN_CA_NHAN > .nav-link:hover {
+  background: rgba(0, 123, 255, 0.15);
+}
+
+.sidebar-dark #MENU_PARENT_THONG_TIN_CA_NHAN.active > .nav-link {
+  background: rgba(0, 123, 255, 0.2);
+  border-left: 3px solid #007bff;
+}
+
+.sidebar-dark #MENU_PARENT_THONG_TIN_CA_NHAN.active > .nav-link i.menu-icon {
+  color: #007bff;
+}
+
+.sidebar-dark #MENU_PARENT_THONG_TIN_CA_NHAN .sub-menu .nav-link.sub-menu-active {
+  background: rgba(0, 123, 255, 0.2);
+  border-left: 3px solid #007bff;
+  color: #ffffff;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_NGUOI_DUNG > .nav-link {
+  background: rgba(111, 66, 193, 0.1);
+  border-left: 3px solid #6f42c1;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_NGUOI_DUNG > .nav-link i.menu-icon {
+  color: #6f42c1;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_NGUOI_DUNG > .nav-link .menu-title {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_NGUOI_DUNG > .nav-link:hover {
+  background: rgba(111, 66, 193, 0.15);
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_NGUOI_DUNG.active > .nav-link {
+  background: rgba(111, 66, 193, 0.2);
+  border-left: 3px solid #6f42c1;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_NGUOI_DUNG.active > .nav-link i.menu-icon {
+  color: #6f42c1;
+}
+
+.sidebar-dark #MENU_PARENT_LIEN_QUAN_NGUOI_DUNG .sub-menu .nav-link.sub-menu-active {
+  background: rgba(111, 66, 193, 0.2);
+  border-left: 3px solid #6f42c1;
+  color: #ffffff;
+}
+
+.sidebar-dark #MENU_PARENT_CAI_DAT > .nav-link {
+  background: rgba(108, 117, 125, 0.1);
+  border-left: 3px solid #6c757d;
+}
+
+.sidebar-dark #MENU_PARENT_CAI_DAT > .nav-link i.menu-icon {
+  color: #6c757d;
+}
+
+.sidebar-dark #MENU_PARENT_CAI_DAT > .nav-link .menu-title {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.sidebar-dark #MENU_PARENT_CAI_DAT > .nav-link:hover {
+  background: rgba(108, 117, 125, 0.15);
+}
+
+.sidebar-dark #MENU_PARENT_CAI_DAT.active > .nav-link {
+  background: rgba(108, 117, 125, 0.2);
+  border-left: 3px solid #6c757d;
+}
+
+.sidebar-dark #MENU_PARENT_CAI_DAT.active > .nav-link i.menu-icon {
+  color: #6c757d;
+}
+
+.sidebar-dark #MENU_PARENT_CAI_DAT .sub-menu .nav-link.sub-menu-active {
+  background: rgba(108, 117, 125, 0.2);
+  border-left: 3px solid #6c757d;
+  color: #ffffff;
+}
+
+/* ===== RESET & CƠ BẢN ===== */
+.sidebar .nav,
+.sidebar .nav ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.sidebar .nav .nav-item {
+  margin-bottom: 8px;
+}
+
+.sidebar .nav .nav-link {
+  border-radius: 8px;
+  padding: 10px 18px 10px 18px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar .nav .nav-link .menu-title {
+  font-size: 1.07rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.sidebar .nav .nav-link .menu-arrow {
+  margin-left: auto;
+  font-size: 1.1em;
+}
+
+.sidebar .nav .sub-menu {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-left: 18px;
+}
+
+.sidebar .nav .sub-menu .nav-link {
+  border-left: 3px solid transparent;
+  box-sizing: border-box;
+  padding-left: 28px;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+
+.sidebar .nav .sub-menu .nav-link.sub-menu-active {
+  border-left: 3px solid #28a745;
+  background: #f7f8fc;
+  color: #000;
+}
+
+.sidebar .nav .nav-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #b3b3b3;
+}
+
+/* Khoảng cách giữa các menu cha rõ ràng hơn */
+.sidebar .nav > .nav-item:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+/* Ẩn dấu chấm mặc định của ul li */
+.sidebar .nav li,
+.sidebar .nav ul li {
+  list-style: none;
+}
+
+/* Bo góc cho menu cha khi active/hover */
+.sidebar .nav .nav-item > .nav-link,
+.sidebar .nav .nav-item.active > .nav-link,
+.sidebar .nav .nav-item > .nav-link:hover {
+  border-radius: 8px;
+}
+
+/* Bo góc cho menu con khi active/hover */
+.sidebar .nav .sub-menu .nav-link,
+.sidebar .nav .sub-menu .nav-link.sub-menu-active,
+.sidebar .nav .sub-menu .nav-link:hover {
+  border-radius: 6px;
+}
+
+/* Tăng spacing giữa icon và chữ */
+.sidebar .nav .nav-link i.menu-icon {
+  margin-right: 10px;
+  font-size: 1.25em;
+}
+
+/* Ẩn badge nếu không cần */
+.sidebar .nav .nav-link .badge {
+  margin-left: 8px;
+  font-size: 0.85em;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+/* Giảm độ đậm cho menu con không active */
+.sidebar .nav .sub-menu .nav-link:not(.sub-menu-active) {
+  color: #555;
+  font-weight: 400;
+}
+
+/* Hiệu ứng hover mượt cho menu cha/con */
+.sidebar .nav .nav-link,
+.sidebar .nav .sub-menu .nav-link {
+  transition: background 0.18s, color 0.18s, font-weight 0.18s;
+}
+
+/* XÓA DẤU CHẤM Ở MENU CON */
+.sidebar .nav .sub-menu .nav-link::before {
+  content: none !important;
+  display: none !important;
+}
+
+.sidebar .nav .sub-menu,
+.sidebar .nav .sub-menu li,
+.sidebar .nav .sub-menu .nav-link {
+  list-style: none !important;
+  list-style-type: none !important;
+  background-image: none !important;
+}
+
+/* Dấu chấm trước menu con */
+.sidebar .nav .sub-menu .nav-link::before {
+  content: '•';
+  color: #888;
+  font-size: 1.1em;
+  margin-right: 8px;
+  display: inline-block;
+  transition: opacity 0.18s;
+}
+
+/* Khi menu con được chọn thì ẩn dấu chấm */
+.sidebar .nav .sub-menu .nav-link.sub-menu-active::before {
+  opacity: 0;
+}
+
+.sidebar .nav .sub-menu .nav-link:hover,
+.sidebar .nav .sub-menu .nav-link.sub-menu-active:hover {
+  background: rgba(0, 0, 0, 0.13) !important;
+  color: #000 !important;
+  transition: background 0.18s, color 0.18s;
+}
+
+.sidebar .nav .sub-menu .nav-link:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: #000;
+}
+
+.sidebar .nav .sub-menu .nav-link.sub-menu-active:hover {
+  background: inherit;
+  color: inherit;
+}
+
+/* MENU CHA */
+.sidebar .nav .nav-item > .nav-link {
+  border-left: 3px solid transparent;
+  box-sizing: border-box;
+  padding-left: 20px;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+.sidebar .nav .nav-item.active > .nav-link,
+.sidebar .nav .nav-item > .nav-link:hover {
+  border-left: 3px solid #28a745;
+}
+
+/* MENU CON */
+.sidebar .nav .sub-menu .nav-link {
+  border-left: 3px solid transparent;
+  box-sizing: border-box;
+  padding-left: 28px;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+.sidebar .nav .sub-menu .nav-link.sub-menu-active,
+.sidebar .nav .sub-menu .nav-link:hover {
+  border-left: 3px solid #28a745;
+}
+
+/* ===== ICON BOLD KHI ACTIVE ===== */
+/* Icon đậm hơn khi menu cha active */
+.sidebar .nav .nav-item.active > .nav-link i.menu-icon {
+  font-weight: 900 !important;
+  font-size: 1.5em !important;
+  transform: scale(1.15);
+  transition: all 0.2s ease;
+}
+
+/* Icon đậm hơn khi menu con active */
+.sidebar .nav .nav-link.sub-menu-active i.menu-icon {
+  font-weight: 900 !important;
+  font-size: 1.5em !important;
+  transform: scale(1.15);
+  transition: all 0.2s ease;
+}
+
+/* Icon đậm hơn khi menu cha hover - không thay đổi kích thước */
+.sidebar .nav .nav-item:hover > .nav-link i.menu-icon {
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+/* Icon đậm hơn khi menu con hover - không thay đổi kích thước */
+.sidebar .nav .sub-menu .nav-link:hover i.menu-icon {
+  font-weight: 700;
+  transition: all 0.2s ease;
+} 

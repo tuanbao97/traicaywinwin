@@ -1,0 +1,11 @@
+{
+    "HO_TEN.required": "Họ và tên không được để trống.",
+    "SO_DIEN_THOAI.required": "Số điện thoại không được để trống.",
+    "SO_DIEN_THOAI.regex": "Số điện thoại không hợp lệ.",
+    "EMAIL.email": "Email không hợp lệ.",
+    "DIA_CHI.required": "Địa chỉ không được để trống.",
+    "ITEMS.required": "Danh sách sản phẩm không được để trống.",
+    "ITEMS.min": "Danh sách sản phẩm phải có ít nhất một sản phẩm.",
+    "TRANSACTION_STATUS.required": "Trạng thái giao dịch không được để trống.",
+    "TRANSACTION_STATUS.in": "Trạng thái giao dịch không hợp lệ."
+}

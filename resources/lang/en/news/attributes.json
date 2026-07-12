@@ -1,0 +1,17 @@
+{
+    "TIEU_DE_TIN_TUC": "News title",
+    "TOM_TAT_TIN_TUC": "News summary",
+    "NOI_DUNG_TIN_TUC": "News content",
+    "NOI_DUNG_TIN_TUC_ONLY_TEXT": "News content (text only)",
+    "DANH_SACH_HINH_ANH_DAI_DIEN": "Avatars image",
+    "DANH_SACH_HINH_ANH_DAI_DIEN.*": "Avatars image",
+    "DANH_SACH_HINH_ANH": "List of images",
+    "DANH_SACH_HINH_ANH.*": "List of images",
+    "DANH_SACH_VIDEO": "List of videos",
+    "DANH_SACH_VIDEO.*": "Danh sách videos",
+    "DANH_MUC_TIN_TUC.ID": "News category",
+    "DANH_MUC_TIN_TUC_ID": "News category",
+    "TRANG_THAI_XUAT_BAN": "News category",
+    "TIN_TUC_NOI_BAT": "Featured news",
+    "TRANG_THAI_HOAT_DONG": "Active status"
+} 

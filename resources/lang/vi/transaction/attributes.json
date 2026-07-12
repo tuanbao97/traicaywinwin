@@ -1,0 +1,12 @@
+{
+    "ID": "ID",
+    "HO_TEN": "Họ và tên",
+    "SO_DIEN_THOAI": "Số điện thoại",
+    "EMAIL": "Email",
+    "DIA_CHI": "Địa chỉ",
+    "GHI_CHU": "Ghi chú",
+    "TU_KHOA": "Từ khóa",
+    "TRANG_THAI_GIAO_DICH": "Trạng thái giao dịch",
+    "TRANSACTION_STATUS": "Trạng thái giao dịch",
+    "ITEMS": "Danh sách sản phẩm"
+}

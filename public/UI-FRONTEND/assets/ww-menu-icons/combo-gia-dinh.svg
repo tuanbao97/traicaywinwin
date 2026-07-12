@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true">
+  <defs>
+    <linearGradient id="p1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fca5a5"/>
+      <stop offset="100%" stop-color="#dc2626"/>
+    </linearGradient>
+    <linearGradient id="p2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <linearGradient id="p3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d8b4fe"/>
+      <stop offset="100%" stop-color="#9333ea"/>
+    </linearGradient>
+  </defs>
+  <path stroke="#78716c" stroke-width="1.4" stroke-linecap="round" d="M4 18.5h16"/>
+  <ellipse cx="8" cy="14" rx="2.8" ry="3.2" fill="url(#p1)" stroke="#991b1b" stroke-width="1"/>
+  <ellipse cx="12" cy="12.5" rx="3" ry="3.5" fill="url(#p2)" stroke="#a16207" stroke-width="1"/>
+  <ellipse cx="16" cy="14" rx="2.8" ry="3.2" fill="url(#p3)" stroke="#6b21a8" stroke-width="1"/>
+  <path fill="#22c55e" stroke="#15803d" stroke-width="0.9" stroke-linecap="round"
+    d="M10 9.5c.5-1.2 1.5-2 2.5-2h1M12 7.5V6"/>
+</svg>

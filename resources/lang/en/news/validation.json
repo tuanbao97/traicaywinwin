@@ -1,0 +1,48 @@
+{
+    "TITLE": {
+        "required": "News title is required",
+        "max": "News title cannot exceed :max characters"
+    },
+    "SUMMARY": {
+        "required": "News summary is required",
+        "max": "News summary cannot exceed :max characters"
+    },
+    "CONTENT_FORMAT": {
+        "required": "News content is required"
+    },
+    "CONTENT_RAW": {
+        "required": "Raw content is required"
+    },
+    "META_SEO_KEYWORDS": {
+        "max": "SEO keywords cannot exceed :max characters"
+    },
+    "META_SEO_DESCRIPTION": {
+        "max": "SEO description cannot exceed :max characters"
+    },
+    "APPROVED_DATE": {
+        "date": "Approved date format is invalid"
+    },
+    "PUBLISHED_DATE": {
+        "date": "Published date format is invalid"
+    },
+    "COUNT_VIEWS": {
+        "integer": "View count must be an integer",
+        "min": "View count cannot be less than :min"
+    },
+    "IS_HOT_NEWS": {
+        "boolean": "Hot news status is invalid"
+    },
+    "IS_APPROVED": {
+        "boolean": "Approved status is invalid"
+    },
+    "USER_POST_NEWS_ID": {
+        "required": "News poster is required",
+        "exists": "News poster does not exist"
+    },
+    "USER_APPROVED_POST_NEWS_ID": {
+        "exists": "Approver does not exist"
+    },
+    "DANH_MUC_TIN_TUC": {
+        "required": "News category is required"
+    }
+} 

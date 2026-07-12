@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="njSh" x1="12" y1="20.2" x2="12" y2="23.3" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#94a3b8" stop-opacity="0.38"/>
+      <stop offset="0.55" stop-color="#cbd5e1" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#e2e8f0" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="njGlass" x1="7" y1="2.5" x2="18" y2="21.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff" stop-opacity="0.62"/>
+      <stop offset="0.28" stop-color="#f0f9ff" stop-opacity="0.4"/>
+      <stop offset="0.55" stop-color="#e0f2fe" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#bae6fd" stop-opacity="0.14"/>
+    </linearGradient>
+    <linearGradient id="njRim" x1="8" y1="4" x2="16" y2="4.5" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff" stop-opacity="0.85"/>
+      <stop offset="0.5" stop-color="#fff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#e2e8f0" stop-opacity="0.25"/>
+    </linearGradient>
+    <linearGradient id="njJuice" x1="9" y1="20.2" x2="15" y2="5.8" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ea580c"/>
+      <stop offset="0.22" stop-color="#f97316"/>
+      <stop offset="0.48" stop-color="#fb923c"/>
+      <stop offset="0.7" stop-color="#fbbf24"/>
+      <stop offset="1" stop-color="#fef08a"/>
+    </linearGradient>
+    <radialGradient id="njJuiceGlow" cx="40%" cy="26%" r="68%" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#fff7ed" stop-opacity="0.7"/>
+      <stop offset="0.42" stop-color="#fed7aa" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#ea580c" stop-opacity="0.06"/>
+    </radialGradient>
+    <linearGradient id="njIce" x1="8.5" y1="5" x2="13" y2="9" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff" stop-opacity="0.99"/>
+      <stop offset="0.5" stop-color="#f0f9ff" stop-opacity="0.88"/>
+      <stop offset="1" stop-color="#bae6fd" stop-opacity="0.5"/>
+    </linearGradient>
+    <pattern id="njStraw" width="0.95" height="0.95" patternUnits="userSpaceOnUse">
+      <rect width="0.48" height="0.95" fill="#dc2626"/>
+      <rect x="0.48" width="0.47" height="0.95" fill="#fff"/>
+    </pattern>
+    <clipPath id="njGlassClip">
+      <path d="M7.88 4.02h8.24l-.72 15.12c-.07 1.08-.95 1.96-1.98 1.96h-1.84c-1.03 0-1.91-.88-1.98-1.96L7.88 4.02z"/>
+    </clipPath>
+  </defs>
+
+  <ellipse cx="12" cy="22.2" rx="5.85" ry="1.08" fill="url(#njSh)"/>
+
+  <path d="M7.88 4.02h8.24l-.72 15.12c-.07 1.08-.95 1.96-1.98 1.96h-1.84c-1.03 0-1.91-.88-1.98-1.96L7.88 4.02z"
+    fill="url(#njGlass)" stroke="#64748b" stroke-width="1.05" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <path d="M7.88 4.08H16.12l-.03.34H7.91z" fill="url(#njRim)" opacity="0.88"/>
+
+  <path d="M8.05 4.35v16.2" stroke="#fff" stroke-width="0.35" stroke-linecap="round" opacity="0.55"/>
+
+  <g clip-path="url(#njGlassClip)">
+    <path d="M8.18 6.95h7.64v13.05c0 .52-.42.95-.93.95h-5.78a.93.93 0 0 1-.93-.95V6.95z" fill="url(#njJuice)"/>
+    <rect x="8.18" y="6.95" width="7.64" height="11.85" fill="url(#njJuiceGlow)" opacity="0.92"/>
+    <ellipse cx="12.2" cy="12.2" rx="3.15" ry="4.35" fill="#fbbf24" opacity="0.16"/>
+
+    <rect x="8.45" y="5.45" width="1.18" height="1.12" rx="0.14" fill="url(#njIce)" stroke="#94a3b8" stroke-width="0.28" transform="rotate(-11 9.05 6.02)"/>
+    <rect x="10.35" y="4.95" width="1.15" height="1.18" rx="0.14" fill="url(#njIce)" stroke="#94a3b8" stroke-width="0.28" transform="rotate(9 10.95 5.55)"/>
+    <rect x="12.15" y="5.15" width="1.12" height="1.1" rx="0.13" fill="url(#njIce)" stroke="#94a3b8" stroke-width="0.28" transform="rotate(-7 12.7 5.72)"/>
+    <rect x="13.85" y="5.35" width="1.05" height="1.05" rx="0.12" fill="url(#njIce)" stroke="#94a3b8" stroke-width="0.26" transform="rotate(12 14.35 5.88)"/>
+    <rect x="9.55" y="6.25" width="0.95" height="0.98" rx="0.11" fill="url(#njIce)" stroke="#94a3b8" stroke-width="0.25" transform="rotate(16 10.05 6.75)"/>
+
+    <g fill="#fff" opacity="0.72">
+      <circle cx="9.05" cy="5.95" r="0.2"/>
+      <circle cx="11.05" cy="5.42" r="0.16"/>
+      <circle cx="12.75" cy="5.65" r="0.15"/>
+      <circle cx="14.35" cy="5.85" r="0.14"/>
+      <circle cx="10.35" cy="6.45" r="0.13"/>
+    </g>
+  </g>
+
+  <g stroke="#fff" stroke-linecap="round" opacity="0.18">
+    <path d="M8.35 4.45v16.35M9.35 4.45v16.35M10.35 4.45v16.35M11.35 4.45v16.35M12.35 4.45v16.35M13.35 4.45v16.35M14.35 4.45v16.35M15.35 4.45v16.35"/>
+  </g>
+  <path d="M8.12 6.35h7.76" stroke="#fff" stroke-width="0.58" stroke-linecap="round" opacity="0.5"/>
+  <path d="M8.05 8.15h.45M8.05 10.5h.45M8.05 12.85h.45" stroke="#fff" stroke-width="0.26" stroke-linecap="round" opacity="0.26"/>
+  <path d="M15.5 8.15h.45M15.5 10.5h.45M15.5 12.85h.45" stroke="#fff" stroke-width="0.26" stroke-linecap="round" opacity="0.2"/>
+
+  <g transform="translate(5.85 3.45)">
+    <circle cx="1.38" cy="1.38" r="1.42" fill="#fffbeb" stroke="#fdba74" stroke-width="0.34"/>
+    <circle cx="1.38" cy="1.38" r="1.08" fill="none" stroke="#ffedd5" stroke-width="0.26"/>
+    <g stroke="#c2410c" stroke-width="0.13" stroke-linecap="round">
+      <path d="M1.38 0.48v1.9M1.38 1.38L0.55 0.98M1.38 1.38L2.2 0.98M1.38 1.38L2.42 1.58M1.38 1.38L2.08 2.2M1.38 1.38V2.5M1.38 1.38L0.68 2.2M1.38 1.38L0.38 1.58"/>
+    </g>
+    <g fill="#fb923c">
+      <path d="M1.38.75a.65.65 0 0 1 .54.3L1.38 1.38z"/>
+      <path d="M1.92 1.05a.65.65 0 0 1 .05.58L1.38 1.38z"/>
+      <path d="M1.97 1.63a.65.65 0 0 1-.3.54L1.38 1.38z"/>
+      <path d="M1.67 2.17a.65.65 0 0 1-.58.05L1.38 1.38z"/>
+      <path d="M1.09 2.22a.65.65 0 0 1-.54-.3L1.38 1.38z"/>
+      <path d="M.84 1.72a.65.65 0 0 1-.05-.58L1.38 1.38z"/>
+      <path d="M.79 1.14a.65.65 0 0 1 .3-.54L1.38 1.38z"/>
+      <path d="M1.09.84a.65.65 0 0 1 .58-.05L1.38 1.38z"/>
+    </g>
+    <circle cx="1.38" cy="1.38" r="0.24" fill="#fff7ed" opacity="0.68"/>
+  </g>
+
+  <g transform="translate(15.35 4.65)">
+    <path d="M0.12 1.9c.38-.88 1.15-1.4 1.72-1.55.48-.12.9.05 1.05.48.16.4-.05.9-.58 1.2-.52.3-1.25.35-1.82.08-.38-.18-.58-.5-.37-.21z" fill="#15803d" stroke="#14532d" stroke-width="0.2"/>
+    <path d="M1.05 0.52c.58.16 1.05.68 1.2 1.25.1.38 0 .75-.22 1.02" fill="none" stroke="#166534" stroke-width="0.18" stroke-linecap="round"/>
+    <ellipse cx="1.92" cy="1.02" rx="0.68" ry="0.4" fill="#16a34a" stroke="#14532d" stroke-width="0.16" transform="rotate(32 1.92 1.02)"/>
+    <ellipse cx="2.48" cy="1.68" rx="0.58" ry="0.34" fill="#22c55e" stroke="#14532d" stroke-width="0.15" transform="rotate(-22 2.48 1.68)"/>
+    <path d="M1.55 2q.38.28.75.16" fill="none" stroke="#14532d" stroke-width="0.14" stroke-linecap="round" opacity="0.55"/>
+  </g>
+
+  <g transform="translate(14.15 1.65) rotate(52)">
+    <rect x="-0.44" y="-0.48" width="0.88" height="9.1" rx="0.16" fill="url(#njStraw)" stroke="#b91c1c" stroke-width="0.11"/>
+  </g>
+
+  <path fill="#fff" opacity="0.42" d="M10.5 4.6c.78.32 1.48.2 1.95-.18.4-.33.55-.75.5-1.1-.4.24-.95.34-1.48.12-.55-.22-1-.65-1.15-1.12-.15.52-.02 1.06.18 1.38z"/>
+  <ellipse cx="12.2" cy="5.42" rx="2.05" ry="0.38" fill="#fff" opacity="0.22"/>
+</svg>

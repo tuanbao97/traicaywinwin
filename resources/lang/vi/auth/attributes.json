@@ -1,0 +1,13 @@
+{
+    "ID" : "Id user"
+    , "EMAIL" : "Email"
+    , "USERNAME" : "Tên đăng nhập"
+    , "FULL_NAME" : "Họ và tên"
+    , "SO_DIEN_THOAI" : "Số điện thoại"
+    , "PASSWORD" : "Mật khẩu"
+    , "CONFIRM_PASSWORD" : "Nhập lại mật khẩu"
+    , "OLD_PASSWORD" : "Mật khẩu cũ"
+    , "NEW_PASSWORD" : "Mật khẩu mới"
+    , "CONFIRM_NEW_PASSWORD" : "Nhập lại mật khẩu"
+    , "RESET_KEY" : "Mã reset password"
+}

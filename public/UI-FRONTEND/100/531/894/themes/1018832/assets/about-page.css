@@ -1,0 +1,124 @@
+.ww-about__header {
+	margin-bottom: 1.5rem;
+	padding-bottom: 1rem;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.ww-about__grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 1.5rem;
+	align-items: start;
+}
+
+@media (min-width: 1024px) {
+	.ww-about__grid {
+		grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+		gap: 2rem;
+	}
+}
+
+.ww-about__img-wrap {
+	overflow: hidden;
+	border-radius: var(--rounded-lg, 0.75rem);
+	background: #f3f4f6;
+	box-shadow:
+		0 4px 6px -1px rgba(0, 0, 0, 0.08),
+		0 2px 4px -2px rgba(0, 0, 0, 0.05);
+	border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ww-about__img-wrap img {
+	display: block;
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	vertical-align: middle;
+}
+
+.ww-about__caption {
+	margin: var(--spacing-2) 0 0;
+	padding: 0 var(--spacing-1);
+	text-align: center;
+}
+
+.ww-about__body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-5);
+}
+
+.ww-about__intro p {
+	margin: 0 0 var(--spacing-4);
+	line-height: calc(20 / 14);
+}
+
+.ww-about__intro p:last-child {
+	margin-bottom: 0;
+}
+
+.ww-about__contact {
+	padding: var(--spacing-4) var(--spacing-5);
+	border-radius: var(--rounded-lg, 0.75rem);
+	background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%);
+	border: 1px solid rgba(14, 165, 233, 0.12);
+}
+
+.ww-about__contact-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-3);
+}
+
+.ww-about__contact-list li {
+	display: grid;
+	grid-template-columns: 7.5rem minmax(0, 1fr);
+	gap: var(--spacing-1) var(--spacing-3);
+	align-items: baseline;
+	line-height: calc(20 / 14);
+}
+
+@media (max-width: 480px) {
+	.ww-about__contact-list li {
+		grid-template-columns: 1fr;
+		gap: var(--spacing-0-5);
+	}
+}
+
+.ww-about__contact-list .ww-about__label {
+	font-weight: 600;
+}
+
+.ww-about__contact-list .ww-about__value {
+	word-break: break-word;
+}
+
+.ww-about__contact-list a.link {
+	text-decoration: none;
+}
+
+.ww-about__contact-list a.link:hover {
+	text-decoration: underline;
+}
+
+.ww-about__cta {
+	margin: 0;
+	padding: var(--spacing-4);
+	border-radius: var(--rounded, 0.65rem);
+	background: rgba(14, 165, 233, 0.07);
+	border-left: 3px solid var(--color-primary, #0ea5e9);
+	line-height: calc(20 / 14);
+}
+
+.ww-about .prose ul {
+	margin: 0;
+	padding: 0;
+}
+
+.ww-about .prose p {
+	font-size: inherit;
+	line-height: inherit;
+}

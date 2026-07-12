@@ -1,0 +1,20 @@
+{
+    "TIEU_DE_VIDEO.required": "Tiêu đề video không được để trống.",
+    "TIEU_DE_VIDEO.max": "Tiêu đề video không được vượt quá :max ký tự.",
+    "TOM_TAT_VIDEO.required": "Tóm tắt video không được để trống.",
+    "TOM_TAT_VIDEO.max": "Tóm tắt video không được vượt quá :max ký tự.",
+    "NOI_DUNG_VIDEO.required": "Nội dung video không được để trống.",
+    "NOI_DUNG_VIDEO_ONLY_TEXT.required": "Nội dung video (chỉ text) không được để trống.",
+    "META_SEO_KEYWORDS.max": "Meta SEO Keywords không được vượt quá :max ký tự.",
+    "META_SEO_DESCRIPTION.max": "Meta SEO Description không được vượt quá :max ký tự.",
+    "VIDEO_NOI_BAT.required": "Video nổi bật không được để trống.",
+    "VIDEO_NOI_BAT.boolean": "Video nổi bật phải là true hoặc false.",
+    "TRANG_THAI_HOAT_DONG.required": "Trạng thái hoạt động không được để trống.",
+    "TRANG_THAI_HOAT_DONG.boolean": "Trạng thái hoạt động phải là true hoặc false.",
+    "DANH_SACH_HINH_ANH_DAI_DIEN.required": "Danh sách hình ảnh đại diện không được để trống.",
+    "DANH_SACH_HINH_ANH_DAI_DIEN.array": "Danh sách hình ảnh đại diện phải là mảng.",
+    "DANH_SACH_HINH_ANH_DAI_DIEN.*.ID.required": "ID hình ảnh đại diện không được để trống.",
+    "DANH_SACH_HINH_ANH_DAI_DIEN.*.ID.integer": "ID hình ảnh đại diện phải là số nguyên.",
+    "DANH_SACH_FILE_DINH_KEM.array": "Danh sách file đính kèm phải là mảng.",
+    "DANH_SACH_FILE_DINH_KEM.*.ID.integer": "ID file đính kèm phải là số nguyên."
+}

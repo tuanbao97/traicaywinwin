@@ -1,0 +1,14 @@
+{
+    "ID": "ID",
+    "TIEU_DE_VIDEO": "Video Title",
+    "TOM_TAT_VIDEO": "Video Summary",
+    "NOI_DUNG_VIDEO": "Video Content",
+    "NOI_DUNG_VIDEO_ONLY_TEXT": "Video Content (Text Only)",
+    "META_SEO_KEYWORDS": "Meta SEO Keywords",
+    "META_SEO_DESCRIPTION": "Meta SEO Description",
+    "VIDEO_NOI_BAT": "Hot Video",
+    "LOAI_VIDEO": "Video Type",
+    "TRANG_THAI_HOAT_DONG": "Active Status",
+    "DANH_SACH_HINH_ANH_DAI_DIEN": "Thumbnail Image List",
+    "DANH_SACH_FILE_DINH_KEM": "Attachment File List"
+}

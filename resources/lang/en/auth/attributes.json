@@ -1,0 +1,13 @@
+{
+    "ID" : "Id user"
+    , "EMAIL" : "Email"
+    , "USERNAME" : "Username"
+    , "FULL_NAME" : "Full name"
+    , "SO_DIEN_THOAI" : "Phone number"
+    , "PASSWORD" : "Password"
+    , "CONFIRM_PASSWORD" : "Confirm password"
+    , "OLD_PASSWORD" : "Old password"
+    , "NEW_PASSWORD" : "New password"
+    , "CONFIRM_NEW_PASSWORD" : "Confirm password"
+    , "RESET_KEY" : "Reset password token"
+}

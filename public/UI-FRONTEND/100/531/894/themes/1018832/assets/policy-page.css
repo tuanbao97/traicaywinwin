@@ -1,0 +1,42 @@
+.ww-policy__header {
+	margin-bottom: 1.25rem;
+	padding-bottom: 1rem;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.ww-policy__body {
+	max-width: none;
+	width: 100%;
+	line-height: 1.7;
+	color: #334155;
+}
+
+.ww-policy__body h2 {
+	margin: 1.75rem 0 0.75rem;
+	font-size: 1.2em;
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.ww-policy__body p,
+.ww-policy__body ul,
+.ww-policy__body ol {
+	margin: 0 0 0.95rem;
+}
+
+.ww-policy__body ul,
+.ww-policy__body ol {
+	padding-left: 1.35rem;
+}
+
+.ww-policy__body li {
+	margin-bottom: 0.55rem;
+}
+
+.ww-policy__body a.link {
+	text-decoration: none;
+}
+
+.ww-policy__body a.link:hover {
+	text-decoration: underline;
+}

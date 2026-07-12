@@ -1,0 +1,12 @@
+{
+    "ID": "ID",
+    "HO_TEN": "Full name",
+    "SO_DIEN_THOAI": "Phone number",
+    "EMAIL": "Email",
+    "DIA_CHI": "Address",
+    "GHI_CHU": "Note",
+    "TU_KHOA": "Keyword",
+    "TRANG_THAI_GIAO_DICH": "Transaction status",
+    "TRANSACTION_STATUS": "Transaction status",
+    "ITEMS": "Product list"
+}

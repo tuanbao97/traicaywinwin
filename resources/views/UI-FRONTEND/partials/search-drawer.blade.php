@@ -1,0 +1,16 @@
+{{-- Mobile search drawer — cùng form với header desktop --}}
+<portal-component class="portal portal--drawer" id="search-drawer" data-type="drawer" data-animation="slide-in-right" style="--dialog-max-width:52rem">
+  <dialog class="portal-dialog">
+    <div class="w-full h-full flex">
+      <div class="portal-overlay"></div>
+      <div class="portal-inner w-full ml-auto bg-background overflow-auto h-screen px-4 animation">
+        <div class="portal-header px-3 pb-3 pt-5">
+          <div class="font-semibold text-h6 md:text-h4 flex items-center gap-2">
+            <i class="icon icon-arrow-left text-h6 md:text-h4 cursor-pointer" id="PortalClose-search-drawer"></i> Tìm kiếm
+          </div>
+        </div>
+        @include('UI-FRONTEND.partials.header-search-form')
+      </div>
+    </div>
+  </dialog>
+</portal-component>

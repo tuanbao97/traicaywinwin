@@ -1,0 +1,14 @@
+{
+    "ID": "ID",
+    "TIEU_DE_VIDEO": "Tiêu đề video",
+    "TOM_TAT_VIDEO": "Tóm tắt video",
+    "NOI_DUNG_VIDEO": "Nội dung video",
+    "NOI_DUNG_VIDEO_ONLY_TEXT": "Nội dung video (chỉ text)",
+    "META_SEO_KEYWORDS": "Meta SEO Keywords",
+    "META_SEO_DESCRIPTION": "Meta SEO Description",
+    "VIDEO_NOI_BAT": "Video nổi bật",
+    "LOAI_VIDEO": "Loại video",
+    "TRANG_THAI_HOAT_DONG": "Trạng thái hoạt động",
+    "DANH_SACH_HINH_ANH_DAI_DIEN": "Danh sách hình ảnh đại diện",
+    "DANH_SACH_FILE_DINH_KEM": "Danh sách file đính kèm"
+}

@@ -1,0 +1,5 @@
+{
+    "mimetypes": ":attribute phải là tệp thuộc loại: video/avi, video/mpeg, video/quicktime, video/mp4."
+    , "VIDEOS.max" : ":attribute số lượng tối đa :max."
+    , "VIDEOS.*.max" : ":attribute tối đa :max KB."
+}

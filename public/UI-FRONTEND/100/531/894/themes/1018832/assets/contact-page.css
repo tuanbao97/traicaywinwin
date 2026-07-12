@@ -1,0 +1,233 @@
+.ww-contact__header {
+	margin-bottom: 1.5rem;
+	padding-bottom: 1rem;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.ww-contact__lead {
+	max-width: 42rem;
+	line-height: 1.55;
+}
+
+.ww-contact__cards {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0.85rem;
+	margin-bottom: 1.75rem;
+}
+
+@media (min-width: 640px) {
+	.ww-contact__cards {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.ww-contact__card {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.9rem;
+	padding: 1rem 1.1rem;
+	border-radius: 1rem;
+	border: 1px solid rgba(14, 165, 233, 0.12);
+	background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%);
+	text-decoration: none;
+	color: inherit;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+a.ww-contact__card:hover {
+	border-color: rgba(14, 165, 233, 0.35);
+	box-shadow: 0 8px 20px rgba(14, 165, 233, 0.1);
+	transform: translateY(-1px);
+}
+
+.ww-contact__card-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: 999px;
+	background: rgba(14, 165, 233, 0.12);
+	color: var(--color-primary, #0ea5e9);
+	flex-shrink: 0;
+	font-size: 1.25rem;
+}
+
+.ww-contact__card-body {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	min-width: 0;
+}
+
+.ww-contact__card-label {
+	font-size: 0.85rem;
+	font-weight: 700;
+	color: #64748b;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+}
+
+.ww-contact__card-value {
+	font-size: var(--font-size-body, 1.4rem);
+	font-weight: 600;
+	line-height: 1.45;
+	word-break: break-word;
+}
+
+.ww-contact__card-value a.link {
+	text-decoration: none;
+}
+
+.ww-contact__card-value a.link:hover {
+	text-decoration: underline;
+}
+
+.ww-contact__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1.5rem;
+	align-items: start;
+}
+
+@media (min-width: 1024px) {
+	.ww-contact__grid {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		gap: 2rem;
+	}
+}
+
+.ww-contact__form-wrap,
+.ww-contact__map-wrap {
+	padding: 1.15rem 1.2rem 1.25rem;
+	border-radius: 1rem;
+	border: 1px solid rgba(0, 0, 0, 0.06);
+	background: #fff;
+}
+
+.ww-contact__form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.9rem;
+}
+
+.ww-contact__field-row {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0.9rem;
+}
+
+@media (min-width: 640px) {
+	.ww-contact__field-row {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.ww-contact__field {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+}
+
+.ww-contact__field label {
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: #334155;
+}
+
+.ww-contact__field input,
+.ww-contact__field textarea {
+	width: 100%;
+	border: 1.5px solid #e2e8f0;
+	border-radius: 0.75rem;
+	padding: 0.75rem 0.95rem;
+	font-size: var(--font-size-body, 1.4rem);
+	line-height: 1.4;
+	background: #fff;
+	color: #0f172a;
+	outline: none;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ww-contact__field textarea {
+	resize: vertical;
+	min-height: 8rem;
+}
+
+.ww-contact__field input:focus,
+.ww-contact__field textarea:focus {
+	border-color: rgba(14, 165, 233, 0.55);
+	box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12);
+}
+
+.ww-contact__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.ww-contact__submit {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.55rem;
+	min-height: 3.2rem;
+	padding: 0.7rem 1.25rem;
+	border-radius: 999px;
+	font-weight: 700;
+	text-decoration: none;
+	border: none;
+	cursor: pointer;
+	transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ww-contact__submit img {
+	width: 1.25rem;
+	height: 1.25rem;
+	object-fit: contain;
+	flex-shrink: 0;
+}
+
+.ww-contact__submit--zalo {
+	background: #0068ff;
+	color: #fff;
+}
+
+.ww-contact__submit--messenger,
+.ww-contact__submit--facebook {
+	background: #1877f2;
+	color: #fff;
+}
+
+.ww-contact__submit:hover {
+	filter: brightness(0.95);
+	color: #fff;
+}
+
+.ww-contact__submit:active {
+	transform: scale(0.98);
+}
+
+.ww-contact__form-note {
+	line-height: 1.45;
+}
+
+.ww-contact__map {
+	overflow: hidden;
+	border-radius: 0.85rem;
+	border: 1px solid rgba(0, 0, 0, 0.06);
+	background: #f3f4f6;
+	aspect-ratio: 4 / 3;
+}
+
+.ww-contact__map iframe {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+.ww-contact__map-caption {
+	line-height: 1.45;
+}

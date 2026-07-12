@@ -1,0 +1,48 @@
+{
+    "TITLE": {
+        "required": "Tiêu đề tin tức không được để trống",
+        "max": "Tiêu đề tin tức không được vượt quá :max ký tự"
+    },
+    "SUMMARY": {
+        "required": "Tóm tắt tin tức không được để trống",
+        "max": "Tóm tắt tin tức không được vượt quá :max ký tự"
+    },
+    "CONTENT_FORMAT": {
+        "required": "Nội dung tin tức không được để trống"
+    },
+    "CONTENT_RAW": {
+        "required": "Nội dung nguyên bản không được để trống"
+    },
+    "META_SEO_KEYWORDS": {
+        "max": "Từ khóa SEO không được vượt quá :max ký tự"
+    },
+    "META_SEO_DESCRIPTION": {
+        "max": "Mô tả SEO không được vượt quá :max ký tự"
+    },
+    "APPROVED_DATE": {
+        "date": "Ngày approved không đúng định dạng"
+    },
+    "PUBLISHED_DATE": {
+        "date": "Ngày xuất bản không đúng định dạng"
+    },
+    "COUNT_VIEWS": {
+        "integer": "Số lượt xem phải là số nguyên",
+        "min": "Số lượt xem không được nhỏ hơn :min"
+    },
+    "IS_HOT_NEWS": {
+        "boolean": "Trạng thái tin hot không hợp lệ"
+    },
+    "IS_APPROVED": {
+        "boolean": "Trạng thái approved không hợp lệ"
+    },
+    "USER_POST_NEWS_ID": {
+        "required": "Người đăng bài không được để trống",
+        "exists": "Người đăng bài không tồn tại"
+    },
+    "USER_APPROVED_POST_NEWS_ID": {
+        "exists": "Người approved không tồn tại"
+    },
+    "DANH_MUC_TIN_TUC": {
+        "required": "Danh mục tin tức không được để trống"
+    }
+} 

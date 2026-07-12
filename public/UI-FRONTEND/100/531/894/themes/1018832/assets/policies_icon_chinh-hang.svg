@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <circle cx="64" cy="64" r="64" fill="#E8F8EF"/>
+  <path d="M64 18L98 32V58.5C98 82.2 83.4 103.4 64 110C44.6 103.4 30 82.2 30 58.5V32L64 18Z" fill="url(#ww-chinh-hang-grad)"/>
+  <path d="M64 26L90 37.2V58.5C90 77.8 78.6 95.1 64 101.2C49.4 95.1 38 77.8 38 58.5V37.2L64 26Z" fill="#FFFFFF" fill-opacity="0.22"/>
+  <path d="M52 64.5L60.2 72.7L78 54" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <defs>
+    <linearGradient id="ww-chinh-hang-grad" x1="30" y1="18" x2="98" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22C55E"/>
+      <stop offset="1" stop-color="#16A34A"/>
+    </linearGradient>
+  </defs>
+</svg>

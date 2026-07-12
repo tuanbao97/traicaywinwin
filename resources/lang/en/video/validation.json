@@ -1,0 +1,20 @@
+{
+    "TIEU_DE_VIDEO.required": "Video title cannot be empty.",
+    "TIEU_DE_VIDEO.max": "Video title cannot exceed :max characters.",
+    "TOM_TAT_VIDEO.required": "Video summary cannot be empty.",
+    "TOM_TAT_VIDEO.max": "Video summary cannot exceed :max characters.",
+    "NOI_DUNG_VIDEO.required": "Video content cannot be empty.",
+    "NOI_DUNG_VIDEO_ONLY_TEXT.required": "Video content (text only) cannot be empty.",
+    "META_SEO_KEYWORDS.max": "Meta SEO Keywords cannot exceed :max characters.",
+    "META_SEO_DESCRIPTION.max": "Meta SEO Description cannot exceed :max characters.",
+    "VIDEO_NOI_BAT.required": "Hot video status cannot be empty.",
+    "VIDEO_NOI_BAT.boolean": "Hot video status must be true or false.",
+    "TRANG_THAI_HOAT_DONG.required": "Active status cannot be empty.",
+    "TRANG_THAI_HOAT_DONG.boolean": "Active status must be true or false.",
+    "DANH_SACH_HINH_ANH_DAI_DIEN.required": "Thumbnail image list cannot be empty.",
+    "DANH_SACH_HINH_ANH_DAI_DIEN.array": "Thumbnail image list must be an array.",
+    "DANH_SACH_HINH_ANH_DAI_DIEN.*.ID.required": "Thumbnail image ID cannot be empty.",
+    "DANH_SACH_HINH_ANH_DAI_DIEN.*.ID.integer": "Thumbnail image ID must be an integer.",
+    "DANH_SACH_FILE_DINH_KEM.array": "Attachment file list must be an array.",
+    "DANH_SACH_FILE_DINH_KEM.*.ID.integer": "Attachment file ID must be an integer."
+}

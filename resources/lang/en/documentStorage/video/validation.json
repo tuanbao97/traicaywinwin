@@ -1,0 +1,5 @@
+{
+    "mimetypes": ":attribute must be a file of type: video/avi, video/mpeg, video/quicktime, video/mp4."
+    , "VIDEOS.max" : ":attribute maximum quantity :max."
+    , "VIDEOS.*.max" : ":attribute max :max KB."
+}

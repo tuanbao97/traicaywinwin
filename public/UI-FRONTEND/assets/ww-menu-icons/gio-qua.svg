@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="wb" x1="12" y1="11" x2="12" y2="21" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f4e4d0"/>
+      <stop offset="0.45" stop-color="#d4b896"/>
+      <stop offset="1" stop-color="#9a7342"/>
+    </linearGradient>
+    <linearGradient id="wr" x1="12" y1="14" x2="12" y2="17" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8b4d2e"/>
+      <stop offset="0.5" stop-color="#5c2e18"/>
+      <stop offset="1" stop-color="#3d1f12"/>
+    </linearGradient>
+    <radialGradient id="rg" cx="32%" cy="32%" r="68%">
+      <stop offset="0%" stop-color="#bbf7d0"/>
+      <stop offset="0.55" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </radialGradient>
+    <radialGradient id="ra" cx="30%" cy="28%" r="70%">
+      <stop offset="0%" stop-color="#fecaca"/>
+      <stop offset="0.45" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#7f1d1d"/>
+    </radialGradient>
+    <radialGradient id="ro" cx="35%" cy="30%" r="72%">
+      <stop offset="0%" stop-color="#ffedd5"/>
+      <stop offset="0.4" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#c2410c"/>
+    </radialGradient>
+    <radialGradient id="rp" cx="38%" cy="25%" r="75%">
+      <stop offset="0%" stop-color="#fefce8"/>
+      <stop offset="0.5" stop-color="#fde047"/>
+      <stop offset="100%" stop-color="#a16207"/>
+    </radialGradient>
+    <linearGradient id="wshine" x1="4" y1="5" x2="16" y2="14" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff" stop-opacity="0.45"/>
+      <stop offset="0.35" stop-color="#fff" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="5" y1="12" x2="19" y2="12" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff8f0" stop-opacity="0.9"/>
+      <stop offset="0.5" stop-color="#e8d5c4"/>
+      <stop offset="1" stop-color="#c4a574"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Thân giỏ -->
+  <path fill="url(#wb)" stroke="#4a3728" stroke-width="1.05" stroke-linejoin="round"
+    d="M5.05 12.35h13.9l-1.32 8.65H6.37l-1.32-8.65z"/>
+  <!-- Viền miệng giỏ -->
+  <path fill="none" stroke="url(#rim)" stroke-width="0.9" stroke-linecap="round"
+    d="M5.05 12.35h13.9"/>
+  <!-- Vân đan chéo nhẹ -->
+  <path stroke="#7c5c3a" stroke-width="0.35" stroke-opacity="0.45" stroke-linecap="round"
+    d="M6.4 14.2l2.2 5.4M9.2 13.9l1.8 5.8M12 13.7v6M14.8 13.9l-1.8 5.8M17.6 14.2l-2.2 5.4"/>
+  <path stroke="#7c5c3a" stroke-width="0.3" stroke-opacity="0.35" stroke-linecap="round"
+    d="M6 16.8h12M6.6 19h10.8"/>
+
+  <!-- Ánh sáng nền phía sau đống trái -->
+  <ellipse cx="11.8" cy="8.6" rx="6.2" ry="5" fill="url(#wshine)"/>
+
+  <!-- Dải ruy-băng -->
+  <path fill="url(#wr)" stroke="#2d1810" stroke-width="0.45"
+    d="M5.05 14.85h13.9v2.25H5.05z"/>
+  <path stroke="#fde8d4" stroke-width="0.42" stroke-linecap="round" stroke-opacity="0.75"
+    d="M5.2 15.05h13.6M5.2 16.9h13.6"/>
+
+  <!-- Nơ cân đối -->
+  <ellipse cx="10.35" cy="16.15" rx="2.05" ry="1.32" fill="url(#wr)" stroke="#2d1810" stroke-width="0.38" transform="rotate(-48 10.35 16.15)"/>
+  <ellipse cx="13.65" cy="16.15" rx="2.05" ry="1.32" fill="url(#wr)" stroke="#2d1810" stroke-width="0.38" transform="rotate(48 13.65 16.15)"/>
+  <circle cx="12" cy="16.28" r="0.78" fill="#3d2318" stroke="#2d1810" stroke-width="0.28"/>
+  <ellipse cx="11.25" cy="15.88" rx="0.5" ry="0.2" fill="#fff" opacity="0.4"/>
+
+  <!-- Trái (từ sau ra trước): cam -->
+  <circle cx="11.35" cy="10.85" r="2.15" fill="url(#ro)" stroke="#9a3412" stroke-width="0.55"/>
+  <path stroke="#fff7ed" stroke-width="0.38" stroke-linecap="round" opacity="0.85"
+    d="M10.55 9.75c.7.25 1.35.75 1.8 1.35"/>
+
+  <!-- Lê vàng -->
+  <ellipse cx="7.15" cy="10.15" rx="1.95" ry="3.05" fill="url(#rp)" stroke="#a16207" stroke-width="0.52" transform="rotate(-16 7.15 10.15)"/>
+  <path stroke="#fff" stroke-width="0.32" stroke-linecap="round" opacity="0.55"
+    d="M5.55 8.35l.8.48M5.72 9.95l.9.38M5.42 11.2l.72.48"/>
+
+  <!-- Táo -->
+  <circle cx="16.35" cy="10.45" r="2.25" fill="url(#ra)" stroke="#7f1d1d" stroke-width="0.55"/>
+  <ellipse cx="15.55" cy="9.45" rx="0.75" ry="0.38" fill="#fff" opacity="0.4"/>
+  <path stroke="#14532d" stroke-width="0.45" stroke-linecap="round"
+    d="M16.35 8.15v-.85M15.85 7.5l.5-.65"/>
+
+  <!-- Nho: chùm cân đối + highlight -->
+  <g stroke="#166534" stroke-width="0.28">
+    <circle cx="12" cy="4.85" r="0.98" fill="url(#rg)"/>
+    <circle cx="10.55" cy="5.85" r="0.9" fill="url(#rg)"/>
+    <circle cx="13.45" cy="5.85" r="0.9" fill="url(#rg)"/>
+    <circle cx="11.25" cy="6.85" r="0.85" fill="url(#rg)"/>
+    <circle cx="12.75" cy="6.88" r="0.85" fill="url(#rg)"/>
+    <circle cx="12" cy="7.75" r="0.8" fill="url(#rg)"/>
+  </g>
+  <g fill="#fff" opacity="0.55">
+    <circle cx="11.45" cy="5.35" r="0.28"/>
+    <circle cx="12.35" cy="4.55" r="0.22"/>
+    <circle cx="10.05" cy="6.15" r="0.2"/>
+    <circle cx="14.05" cy="6.2" r="0.2"/>
+  </g>
+
+  <!-- Vệt bóng trên vỏ (nilong) -->
+  <path fill="#fff" opacity="0.22" d="M6.2 6.8c2.2 1.1 3.8 1.6 5.4 1.5 1.4-.1 2.8-.7 4-1.6l.35.5c-1.35 1.15-2.95 1.85-4.55 1.95-1.85.12-3.65-.45-5.2-1.35z"/>
+
+  <!-- Quai -->
+  <path stroke="#3d2a1f" stroke-width="1.45" stroke-linecap="round"
+    d="M7.85 7.15C8.85 4.55 11.2 3 12 3c.8 0 3.15 1.55 4.15 4.15"/>
+  <!-- Nơ mini trên quai -->
+  <path fill="url(#wr)" stroke="#2d1810" stroke-width="0.28"
+    d="M8.05 6.35c-.55-.2-.95.15-1.05.65-.08.4.2.75.6.85.35.1.75-.05 1-.4.25-.35.4-.85.45-1.1z"/>
+  <path fill="url(#wr)" stroke="#2d1810" stroke-width="0.28"
+    d="M9.95 6.45c.55-.2.95.15 1.05.65.08.4-.2.75-.6.85-.35.1-.75-.05-1-.4-.25-.35-.4-.85-.45-1.1z"/>
+</svg>

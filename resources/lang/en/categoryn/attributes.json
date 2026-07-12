@@ -1,0 +1,12 @@
+{
+	"TEN_DANH_MUC_TIN_TUC" : "News category name"
+    , "ID" : "News catalog"
+    , "PARENT_ID" : "News category parent"
+    , "SORT_ORDER" : "Sort order"
+    , "TREE_LEVEL" : "Tree level"
+    , "DANH_SACH_HINH_ANH_DAI_DIEN": "AVATAR"
+    , "DANH_SACH_HINH_ANH_DAI_DIEN.*": "AVATAR"
+    , "TRANG_THAI_HOAT_DONG" : "Operating status"
+    , "CRT_DT" : "Creation date"
+    , "UPD_DT" : "Edit date"
+}

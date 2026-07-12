@@ -1,0 +1,12 @@
+{
+	"TEN_DANH_MUC_TIN_TUC" : "Tên danh mục tin tức"
+    , "ID" : "Danh mục tin tức"
+    , "PARENT_ID" : "Danh mục tin tức cha"
+    , "SORT_ORDER" : "Thứ tự sắp xếp"
+    , "TREE_LEVEL" : "Cấp level"
+    , "DANH_SACH_HINH_ANH_DAI_DIEN": "Hình ảnh đại diện"
+    , "DANH_SACH_HINH_ANH_DAI_DIEN.*": "Hình ảnh đại diện"
+    , "TRANG_THAI_HOAT_DONG" : "Trạng thái hoạt động"
+    , "CRT_DT" : "Ngày tạo"
+    , "UPD_DT" : "Ngày sửa"
+}

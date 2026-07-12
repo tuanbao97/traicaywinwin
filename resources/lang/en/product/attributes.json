@@ -1,0 +1,28 @@
+{
+    "ID": "Product ID",
+    "DANH_SACH_HINH_ANH_DAI_DIEN": "Featured Image",
+    "DANH_SACH_HINH_ANH_DAI_DIEN.*": "Featured Image",
+    "DANH_SACH_HINH_ANH": "Image List",
+    "DANH_SACH_HINH_ANH.*": "Image List",
+    "DANH_SACH_VIDEO": "Video List",
+    "DANH_SACH_VIDEO.*": "Video List",
+    "DANH_MUC_SAN_PHAM.ID": "Product Category",
+    "TEN_SAN_PHAM": "Product Name",
+    "KEYWORDS_SEO_WEBSITE": "SEO Keywords",
+    "MO_TA_NGAN_GON_SAN_PHAM": "Brief description of the product",
+    "MO_TA_CHI_TIET": "Detailed Description",
+    "PRICE": "Price",
+    "GIA_CA": "Price",
+    "GIA_GOC": "Original price",
+    "IS_GIA_CA_LIEN_HE": "Contact for price",
+    "MO_TA_CHI_TIET_ONLY_TEXT": "Detailed Description without HTML",
+
+
+    "LOAI_SAN_PHAM": "Product type",
+    "MUC_GIA.*.MIN_VALUE": "From the price",
+    "MUC_GIA.*.MAX_VALUE": "To the price",
+
+
+    "TRANG_THAI_HOAT_DONG": "Active Status",
+    "LINK_GOOGLE_DRIVE": "Image, Video Link, etc."
+}

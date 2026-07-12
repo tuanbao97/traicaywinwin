@@ -1,0 +1,11 @@
+{
+    "HO_TEN.required": "Full name is required.",
+    "SO_DIEN_THOAI.required": "Phone number is required.",
+    "SO_DIEN_THOAI.regex": "Phone number is invalid.",
+    "EMAIL.email": "Email is invalid.",
+    "DIA_CHI.required": "Address is required.",
+    "ITEMS.required": "Product list is required.",
+    "ITEMS.min": "Product list must contain at least one item.",
+    "TRANSACTION_STATUS.required": "Transaction status is required.",
+    "TRANSACTION_STATUS.in": "Transaction status is invalid."
+}

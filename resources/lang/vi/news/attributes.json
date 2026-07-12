@@ -1,0 +1,17 @@
+{
+    "TIEU_DE_TIN_TUC": "Tiêu đề tin tức",
+    "TOM_TAT_TIN_TUC": "Tóm tắt tin tức",
+    "NOI_DUNG_TIN_TUC": "Nội dung tin tức",
+    "NOI_DUNG_TIN_TUC_ONLY_TEXT": "Nội dung tin tức (chỉ text)",
+    "DANH_SACH_HINH_ANH_DAI_DIEN": "Hình ảnh đại diện",
+    "DANH_SACH_HINH_ANH_DAI_DIEN.*": "Hình ảnh đại diện",
+    "DANH_SACH_HINH_ANH": "Danh sách hình ảnh",
+    "DANH_SACH_HINH_ANH.*": "Danh sách hình ảnh",
+    "DANH_SACH_VIDEO": "Danh sách video",
+    "DANH_SACH_VIDEO.*": "Danh sách video",
+    "DANH_MUC_TIN_TUC.ID": "Danh mục tin tức",
+    "DANH_MUC_TIN_TUC_ID": "Danh mục tin tức",
+    "TRANG_THAI_XUAT_BAN": "Trạng thái xuất bản",
+    "TIN_TUC_NOI_BAT": "Tin tức nổi bật",
+    "TRANG_THAI_HOAT_DONG": "Trạng thái hoạt động"
+} 

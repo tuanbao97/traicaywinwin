@@ -1,0 +1,30 @@
+{
+    "ID": "Id sản phẩm",
+    "DANH_SACH_HINH_ANH_DAI_DIEN": "Hình ảnh đại diện",
+    "DANH_SACH_HINH_ANH_DAI_DIEN.*": "Hình ảnh đại diện",
+    "DANH_SACH_HINH_ANH": "Danh sách hình ảnh",
+    "DANH_SACH_HINH_ANH.*": "Danh sách hình ảnh",
+    "DANH_SACH_VIDEO": "Danh sách video",
+    "DANH_SACH_VIDEO.*": "Danh sách video",
+    "DANH_MUC_SAN_PHAM.ID": "Danh mục sản phẩm",
+    "TEN_SAN_PHAM": "Tên sản phẩm",
+    "KEYWORDS_SEO_WEBSITE": "Từ khóa SEO",
+    "MO_TA_NGAN_GON_SAN_PHAM": "Mô tả ngắn gọn sản phẩm",
+    "MO_TA_CHI_TIET": "Mô tả chi tiết",
+    "PRICE": "Giá cả",
+    "GIA_CA": "Giá cả",
+    "GIA_GOC": "Giá gốc",
+    "IS_GIA_CA_LIEN_HE": "Giá liên hệ",
+
+    "MO_TA_CHI_TIET_ONLY_TEXT": "Mô tả chi tiết không chứa HTML",
+
+
+    "LOAI_SAN_PHAM": "Loại sản phẩm",
+    "MUC_GIA.*.MIN_VALUE": "Từ mức giá",
+    "MUC_GIA.*.MAX_VALUE": "Đến mức giá",
+
+
+
+    "TRANG_THAI_HOAT_DONG": "Trạng thái hoạt động",
+    "LINK_GOOGLE_DRIVE": "Link hình ảnh, video, v.v"
+}

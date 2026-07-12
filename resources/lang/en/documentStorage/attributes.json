@@ -1,0 +1,7 @@
+{
+	"FILES" : "Image"
+	, "TEN_HINH_ANH" : "Image name"
+	, "MO_TA" : "Describe"
+	, "DANH_SACH_KICH_THUOC_HINH_ANH": "List of image sizes"
+	, "KICH_THUOC_HINH_ANH": "Image size"
+}

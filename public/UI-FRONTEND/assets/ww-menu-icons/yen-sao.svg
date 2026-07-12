@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <defs>
+    <radialGradient id="ysBg" cx="50%" cy="46%" r="58%">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="72%" stop-color="#b91c1c"/>
+      <stop offset="100%" stop-color="#7f1d1d"/>
+    </radialGradient>
+    <linearGradient id="ysGold" x1="26%" y1="14%" x2="80%" y2="92%">
+      <stop stop-color="#fff7d6"/>
+      <stop offset="0.25" stop-color="#fde68a"/>
+      <stop offset="0.55" stop-color="#fbbf24"/>
+      <stop offset="0.8" stop-color="#d97706"/>
+      <stop offset="1" stop-color="#a16207"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="12" cy="12" r="10.4" fill="url(#ysBg)" stroke="#fbbf24" stroke-width="0.55"/>
+  <circle cx="12" cy="12" r="8.55" fill="none" stroke="#fbbf24" stroke-width="0.28" opacity="0.5"/>
+
+  <path fill="url(#ysGold)" d="M17.1 10.35 C15.4 8.05 12.35 6.55 8.75 6.95 C11.05 7.35 12.65 8.55 13.35 9.95 C11.05 9.05 8.65 9.55 7.05 11.65 C9.45 10.95 11.25 11.15 12.45 12.25 C10.15 11.85 8.15 12.55 6.55 14.45 C8.85 13.55 10.85 13.75 12.35 14.85 C13.55 15.75 14.35 16.95 14.75 18.25 C14.15 16.45 14.35 14.35 15.65 12.85 C16.35 12.05 16.85 11.2 17.1 10.35 Z"/>
+</svg>

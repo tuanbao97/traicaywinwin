@@ -1,0 +1,68 @@
+.data-tables .header-footer {
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.data-tables thead tr th, .data-tables tfoot tr th{
+    border-right: 1px solid rgb(222, 226, 230) !important;
+    border-left: 1px solid rgb(222, 226, 230) !important;
+}
+
+/* Set css ô hình ảnh nằm trong datatables */
+.data-tables td img, .jsgrid .jsgrid-table td img {
+    width: 75px !important;
+    height: unset !important;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 5px !important;
+}
+
+/* Set css vị trí ô số lượng và ô search trong datatables */
+.data-tables .dt-length {
+    float: left;
+    margin-bottom: 10px;
+    padding-top: 1px;
+}
+.data-tables .dt-search {
+    float: right;
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+table.dataTable {
+    table-layout: fixed; /* Cố định chiều rộng các cột */
+    border-top: unset !important;
+    border-bottom: unset !important;
+}
+
+table.dataTable td.z-index-3 {
+    z-index: 3!important;
+}
+
+table.dataTable thead tr {
+    background: #ffffff;
+    position: sticky;
+    top: 0;
+    box-shadow: inset 0px 0px 0px 1px #dedede;
+    z-index: 4;
+}
+
+table.dataTable tfoot tr {
+    background: #ffffff;
+    position: sticky;
+    bottom: 0;
+    box-shadow: inset 0px 0px 0px 1px #dedede;
+    z-index: 4;
+}
+
+div.dt-container div.dt-paging ul.pagination {
+    padding: 3px;
+}
+
+@media screen and (max-width: 765px) {
+    .data-tables div.dt-buttons {
+        width: unset;
+        text-align: end;
+        display: block;
+    }
+}

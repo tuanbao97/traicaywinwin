@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 40" role="img" aria-labelledby="lw-title">
+  <title id="lw-title">Win Win</title>
+  <defs>
+    <linearGradient id="lw-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#14532d"/>
+      <stop offset="1" stop-color="#052e16"/>
+    </linearGradient>
+  </defs>
+  <rect width="132" height="40" rx="10" fill="url(#lw-bg)"/>
+  <!-- WIN tr?ng (ch? sát) -->
+  <text x="6" y="28" fill="#ffffff" font-family="system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif" font-size="24" font-weight="900" letter-spacing="-0.14em">WIN</text>
+  <!-- W xanh -->
+  <text x="48" y="28" fill="#86efac" font-family="system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif" font-size="24" font-weight="900" letter-spacing="-0.14em">W</text>
+  <!-- I xanh + hai lá ngay tr?n thân ch? I -->
+  <g transform="translate(66,0)">
+    <g fill="#22c55e" transform="translate(-1, -1)">
+      <path d="M2 11C-1 4 6-1 10 4 8 8 4 11 2 11z"/>
+      <path d="M12 11c3-7-4-12-8-7 2 4 6 7 8 7z"/>
+    </g>
+    <text x="0" y="28" fill="#86efac" font-family="system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif" font-size="24" font-weight="900">I</text>
+  </g>
+  <!-- N xanh -->
+  <text x="74" y="28" fill="#86efac" font-family="system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif" font-size="24" font-weight="900" letter-spacing="-0.14em">N</text>
+</svg>
