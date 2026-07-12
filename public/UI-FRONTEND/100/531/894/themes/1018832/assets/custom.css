@@ -1933,6 +1933,7 @@ cart-form .product-list > div{
 #ww-pd-desc .swiper-spotlight {
 	cursor: zoom-in;
 	max-width: 100%;
+	display: block;
 }
 
 #ww-pd-desc .ww-pd-desc-spotlight img,
@@ -1940,6 +1941,28 @@ cart-form .product-list > div{
 	max-width: 100%;
 	height: auto;
 	display: block;
+	margin: 0.75rem auto;
+}
+
+/* Emoji / icon nhỏ trong mô tả SP: luôn inline cùng dòng chữ */
+#ww-pd-desc img[src*="emoji.php"],
+#ww-pd-desc img[src*="/emoji/"],
+#ww-pd-desc img[width="16"],
+#ww-pd-desc img[height="16"],
+#ww-pd-desc img[width="18"],
+#ww-pd-desc img[height="18"] {
+	display: inline !important;
+	width: 1.15em !important;
+	height: 1.15em !important;
+	max-width: 1.15em !important;
+	max-height: 1.15em !important;
+	margin: 0 0.1em !important;
+	vertical-align: -0.2em;
+	border-radius: 0;
+	object-fit: contain;
+}
+#ww-pd-desc span.html-span {
+	display: inline !important;
 }
 
 /* Gradient "Xem thêm" không chặn click ảnh */

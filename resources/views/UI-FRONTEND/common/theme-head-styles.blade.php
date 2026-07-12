@@ -36,8 +36,8 @@
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/icon.css?1768901692132" media="all">
     <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/global.css?1768901692132">
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/global.css?1768901692132" media="all">
-    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-discount-center-1">
-    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-discount-center-1" media="all">
+    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-emoji-inline-1">
+    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-emoji-inline-1" media="all">
     <link
       rel="stylesheet"
       href="100/531/894/themes/1018832/assets/quickview.css?ww-modal-h80-2"
@@ -207,7 +207,7 @@
       --color-sub-header-link: #e0f2fe;
 
        /* Font size for body text */
-       --font-size-body: 1.4rem;
+       --font-size-body: 1.5rem;
 
        /* Font size for text h1 - h6 */
        --font-size-h1: 4.8rem;

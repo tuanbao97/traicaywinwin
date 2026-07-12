@@ -74,7 +74,7 @@ class NewsMapper
         $newsDto->title = $news->TITLE;
         $newsDto->titleSlug = convertStrToSlug($news->TITLE);
         $newsDto->summary = $news->SUMMARY;
-        $newsDto->contentFormat = convertMediaPathsToAbsolute($news->CONTENT_FORMAT);
+        $newsDto->contentFormat = normalizeStorefrontRichHtml(convertMediaPathsToAbsolute($news->CONTENT_FORMAT));
         $newsDto->contentRaw = $news->CONTENT_RAW;
         $newsDto->contentOnlyText = strip_tags($news->CONTENT_FORMAT);
         $newsDto->metaSeoKeywords = $news->META_SEO_KEYWORDS;

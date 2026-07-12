@@ -130,7 +130,67 @@ use Illuminate\Support\Facades\DB;
                 }
             }
 
+            $body = $doc->getElementsByTagName('body')->item(0);
+            if ($body) {
+                $inner = '';
+                foreach ($body->childNodes as $child) {
+                    $inner .= $doc->saveHTML($child);
+                }
+                return $inner;
+            }
+
             return $doc->saveHTML();
+        }
+    }
+
+    if (!function_exists('normalizeStorefrontRichHtml')) {
+        /**
+         * Chuẩn hóa HTML dán từ Facebook/editor: emoji img → unicode, bỏ <br> thừa sau emoji.
+         */
+        function normalizeStorefrontRichHtml(?string $html = null): ?string
+        {
+            if ($html === null || $html === '') {
+                return $html;
+            }
+
+            if (preg_match('/<body[^>]*>(.*)<\/body>/is', $html, $m)) {
+                $html = $m[1];
+            }
+
+            $html = preg_replace_callback(
+                '/<img\b([^>]*)>/iu',
+                static function (array $m): string {
+                    $tag = $m[0];
+                    $attrs = $m[1];
+                    $width = preg_match('/\bwidth\s*=\s*["\']?(\d+)/i', $attrs, $w) ? (int) $w[1] : 0;
+                    $height = preg_match('/\bheight\s*=\s*["\']?(\d+)/i', $attrs, $h) ? (int) $h[1] : 0;
+                    $isEmoji = (bool) preg_match('/emoji\.php|\/emoji\//i', $tag)
+                        || ($width > 0 && $width <= 32)
+                        || ($height > 0 && $height <= 32);
+
+                    if (! $isEmoji) {
+                        return $tag;
+                    }
+
+                    if (preg_match('/\balt\s*=\s*["\']([^"\']*)["\']/u', $attrs, $alt)) {
+                        return html_entity_decode($alt[1], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                    }
+
+                    return '';
+                },
+                $html
+            );
+
+            // FB thường chèn <br><br> ngay sau emoji → tách câu / xuống dòng lệch
+            $html = preg_replace(
+                '/([\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}\x{FE0F}\x{200D}]+)(?:\s*<br\s*\/?\s*>)+/u',
+                '$1',
+                $html
+            );
+
+            $html = preg_replace('/<span[^>]*>\s*<\/span>/iu', '', $html);
+
+            return $html;
         }
     }
 

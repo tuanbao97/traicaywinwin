@@ -195,6 +195,17 @@
   }
 
   /** Ảnh trong "Đặc điểm nổi bật" — click mở lightbox giống gallery */
+  function isInlineEmojiImage(img) {
+    if (!img) return false;
+    var src = (img.currentSrc || img.src || '').toLowerCase();
+    if (src.indexOf('emoji.php') !== -1 || src.indexOf('/emoji/') !== -1) return true;
+    var w = parseInt(img.getAttribute('width') || '0', 10);
+    var h = parseInt(img.getAttribute('height') || '0', 10);
+    if ((w > 0 && w <= 32) || (h > 0 && h <= 32)) return true;
+    if (img.naturalWidth > 0 && img.naturalWidth <= 32 && img.naturalHeight <= 32) return true;
+    return false;
+  }
+
   function bindDescImageSpotlight(root) {
     if (!root) return;
 
@@ -203,6 +214,9 @@
 
     var slides = [];
     root.querySelectorAll('img').forEach(function (img) {
+      // Không bọc emoji Facebook/icon nhỏ — tránh xuống dòng
+      if (isInlineEmojiImage(img)) return;
+
       var src = imageSrc(img);
       if (!src || src.indexOf('default-image') !== -1) return;
 
@@ -210,7 +224,7 @@
       if (!wrap) {
         wrap = document.createElement('span');
         wrap.className = 'swiper-spotlight cursor-zoom-in ww-pd-desc-spotlight';
-        wrap.style.display = 'inline-block';
+        wrap.style.display = 'block';
         wrap.style.maxWidth = '100%';
         wrap.style.cursor = 'zoom-in';
         if (img.parentNode) {

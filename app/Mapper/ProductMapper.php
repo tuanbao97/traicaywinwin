@@ -332,7 +332,7 @@ class ProductMapper
 
         
 
-        $productDto->descriptionDetail = convertMediaPathsToAbsolute($product->DESCRIPTION_DETAIL);
+        $productDto->descriptionDetail = normalizeStorefrontRichHtml(convertMediaPathsToAbsolute($product->DESCRIPTION_DETAIL));
         $productDto->descriptionDetailOnlyText = $product->DESCRIPTION_DETAIL_ONLY_TEXT;
 
 
