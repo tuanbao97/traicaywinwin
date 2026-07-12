@@ -145,7 +145,7 @@ use Illuminate\Support\Facades\DB;
 
     if (!function_exists('normalizeStorefrontRichHtml')) {
         /**
-         * Chuẩn hóa HTML dán từ Facebook/editor: emoji img → unicode, bỏ <br> thừa sau emoji.
+         * Chuẩn hóa HTML dán từ Facebook/editor: emoji img → unicode.
          */
         function normalizeStorefrontRichHtml(?string $html = null): ?string
         {
@@ -181,14 +181,17 @@ use Illuminate\Support\Facades\DB;
                 $html
             );
 
-            // FB thường chèn <br><br> ngay sau emoji → tách câu / xuống dòng lệch
-            $html = preg_replace(
-                '/([\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}\x{FE0F}\x{200D}]+)(?:\s*<br\s*\/?\s*>)+/u',
-                '$1',
-                $html
-            );
-
+            // Giữ <br>; chỉ gỡ span rỗng sau khi thay emoji
             $html = preg_replace('/<span[^>]*>\s*<\/span>/iu', '', $html);
+
+            // Nếu còn newline thuần giữa chữ (mất break khi lưu TinyMCE) → khôi phục <br>
+            if (str_contains($html, "\n") || str_contains($html, "\r")) {
+                $html = preg_replace("/\\r\\n|\\r/", "\n", $html);
+                // Hai newline trở lên = đoạn trống
+                $html = preg_replace("/([^>\\n])\\n{2,}([^<\\n])/u", '$1<br><br>$2', $html);
+                // Một newline giữa chữ
+                $html = preg_replace("/([^>\\n])\\n([^<\\n])/u", '$1<br>$2', $html);
+            }
 
             return $html;
         }

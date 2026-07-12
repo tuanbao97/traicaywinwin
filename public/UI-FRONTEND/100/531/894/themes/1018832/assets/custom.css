@@ -1965,6 +1965,28 @@ cart-form .product-list > div{
 	display: inline !important;
 }
 
+/* HTML dán từ Facebook: mỗi khối div là 1 dòng/đoạn */
+#ww-pd-desc > div {
+	display: block;
+	margin: 0 0 0.85em;
+}
+#ww-pd-desc > div:last-child {
+	margin-bottom: 0;
+}
+#ww-pd-desc div[dir="auto"] {
+	display: block;
+	margin: 0 0 0.35em;
+	line-height: 1.55;
+}
+#ww-pd-desc div[dir="auto"]:last-child {
+	margin-bottom: 0;
+}
+#ww-pd-desc br {
+	display: block;
+	content: "";
+	margin-top: 0.35em;
+}
+
 /* Gradient "Xem thêm" không chặn click ảnh */
 .product-description .expandable-content:not(.show-all)::after {
 	pointer-events: none;

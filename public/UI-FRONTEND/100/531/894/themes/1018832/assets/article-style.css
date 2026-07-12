@@ -164,6 +164,22 @@ ol.toc-list  {
 	display: inline !important;
 }
 
+.main-article .article-content > div,
+.main-article .rte.content > div {
+	display: block;
+	margin: 0 0 0.85em;
+}
+.main-article .article-content > div:last-child,
+.main-article .rte.content > div:last-child {
+	margin-bottom: 0;
+}
+.main-article .article-content div[dir="auto"],
+.main-article .rte.content div[dir="auto"] {
+	display: block;
+	margin: 0 0 0.35em;
+	line-height: 1.55;
+}
+
 .section-main-blog .card-article__image,
 .main-article .card-article__image {
 	overflow: hidden;

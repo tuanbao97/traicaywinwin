@@ -2,7 +2,8 @@
 $(document).ready(function () {
 	getEditorContent = function(editorId) {
 		const content = tinymce.get(editorId)?.getContent() || '';
-		return isEmpty(content) ? null : replaceBlackHeartWithRed(content);
+		if (isEmpty(content)) return null;
+		return replaceBlackHeartWithRed(preserveEditorLineBreaks(content));
 	}
 
 	getEditorContentOnlyText = function(editorId) {
@@ -10,6 +11,31 @@ $(document).ready(function () {
 		const contentOnlyText = editor?.getContent({ format: 'text' }) || '';
 
 		return isEmpty(contentOnlyText) ? null : contentOnlyText.trim();
+	}
+
+	/** Giữ xuống dòng khi lưu HTML từ TinyMCE (paste text / forced_root_block) */
+	preserveEditorLineBreaks = function(html) {
+		if (!html) return html;
+		// Chuẩn hóa xuống dòng còn sót trong text thành <br>
+		// (không đụng khoảng trắng indent giữa các thẻ HTML)
+		return html
+			.replace(/(>)(\r\n|\r|\n)+([^<])/g, '$1<br>$3')
+			.replace(/([^>])(\r\n|\r|\n)+(<)/g, '$1<br>$3')
+			.replace(/([^>])(\r\n|\r|\n)+([^<])/g, function (_, a, _nl, b) {
+				return a + '<br>' + b;
+			});
+	}
+
+	/** Paste plain text: \n → <br> / đoạn trống → <br><br> */
+	convertPlainTextPasteToHtml = function(text) {
+		return String(text || '')
+			.replace(/\r\n/g, '\n')
+			.replace(/\r/g, '\n')
+			.split('\n')
+			.map(function (line) {
+				return line === '' ? '' : line;
+			})
+			.join('<br>');
 	}
 
 	replaceBlackHeartWithRed = function(content) {
@@ -50,7 +76,10 @@ $(document).ready(function () {
 	{{ $sectionId }}_initTinyMce = function(content) {
 		tinymce.init({
 			selector: 'textarea#{{ $elementTinyMceId }}',
-			forced_root_block: false, // không ép TinyMCE tạo <p> . Nó sẽ không lỗi thêm các dòng empty phía trên đầu
+			// Dùng div để Enter tạo khối mới — giữ break line khi gõ / paste
+			forced_root_block: 'div',
+			force_br_newlines: false,
+			remove_trailing_brs: false,
 			plugins: [
 				"advlist autolink lists link image charmap print preview anchor",
 				"searchreplace visualblocks code fullscreen",
@@ -59,6 +88,19 @@ $(document).ready(function () {
 			],
 			contextmenu: false, // Tắt menu chuột phải để Android/iOS hiện menu hệ thống
 			paste_data_images: true, // Cho phép paste hình ảnh từ clipboard
+			paste_as_text: false,
+			paste_preprocess: function (_plugin, args) {
+				var content = args.content || '';
+				var looksLikeHtml = /<[a-z][\s\S]*>/i.test(content);
+				if (!looksLikeHtml && /[\r\n]/.test(content)) {
+					args.content = convertPlainTextPasteToHtml(content);
+					return;
+				}
+				// HTML paste: giữ <br>, không để newline thuần bị mất
+				if (looksLikeHtml && /[\r\n]/.test(content) && content.indexOf('<br') === -1) {
+					args.content = content.replace(/\r\n|\r|\n/g, '<br>');
+				}
+			},
 			toolbar:"emoticons | undo redo | link image media | fontselect styleselect fontsizeselect | bold italic underline | forecolor backcolor removeformat | alignleft aligncenter alignright alignjustify lineheight | bullist numlist outdent indent | codesample action section button",
 			font_formats: "Segoe UI=Segoe UI,sans-serif;" +
 					"Arial=arial,helvetica,sans-serif;" +
