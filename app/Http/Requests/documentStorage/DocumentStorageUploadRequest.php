@@ -39,7 +39,7 @@ class DocumentStorageUploadRequest extends FormRequest
             'FILES.*' => [
                 'required',
                 'file',
-                'max:'. (500 * 1024) // 500MB
+                'max:'. (2 * 1024 * 1024) // 2GB
             ]
         ];
 
