@@ -348,7 +348,7 @@ subscribe(window.themeConfigs.firstInteraction, () => {
     }
     updateCartAttribute() {
       const data = serializeForm(this.form, true);
-      fetch(themeApiUrl("/cart/update.js"), {
+      fetch(themeApiUrl("/cart/update"), {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",

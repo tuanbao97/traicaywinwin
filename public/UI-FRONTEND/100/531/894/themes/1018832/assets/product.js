@@ -461,7 +461,7 @@ subscribe(window.themeConfigs.firstInteraction, () => {
       const data = serializeForm(this.form);
       const url = this.form.action;
       const { addToCartAction, productAddEvent } = window.themeConfigs;
-      fetch(themeApiUrl("/cart/add.js"), {
+      fetch(themeApiUrl("/cart/add"), {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -802,7 +802,7 @@ subscribe(window.themeConfigs.firstInteraction, () => {
       if (!this.form) return;
       const data = serializeForm(this.form);
       const { addToCartAction, productAddEvent } = window.themeConfigs;
-      fetch(themeApiUrl("/cart/add.js"), {
+      fetch(themeApiUrl("/cart/add"), {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -897,6 +897,7 @@ subscribe(window.themeConfigs.firstInteraction, () => {
   defineElement("quick-view", QuickView);
 });
 
+if (!customElements.get("compare-button")) {
 class CompareButton extends PortalOpener {
   constructor() {
     super();
@@ -960,7 +961,9 @@ class CompareButton extends PortalOpener {
 }
 
 defineElement("compare-button", CompareButton);
+}
 
+if (!customElements.get("compare-qv")) {
 class CompareQV extends PortalComponent {
   constructor() {
     super();
@@ -1056,3 +1059,4 @@ class CompareQV extends PortalComponent {
 }
 
 defineElement("compare-qv", CompareQV);
+}

@@ -45,10 +45,13 @@ Route::middleware(['count-client-view-website'])->group(function() {
         return view('UI-FRONTEND/account/login', ['productId' => 0]);
     });
 
-    // API giỏ hàng & sản phẩm theme UI-FRONTEND (product.js / cart.js — đường dẫn tuyệt đối /cart/...)
-    Route::post('cart/add.js', [ThemeStorefrontController::class, 'cartAdd']);
+    // API giỏ hàng & sản phẩm theme UI-FRONTEND
+    // Dùng /cart/add (không .js) vì nginx production thường trả 404 cho URL dạng *.js như file tĩnh.
+    Route::post('cart/add', [ThemeStorefrontController::class, 'cartAdd']);
+    Route::post('cart/add.js', [ThemeStorefrontController::class, 'cartAdd']); // tương thích cũ
     Route::get('cart/change', [ThemeStorefrontController::class, 'cartChange']);
-    Route::post('cart/update.js', [ThemeStorefrontController::class, 'cartUpdate']);
+    Route::post('cart/update', [ThemeStorefrontController::class, 'cartUpdate']);
+    Route::post('cart/update.js', [ThemeStorefrontController::class, 'cartUpdate']); // tương thích cũ
     Route::post('cart/clear', [ThemeStorefrontController::class, 'cartClear']);
     Route::get('cart/recommendations', [ThemeStorefrontController::class, 'cartRecommendations']);
     Route::get('cart', [ThemeStorefrontController::class, 'cartPage']);

@@ -93,7 +93,7 @@ Bizweb.money_format = "${{amount}}", Bizweb.onError = function (XMLHttpRequest, 
     var r = r || 1,
         o = {
             type: "POST",
-            url: "/cart/add.js",
+            url: "/cart/add",
             data: "quantity=" + r + "&VariantId=" + t,
             dataType: "json",
             success: function (t) {
@@ -107,7 +107,7 @@ Bizweb.money_format = "${{amount}}", Bizweb.onError = function (XMLHttpRequest, 
 }, Bizweb.addItemFromForm = function (t, r) {
     var e = {
         type: "POST",
-        url: "/cart/add.js",
+        url: "/cart/add",
         data: jQuery("#" + t).serialize(),
         dataType: "json",
         success: function (t) {
@@ -195,7 +195,7 @@ Bizweb.money_format = "${{amount}}", Bizweb.onError = function (XMLHttpRequest, 
 }, Bizweb.updateCartFromForm = function (t, r) {
     var e = {
         type: "POST",
-        url: "/cart/update.js",
+        url: "/cart/update",
         data: jQuery("#" + t).serialize(),
         dataType: "json",
         success: function (t) {
@@ -216,7 +216,7 @@ Bizweb.money_format = "${{amount}}", Bizweb.onError = function (XMLHttpRequest, 
     });
     var o = {
         type: "POST",
-        url: "/cart/update.js",
+        url: "/cart/update",
         data: e,
         dataType: "json",
         success: function (t) {
@@ -230,7 +230,7 @@ Bizweb.money_format = "${{amount}}", Bizweb.onError = function (XMLHttpRequest, 
 }, Bizweb.updateCartNote = function (t, r) {
     var e = {
         type: "POST",
-        url: "/cart/update.js",
+        url: "/cart/update",
         data: "note=" + attributeToString(t),
         dataType: "json",
         success: function (t) {

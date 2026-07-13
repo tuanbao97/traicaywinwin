@@ -73,7 +73,7 @@
     async function addToCartFromForm(form, btn, buynow) {
       if (!form) throw new Error('Không tìm thấy form sản phẩm');
       var params = ensureVariantAndQty(toParams(form), btn, form);
-      var res = await fetch(window.themeUrl('/cart/add.js'), {
+      var res = await fetch(window.themeUrl('/cart/add'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -154,4 +154,4 @@
     );
   })();
 </script>
-<script src="100/531/894/themes/1018832/assets/cart.js?ww-cart-bump-2" defer fetchpriority="low"></script>
+<script src="100/531/894/themes/1018832/assets/cart.js?ww-cart-add-1" defer fetchpriority="low"></script>

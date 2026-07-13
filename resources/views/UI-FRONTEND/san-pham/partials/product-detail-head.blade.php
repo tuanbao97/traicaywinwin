@@ -66,7 +66,8 @@
       };
     </script>
 
-    @if (!app()->environment('local'))
+    {{-- Tắt stats.min.js (Bizweb): gọi /s/api/v1/* và /cart/add.js không tồn tại trên Laravel --}}
+    @if (false && !app()->environment('local'))
       <script src="dist/js/stats.min.js?v=96f2ff2"></script>
     @endif
 
@@ -145,7 +146,7 @@
       window.EGATheme.addToCart = function (variantId, quantity, callback) {
         const data = 'quantity=' + quantity + '&VariantId=' + variantId;
         const { addToCartAction, productAddEvent } = window.themeConfigs;
-        fetch(window.themeUrl('/cart/add.js'), {
+        fetch(window.themeUrl('/cart/add'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',

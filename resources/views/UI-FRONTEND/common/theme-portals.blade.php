@@ -616,7 +616,7 @@
         <div class="cro-btns-container w-full h-full justify-center items-center gap-0.5 grid grid-cols-[repeat(auto-fit,minmax(0,1fr))]">
 
       @if($wwZalo !== '')
-                                                            	              <a data-ww-social class="cro-btn-item cro-btn-item--1 w-auto flex-shrink-0 flex-grow-0 h-full py-0.5 px-0.5  text-foreground h-full flex flex-col justify-center items-center gap-0.5" title="Zalo" href="{{ $wwZalo }}" data-ww-contact="zalo" target="_blank" rel="noopener noreferrer" style="order:3">
+                                                            	              <a data-ww-social class="cro-btn-item cro-btn-item--1 w-auto flex-shrink-0 flex-grow-0 h-full py-0.5 px-0.5  text-foreground h-full flex flex-col justify-center items-center gap-0.5" title="Zalo" href="{{ $wwZalo }}" data-ww-contact="zalo" target="_blank" rel="noopener noreferrer" style="order:4">
         <div class="w-4 h-4 relative ">
           <img class="w-full h-full object-contain" alt="Zalo" src="100/531/894/themes/1018832/assets/addthis-zalo.svg?1768901692132" loading="lazy" width="16" height="16">
 
@@ -635,9 +635,22 @@
         </a>
       </portal-opener>
 
+      @php
+        $themeCartQty = $themeCartQty ?? collect(session('theme_storefront_cart', []))->sum(fn ($line) => (int) ($line['quantity'] ?? 0));
+      @endphp
+      <portal-opener class="cro-btn-item cro-btn-item--cart w-auto flex-shrink-0 flex-grow-0 h-full py-0.5 px-0.5 text-foreground h-full flex flex-col justify-center items-center gap-0.5" style="order:2">
+        <a class="w-full h-full flex flex-col justify-center items-center gap-0.5" title="Giỏ hàng" href="{{ url('/cart') }}" data-portal="#cart-drawer" role="button">
+          <div class="w-4 h-4 relative flex items-center justify-center">
+            <i class="icon icon-cart cro-btn-cart-icon" aria-hidden="true"></i>
+            <span class="cart-count flex items-center count_item count_item_pr justify-center rounded-full absolute font-semibold"><span class="cart-count__num">{{ $themeCartQty }}</span></span>
+          </div>
+          <div class="text-ellipsis overflow-hidden max-w-full text-xs text-center line-clamp-1">Giỏ hàng</div>
+        </a>
+      </portal-opener>
+
 
       @if($wwMessenger !== '')
-                                                      	              <a data-ww-social class="cro-btn-item cro-btn-item--3 w-auto flex-shrink-0 flex-grow-0 h-full py-0.5 px-0.5  text-foreground h-full flex flex-col justify-center items-center gap-0.5" title="Messenger" href="{{ $wwMessenger }}" data-ww-contact="messenger" target="_blank" rel="noopener noreferrer" style="order:2">
+                                                      	              <a data-ww-social class="cro-btn-item cro-btn-item--3 w-auto flex-shrink-0 flex-grow-0 h-full py-0.5 px-0.5  text-foreground h-full flex flex-col justify-center items-center gap-0.5" title="Messenger" href="{{ $wwMessenger }}" data-ww-contact="messenger" target="_blank" rel="noopener noreferrer" style="order:3">
         <div class="w-4 h-4 relative ">
           <img class="w-full h-full object-contain" alt="Messenger" src="100/531/894/themes/1018832/assets/addthis-messenger.svg?1768901692132" loading="lazy" width="16" height="16">
 
@@ -648,7 +661,7 @@
 
 
       @if($wwHotline)
-                                                      	              <a data-ww-social class="cro-btn-item cro-btn-item--4 w-auto flex-shrink-0 flex-grow-0 h-full py-0.5 px-0.5  text-foreground h-full flex flex-col justify-center items-center gap-0.5" title="Điện thoại — {{ $wwHotline['display'] }}" href="{{ $wwHotline['tel'] }}" data-ww-contact="hotline" style="order:4">
+                                                      	              <a data-ww-social class="cro-btn-item cro-btn-item--4 w-auto flex-shrink-0 flex-grow-0 h-full py-0.5 px-0.5  text-foreground h-full flex flex-col justify-center items-center gap-0.5" title="Điện thoại — {{ $wwHotline['display'] }}" href="{{ $wwHotline['tel'] }}" data-ww-contact="hotline" style="order:5">
         <div class="w-4 h-4 relative ">
           <img class="w-full h-full object-contain" alt="Điện thoại" src="100/531/894/themes/1018832/assets/addthis-phone.svg?1768901692132" loading="lazy" width="16" height="16">
 
@@ -691,7 +704,7 @@
 
 	</quick-view>
 
-<script src="100/531/894/themes/1018832/assets/product.js?ww-qv-19" defer fetchpriority="low"></script>
+<script src="100/531/894/themes/1018832/assets/product.js?ww-cart-add-1" defer fetchpriority="low"></script>
 <script src="100/531/894/themes/1018832/assets/quick-view-enhance.js?ww-qv-20" defer fetchpriority="low"></script>
 
 	@include('UI-FRONTEND.common.cart-drawer')

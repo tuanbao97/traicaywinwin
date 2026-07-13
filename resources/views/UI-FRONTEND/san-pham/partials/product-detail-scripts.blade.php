@@ -2,12 +2,13 @@
 
 <script src="100/531/894/themes/1018832/assets/main.js?ww-search-1"></script>
 @include('UI-FRONTEND.common.cart-scripts')
-<script src="100/531/894/themes/1018832/assets/product.js?ww-pd-gallery-7" defer fetchpriority="low"></script>
+{{-- product.js đã được load trong theme-portals — không load lại (tránh CompareButton duplicate) --}}
 <script src="100/531/894/themes/1018832/assets/flashsale.js?1768901692132" defer fetchpriority="low"></script>
 <script src="100/531/894/themes/1018832/assets/coupon.js?1768901692132" defer fetchpriority="low"></script>
 <script src="100/531/894/themes/1018832/assets/defer-scripts.js?ww-pd-fix-4" defer fetchpriority="low"></script>
 
-@if (!app()->environment('local'))
+@if (false)
+  {{-- Cloudflare RUM beacon — tắt: endpoint /cdn-cgi/rum thường 500 trên host không dùng CF analytics --}}
   <script
     defer
     src="beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516"

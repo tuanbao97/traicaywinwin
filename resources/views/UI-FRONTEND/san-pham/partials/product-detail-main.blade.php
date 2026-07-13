@@ -756,7 +756,7 @@
       for (var i = 0; i < variantIds.length; i++) {
         $.ajax({
           type: "POST",
-          url: "/cart/add.js",
+          url: "/cart/add",
           async: false,
           data: "quantity=" + 1 + "&VariantId=" + variantIds[i],
           dataType: "json",

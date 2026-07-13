@@ -764,6 +764,19 @@ animating:not(.fade-in),
   margin-right: -1.6rem;
   top: -0.4rem;
 }
+.cro-btn-item--cart .cro-btn-cart-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  display: block;
+}
+.cro-btn-item--cart .cart-count {
+  right: -0.6rem;
+  top: -0.55rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  font-size: 1rem;
+  margin-right: 0;
+}
 .cro-btns .cart-limit-note,
 .cro-btns .cart-vat-note {
   display: none;
