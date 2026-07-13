@@ -1211,6 +1211,22 @@ product-form.loading .product-cta .btn .loading-icon {
 /* Bộ lọc giá trang tìm kiếm / danh sách sản phẩm */
 .ww-search-layout {
 	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+}
+
+/* Tránh chip lọc giá / tab sort kéo rộng viewport trên mobile */
+body.ega-theme.search,
+body.ww-all-products {
+	overflow-x: clip;
+}
+
+body.ega-theme.search main,
+body.ww-all-products main,
+body.ega-theme.search .container,
+body.ww-all-products .index-container {
+	max-width: 100%;
+	min-width: 0;
 }
 
 .ww-search-filter-card {
@@ -1219,10 +1235,14 @@ product-form.loading .product-cta .btn .loading-icon {
 	border-radius: 1.2rem;
 	box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
 	overflow: hidden;
+	max-width: 100%;
 }
 
 .ww-search-filter-card--inline {
-	overflow: visible;
+	/* Giữ clip ngang để hàng chip cuộn trong card, không phình body */
+	overflow-x: hidden;
+	overflow-y: visible;
+	max-width: 100%;
 }
 
 .ww-search-filter-card__row {
@@ -1231,6 +1251,8 @@ product-form.loading .product-cta .btn .loading-icon {
 	gap: 0.85rem;
 	padding: 0.85rem 1rem;
 	min-height: 4.25rem;
+	min-width: 0;
+	max-width: 100%;
 }
 
 .ww-search-filter-card__head {
@@ -1472,6 +1494,11 @@ body.ww-all-products #search-results-grid {
 
 	.ww-search-filter-card__title {
 		display: none;
+	}
+
+	.ww-search-price-filters--inline {
+		flex: 1 1 auto;
+		width: 0; /* buộc flex item co lại để overflow-x:auto hoạt động */
 	}
 
 	.ww-search-price-clear__text {
