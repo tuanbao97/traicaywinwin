@@ -118,7 +118,7 @@
 
   @include('UI-FRONTEND.common.theme-portals')
   @include('UI-FRONTEND.partials.search-products-ajax')
-  <script src="100/531/894/themes/1018832/assets/main.js?ww-all-products-1" defer fetchpriority="low"></script>
+  <script src="100/531/894/themes/1018832/assets/main.js?ww-qv-unlock-1" defer fetchpriority="low"></script>
   <script src="100/531/894/themes/1018832/assets/defer-scripts.js?ww-all-products-1" defer fetchpriority="low"></script>
   @include('UI-FRONTEND.common.cart-scripts')
 </body>

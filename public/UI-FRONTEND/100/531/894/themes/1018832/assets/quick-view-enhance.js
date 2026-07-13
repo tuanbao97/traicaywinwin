@@ -47,25 +47,61 @@
     return modal;
   }
 
-  function releasePageInteraction() {
-    const modal = document.getElementById("quick-view-product");
-    const dialog = modal && modal.querySelector("dialog");
-    if (dialog) {
+  function hasActivePortal() {
+    return !!document.querySelector(
+      ".portal.active, quick-view.active, quick-view.ww-open, dialog.portal-dialog[open]"
+    );
+  }
+
+  function forceCloseQuickViewDialog(modal) {
+    if (!modal) return;
+    const dialog = modal.querySelector("dialog");
+    modal.classList.remove("active", "ww-open");
+    if (!dialog) return;
+    try {
+      if (dialog.open && typeof dialog.close === "function") {
+        dialog.close();
+      }
+    } catch (e) {
+      /* ignore */
+    }
+    dialog.removeAttribute("open");
+  }
+
+  function unlockPageInteraction(force) {
+    if (!force && hasActivePortal()) return;
+    document.body.classList.remove("overflow-hidden");
+    document.documentElement.classList.remove("overflow-hidden");
+    document.body.style.removeProperty("overflow");
+    document.documentElement.style.removeProperty("overflow");
+  }
+
+  window.__wwUnlockPageIfIdle = function () {
+    // Bỏ qua portal đang đóng (không còn .active) nhưng dialog còn sót [open]
+    document.querySelectorAll("quick-view").forEach(function (el) {
+      if (!el.classList.contains("active") && !el.classList.contains("ww-open")) {
+        forceCloseQuickViewDialog(el);
+      }
+    });
+    document.querySelectorAll(".portal:not(.active) > dialog[open], .portal:not(.active) dialog.portal-dialog[open]").forEach(function (dialog) {
       try {
-        if (dialog.open && typeof dialog.close === "function") {
-          dialog.close();
-        }
+        if (dialog.open && typeof dialog.close === "function") dialog.close();
       } catch (e) {
         /* ignore */
       }
       dialog.removeAttribute("open");
-    }
+    });
+    unlockPageInteraction(false);
+  };
+
+  function releasePageInteraction() {
+    const modal = document.getElementById("quick-view-product");
+    forceCloseQuickViewDialog(modal);
     const otherBlocker = document.querySelector(
-      ".portal.active:not(#quick-view-product), quick-view.active:not(#quick-view-product)"
+      ".portal.active:not(#quick-view-product), quick-view.active:not(#quick-view-product), quick-view.ww-open:not(#quick-view-product)"
     );
     if (!otherBlocker) {
-      document.body.classList.remove("overflow-hidden");
-      document.documentElement.classList.remove("overflow-hidden");
+      unlockPageInteraction(true);
     }
   }
 
@@ -112,23 +148,37 @@
 
   function bindQuickViewPortalHooks() {
     const modal = document.getElementById("quick-view-product");
-    if (!modal || modal.dataset.wwQvHooks === "1") return;
-    modal.dataset.wwQvHooks = "1";
+    if (!modal) return;
 
-    if (typeof modal.hide === "function") {
+    // Re-bind sau khi <quick-view> được upgrade (product.js defer)
+    const canWrapHide = typeof modal.hide === "function";
+    if (modal.dataset.wwQvHideWrapped === "1" && canWrapHide) return;
+
+    if (!modal.dataset.wwQvHooks) {
+      modal.dataset.wwQvHooks = "1";
+      modal.addEventListener("keyup", function (event) {
+        if (event.code && event.code.toUpperCase() === "ESCAPE") {
+          closeModal();
+        }
+      });
+    }
+
+    if (canWrapHide && modal.dataset.wwQvHideWrapped !== "1") {
       const nativeHide = modal.hide.bind(modal);
       modal.hide = function () {
         releasePageInteraction();
         modal.classList.remove("active", "ww-open");
-        return nativeHide();
+        const result = nativeHide();
+        window.setTimeout(function () {
+          releasePageInteraction();
+          if (typeof window.__wwUnlockPageIfIdle === "function") {
+            window.__wwUnlockPageIfIdle();
+          }
+        }, (window.themeConfigs && window.themeConfigs.defaultTransitionTime) || 400);
+        return result;
       };
+      modal.dataset.wwQvHideWrapped = "1";
     }
-
-    modal.addEventListener("keyup", function (event) {
-      if (event.code && event.code.toUpperCase() === "ESCAPE") {
-        closeModal();
-      }
-    });
   }
 
   function destroyQuickViewGallery(gallery) {
@@ -405,6 +455,9 @@
       e.preventDefault();
       e.stopPropagation();
       closeModal();
+      if (typeof window.__wwUnlockPageIfIdle === "function") {
+        window.setTimeout(window.__wwUnlockPageIfIdle, 50);
+      }
       return;
     }
     const btn = e.target.closest(".ww-quick-view-btn");
@@ -425,6 +478,39 @@
     document.addEventListener("DOMContentLoaded", initQuickViewButtons);
   } else {
     initQuickViewButtons();
+  }
+
+  // product.js defer: retry wrap hide sau khi custom element sẵn sàng
+  window.setTimeout(bindQuickViewPortalHooks, 0);
+  window.setTimeout(bindQuickViewPortalHooks, 500);
+  window.setTimeout(bindQuickViewPortalHooks, 1500);
+
+  document.addEventListener("PortalClosed", function () {
+    window.setTimeout(function () {
+      if (typeof window.__wwUnlockPageIfIdle === "function") {
+        window.__wwUnlockPageIfIdle();
+      }
+    }, 30);
+  });
+
+  if (window.EGATheme && window.EGATheme.subscribe && window.themeConfigs) {
+    window.EGATheme.subscribe(window.themeConfigs.productAddEvent, function () {
+      window.setTimeout(function () {
+        bindQuickViewPortalHooks();
+        const qv = document.getElementById("quick-view-product");
+        if (qv && (qv.classList.contains("active") || qv.classList.contains("ww-open"))) {
+          if (typeof qv.hide === "function") qv.hide();
+          else closeModal();
+        } else {
+          releasePageInteraction();
+        }
+        window.setTimeout(function () {
+          if (typeof window.__wwUnlockPageIfIdle === "function") {
+            window.__wwUnlockPageIfIdle();
+          }
+        }, (window.themeConfigs && window.themeConfigs.defaultTransitionTime) || 400);
+      }, 0);
+    });
   }
 
   document.addEventListener("home-product-cards-loaded", initQuickViewButtons);

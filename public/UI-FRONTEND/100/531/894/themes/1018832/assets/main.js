@@ -80,10 +80,23 @@ class PortalComponent extends HTMLElement {
       direction: "reverse",
       callback: () => {
         document.body.dispatchEvent(new CustomEvent("PortalClosed"));
-        this.popup.removeAttribute("open");
-        this.classList.remove("active");
-        if (!document.querySelector(".portal.active")) {
+        if (this.popup) {
+          try {
+            if (this.popup.open && typeof this.popup.close === "function") {
+              this.popup.close();
+            }
+          } catch (e) {
+            /* ignore */
+          }
+          this.popup.removeAttribute("open");
+        }
+        this.classList.remove("active", "ww-open");
+        if (!document.querySelector(".portal.active, quick-view.active, quick-view.ww-open")) {
           document.body.classList.remove("overflow-hidden");
+          document.documentElement.classList.remove("overflow-hidden");
+        }
+        if (typeof window.__wwUnlockPageIfIdle === "function") {
+          window.__wwUnlockPageIfIdle();
         }
       },
     });

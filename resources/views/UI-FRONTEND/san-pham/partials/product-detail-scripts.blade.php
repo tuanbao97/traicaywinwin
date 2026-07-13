@@ -1,6 +1,6 @@
 @include('UI-FRONTEND.san-pham.partials.product-hydrate')
 
-<script src="100/531/894/themes/1018832/assets/main.js?ww-search-1"></script>
+<script src="100/531/894/themes/1018832/assets/main.js?ww-qv-unlock-1"></script>
 @include('UI-FRONTEND.common.cart-scripts')
 {{-- product.js đã được load trong theme-portals — không load lại (tránh CompareButton duplicate) --}}
 <script src="100/531/894/themes/1018832/assets/flashsale.js?1768901692132" defer fetchpriority="low"></script>

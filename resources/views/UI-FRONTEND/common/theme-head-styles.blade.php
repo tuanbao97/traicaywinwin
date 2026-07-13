@@ -40,7 +40,7 @@
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-cro-cart-1" media="all">
     <link
       rel="stylesheet"
-      href="100/531/894/themes/1018832/assets/quickview.css?ww-modal-h80-2"
+      href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-unlock-1"
       media="print"
       onload="this.media='all'"
     >
@@ -52,7 +52,7 @@
     >
     <noscript>
       <link
-        href="100/531/894/themes/1018832/assets/quickview.css?ww-modal-h80-2"
+        href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-unlock-1"
         rel="stylesheet"
         type="text/css"
         media="all"

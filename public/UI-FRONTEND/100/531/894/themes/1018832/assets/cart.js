@@ -487,7 +487,7 @@ subscribe(window.themeConfigs.firstInteraction, () => {
         ) {
           setTimeout(
             () => this.show(),
-            document.querySelector("quick-view.active")
+            document.querySelector("quick-view.active, quick-view.ww-open")
               ? window.themeConfigs.defaultTransitionTime
               : 0
           );
@@ -499,16 +499,31 @@ subscribe(window.themeConfigs.firstInteraction, () => {
           if (el && typeof el.updateCart === "function") el.updateCart();
         });
         if(e.action == "popup"){
-          const activeQuickView = document.querySelector("quick-view.active");
+          const activeQuickView = document.querySelector("quick-view.active, quick-view.ww-open");
           if (activeQuickView && typeof activeQuickView.hide === "function") {
             activeQuickView.hide();
           }
+          const delay = activeQuickView ? window.themeConfigs.defaultTransitionTime : 0;
           setTimeout(() => {
             const atcPopup = document.querySelector("add-to-cart-popup");
             if (atcPopup && typeof atcPopup.showPopup === "function") {
               atcPopup.showPopup(e.data);
+              return;
             }
-          }, activeQuickView ? window.themeConfigs.defaultTransitionTime : 0);
+            // Popup ATC đang tắt: mở cart drawer hoặc chỉ unlock trang
+            if (
+              !isCartPathname() &&
+              window.themeConfigs.cartAction === "drawer" &&
+              typeof this.show === "function" &&
+              !this.classList.contains("active")
+            ) {
+              this.show();
+              return;
+            }
+            if (typeof window.__wwUnlockPageIfIdle === "function") {
+              window.__wwUnlockPageIfIdle();
+            }
+          }, delay);
           return;
         }
         if (e.action == "cart") {
@@ -527,6 +542,12 @@ subscribe(window.themeConfigs.firstInteraction, () => {
             behavior: "smooth",
           });
         }
+
+        window.setTimeout(function () {
+          if (typeof window.__wwUnlockPageIfIdle === "function") {
+            window.__wwUnlockPageIfIdle();
+          }
+        }, window.themeConfigs.defaultTransitionTime || 400);
       });
     }
     hide() {

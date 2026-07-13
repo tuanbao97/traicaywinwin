@@ -26,6 +26,11 @@
 #quick-view-product:not(.active):not(.ww-open) .portal-dialog {
 	display: none !important;
 	pointer-events: none !important;
+	visibility: hidden !important;
+}
+
+#quick-view-product:not(.active):not(.ww-open) {
+	pointer-events: none !important;
 }
 
 #quick-view-product .portal-close-button {
