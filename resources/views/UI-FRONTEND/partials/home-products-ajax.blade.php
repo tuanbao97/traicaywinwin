@@ -346,6 +346,16 @@
     el.removeAttribute('aria-hidden');
   }
 
+  var homeProductsSkeletonHidden = false;
+  function hideHomeProductsSkeleton() {
+    if (homeProductsSkeletonHidden) return;
+    homeProductsSkeletonHidden = true;
+    var sk = document.getElementById('ww-home-products-skeleton');
+    if (!sk) return;
+    hideHomeBlock(sk);
+    sk.setAttribute('aria-busy', 'false');
+  }
+
   function buildEmptyProductsHtml() {
     return '<p class="col-span-full text-center text-sm text-slate-600 py-8">Không tìm thấy sản phẩm phù hợp.</p>';
   }
@@ -370,6 +380,7 @@
     st.pending = Math.max(0, st.pending - 1);
     var sectionEl = getCategorySectionEl(key);
     if (st.hasProducts) {
+      hideHomeProductsSkeleton();
       // Chỉ hiện khi đã có sản phẩm (không hiện skeleton trống)
       if (!isHomeBlockVisible(sectionEl)) {
         showHomeBlock(sectionEl);
@@ -378,6 +389,17 @@
     }
     if (st.pending <= 0 && !st.hasProducts) {
       hideHomeBlock(sectionEl);
+      // Hết mọi tab của section này mà chưa có SP — nếu không còn section nào đang chờ thì ẩn skeleton
+      var stillWaiting = false;
+      Object.keys(categoryLoadState).forEach(function (k) {
+        if (categoryLoadState[k] && categoryLoadState[k].pending > 0) stillWaiting = true;
+      });
+      if (!stillWaiting) {
+        var anyVisible = !!document.querySelector(
+          'section.section-home-category-products:not([hidden])'
+        );
+        if (!anyVisible) hideHomeProductsSkeleton();
+      }
     }
   }
 
@@ -727,7 +749,10 @@
       })
       .then(function (data) {
         var cats = (data && data.DATAS && data.DATAS.CATEGORY_P && data.DATAS.CATEGORY_P.DATA) || [];
-        if (!cats || !cats.length) return;
+        if (!cats || !cats.length) {
+          hideHomeProductsSkeleton();
+          return;
+        }
 
         // Chỉ đổ section cho danh mục root (PARENT_ID = null)
         // Bỏ qua menu ngoài (Đồ chơi → dochoiwinwin.com) — không tạo section sản phẩm
@@ -741,7 +766,10 @@
           return true;
         });
 
-        if (!roots.length) return;
+        if (!roots.length) {
+          hideHomeProductsSkeleton();
+          return;
+        }
 
         roots.sort(function (a, b) {
           var sa = a && a.SORT_ORDER != null ? Number(a.SORT_ORDER) : 0;
@@ -757,7 +785,7 @@
         }
       })
       .catch(function () {
-        // im lặng nếu lỗi categories, không ảnh hưởng phần khác
+        hideHomeProductsSkeleton();
       });
   }
 

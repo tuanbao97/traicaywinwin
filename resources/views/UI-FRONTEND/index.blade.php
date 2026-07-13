@@ -929,6 +929,7 @@
 
 @include('UI-FRONTEND.partials.home-videos')
 
+@include('UI-FRONTEND.partials.home-products-skeleton')
 <div id="home-category-section-anchor" hidden></div>
 
 

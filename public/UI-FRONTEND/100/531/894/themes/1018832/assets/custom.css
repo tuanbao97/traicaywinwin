@@ -2323,9 +2323,12 @@ html.ww-video-modal-open body {
   }
 }
 
-/* Trang thanh toán: input không tràn ngang trên mobile */
-body.checkout {
-	overflow-x: clip;
+/* Skeleton danh mục trang chủ (trước khi AJAX đổ section) */
+#ww-home-products-skeleton .section-card {
+	background: transparent;
+}
+#ww-home-products-skeleton[hidden] {
+	display: none !important;
 }
 
 body.checkout .section-checkout,
