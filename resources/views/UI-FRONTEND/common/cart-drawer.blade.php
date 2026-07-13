@@ -31,7 +31,7 @@
             <div class="cart grid grid-rows-[auto_1fr_auto]">
               <div class="portal-header pt-4 px-4 flex justify-between items-center border-b pb-3 border-neutral-50 px-4">
                 <p class="text-h6 md:text-h4">Giỏ hàng</p>
-                <button type="button" id="PortalClose-cart-crawer" class="w-[3.2rem] h-[3.2rem] rounded-full border border-neutral-50 text-neutral-200 flex items-center justify-center active:scale-95 transition-transform hover:bg-neutral-50">
+                <button type="button" id="PortalClose-cart-crawer" class="portal-close-button w-[3.2rem] h-[3.2rem] rounded-full border flex items-center justify-center active:scale-95 transition-transform hover:animate-spin" title="Đóng" aria-label="Đóng">
                   <i class="icon icon-cross"> </i>
                 </button>
               </div>

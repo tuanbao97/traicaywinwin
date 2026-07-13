@@ -36,8 +36,8 @@
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/icon.css?1768901692132" media="all">
     <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/global.css?1768901692132">
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/global.css?1768901692132" media="all">
-    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-checkout-input-1">
-    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-checkout-input-1" media="all">
+    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-cart-close-red-1">
+    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-cart-close-red-1" media="all">
     <link
       rel="stylesheet"
       href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-unlock-1"

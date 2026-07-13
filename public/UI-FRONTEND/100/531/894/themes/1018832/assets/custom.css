@@ -854,7 +854,9 @@ product-form.loading .product-cta .btn .loading-icon {
 
 /* Menu sidebar close — đồng bộ với modal */
 #menu-drawer .portal-close-button,
-#PortalClose-menu-crawer {
+#PortalClose-menu-crawer,
+#cart-drawer .portal-close-button,
+#PortalClose-cart-crawer {
   background: #b91c1c !important;
   border-color: #991b1b !important;
   color: #fff !important;
@@ -862,7 +864,9 @@ product-form.loading .product-cta .btn .loading-icon {
   flex-shrink: 0;
 }
 #menu-drawer .portal-close-button:hover,
-#PortalClose-menu-crawer:hover {
+#PortalClose-menu-crawer:hover,
+#cart-drawer .portal-close-button:hover,
+#PortalClose-cart-crawer:hover {
   background: #991b1b !important;
   border-color: #7f1d1d !important;
   color: #fff !important;
