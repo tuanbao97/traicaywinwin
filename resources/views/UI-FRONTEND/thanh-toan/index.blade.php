@@ -85,36 +85,36 @@
             </a>
           </div>
         @else
-          <div class="grid gap-4 lg:grid-cols-[1fr_40rem] items-start">
-            <section class="bg-background rounded-lg p-4 md:p-6">
+          <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,40rem)] items-start">
+            <section class="bg-background rounded-lg p-4 md:p-6 min-w-0 max-w-full overflow-x-clip">
               <h2 class="text-h5 font-semibold mb-4">Thông tin nhận hàng</h2>
-              <form id="ww-checkout-form" class="grid gap-4" method="post" action="{{ url('/api/public/transaction/place-order') }}" novalidate>
+              <form id="ww-checkout-form" class="grid gap-4 min-w-0 max-w-full" method="post" action="{{ url('/api/public/transaction/place-order') }}" novalidate>
                 @csrf
-                <div>
+                <div class="min-w-0">
                   <label class="block font-semibold mb-1" for="checkout-name">Họ và tên <span class="text-error">*</span></label>
-                  <input id="checkout-name" name="name" class="form-input w-full rounded border-neutral-50" placeholder="Nhập họ tên người nhận" autocomplete="name">
+                  <input id="checkout-name" name="name" class="form-input w-full max-w-full rounded border-neutral-50" placeholder="Nhập họ tên người nhận" autocomplete="name">
                   <span class="error-message text-error text-sm mt-1 block" id="MSG_HO_TEN" data-field="name"></span>
                 </div>
-                <div class="grid gap-4 md:grid-cols-2">
-                  <div>
+                <div class="grid gap-4 md:grid-cols-2 min-w-0">
+                  <div class="min-w-0">
                     <label class="block font-semibold mb-1" for="checkout-phone">Số điện thoại <span class="text-error">*</span></label>
-                    <input id="checkout-phone" name="phone" class="form-input w-full rounded border-neutral-50" placeholder="090..." autocomplete="tel" inputmode="tel">
+                    <input id="checkout-phone" name="phone" class="form-input w-full max-w-full rounded border-neutral-50" placeholder="090..." autocomplete="tel" inputmode="tel">
                     <span class="error-message text-error text-sm mt-1 block" id="MSG_SO_DIEN_THOAI" data-field="phone"></span>
                   </div>
-                  <div>
+                  <div class="min-w-0">
                     <label class="block font-semibold mb-1" for="checkout-email">Email</label>
-                    <input id="checkout-email" name="email" type="text" class="form-input w-full rounded border-neutral-50" placeholder="email@example.com" autocomplete="email">
+                    <input id="checkout-email" name="email" type="text" class="form-input w-full max-w-full rounded border-neutral-50" placeholder="email@example.com" autocomplete="email">
                     <span class="error-message text-error text-sm mt-1 block" id="MSG_EMAIL" data-field="email"></span>
                   </div>
                 </div>
-                <div>
+                <div class="min-w-0">
                   <label class="block font-semibold mb-1" for="checkout-address">Địa chỉ nhận hàng <span class="text-error">*</span></label>
-                  <textarea id="checkout-address" name="address" rows="3" class="form-textarea w-full rounded border-neutral-50" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành" autocomplete="street-address"></textarea>
+                  <textarea id="checkout-address" name="address" rows="3" class="form-textarea w-full max-w-full rounded border-neutral-50" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành" autocomplete="street-address"></textarea>
                   <span class="error-message text-error text-sm mt-1 block" id="MSG_DIA_CHI" data-field="address"></span>
                 </div>
-                <div>
+                <div class="min-w-0">
                   <label class="block font-semibold mb-1" for="checkout-note">Ghi chú đơn hàng</label>
-                  <textarea id="checkout-note" name="note" rows="3" class="form-textarea w-full rounded border-neutral-50" placeholder="Thời gian giao hàng, lời nhắn..."></textarea>
+                  <textarea id="checkout-note" name="note" rows="3" class="form-textarea w-full max-w-full rounded border-neutral-50" placeholder="Thời gian giao hàng, lời nhắn..."></textarea>
                   <span class="error-message text-error text-sm mt-1 block" id="MSG_GHI_CHU" data-field="note"></span>
                 </div>
                 <p id="ww-checkout-error" class="text-error text-sm mb-0" hidden></p>
@@ -126,7 +126,7 @@
               <script type="application/json" id="ww-checkout-items">@json($checkoutItemsPayload)</script>
             </section>
 
-            <aside class="bg-background rounded-lg p-4 md:p-6 lg:sticky lg:top-[calc(var(--header-height)+1.6rem)] shadow-sm">
+            <aside class="bg-background rounded-lg p-4 md:p-6 lg:sticky lg:top-[calc(var(--header-height)+1.6rem)] shadow-sm min-w-0 max-w-full overflow-x-clip">
               <div class="flex items-center justify-between gap-3 mb-4">
                 <h2 class="text-h5 font-semibold">Đơn hàng của bạn</h2>
                 <span class="text-sm text-neutral-300 whitespace-nowrap">{{ $totalQuantity }} sản phẩm</span>
@@ -145,7 +145,7 @@
                       <a href="{{ $itemUrl }}" class="link font-semibold truncate leading-snug min-w-0">{{ $line['title'] ?? 'Sản phẩm' }}</a>
                       <span class="text-sm text-neutral-300 shrink-0">x{{ (int) ($line['quantity'] ?? 1) }}</span>
                     </div>
-                    <div class="ml-auto min-w-[8.8rem] font-semibold text-primary whitespace-nowrap text-right text-sm">
+                    <div class="shrink-0 font-semibold text-primary whitespace-nowrap text-right text-sm">
                       {{ $formatPrice((int) ($line['line_price'] ?? 0)) }}
                     </div>
                   </div>

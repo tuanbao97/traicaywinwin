@@ -2318,3 +2318,52 @@ html.ww-video-modal-open body {
     opacity: 1;
   }
 }
+
+/* Trang thanh toán: input không tràn ngang trên mobile */
+body.checkout {
+	overflow-x: clip;
+}
+
+body.checkout .section-checkout,
+body.checkout .section-checkout .container,
+body.checkout .section-checkout .grid,
+body.checkout #ww-checkout-form,
+body.checkout #ww-checkout-form > div {
+	max-width: 100%;
+	min-width: 0;
+}
+
+body.checkout .section-checkout .form-input,
+body.checkout .section-checkout .form-textarea,
+body.checkout .section-checkout .form-select {
+	display: block;
+	width: 100% !important;
+	max-width: 100% !important;
+	min-width: 0 !important;
+	box-sizing: border-box !important;
+}
+
+body.checkout .checkout-order-item {
+	min-width: 0;
+	max-width: 100%;
+}
+
+@media (max-width: 767px) {
+	body.checkout .section-checkout .container {
+		padding-left: 1.2rem;
+		padding-right: 1.2rem;
+		box-sizing: border-box;
+	}
+
+	body.checkout .section-checkout > .container > .grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	body.checkout .section-checkout .bg-background {
+		padding-left: 1.2rem;
+		padding-right: 1.2rem;
+		box-sizing: border-box;
+		overflow-x: clip;
+	}
+}
