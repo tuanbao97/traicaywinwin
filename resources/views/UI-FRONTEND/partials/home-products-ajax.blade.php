@@ -409,12 +409,10 @@
 
     var params = new URLSearchParams();
     params.set('PAGE', '1');
-    // Trang chủ: load all sản phẩm của section; skeleton chỉ hiển thị số ô placeholder
-    var skeletonCount = (opts && opts.skeletonCount) || (section === 'flash' ? 12 : 10);
-    el.innerHTML = buildProductGridSkeletonHtml(skeletonCount, section === 'flash');
+    var per = (opts && opts.perPage) || (section === 'flash' ? 12 : 10);
+    el.innerHTML = buildProductGridSkeletonHtml(per, section === 'flash');
 
-    params.set('IS_GET_ALL_ELEMENTS', 'true');
-    params.set('PER_PAGE', '9999');
+    params.set('PER_PAGE', String(per));
     params.set('BO_LOC', (opts && opts.boLoc) || 'default');
     if (section === 'flash') {
       params.set('PRODUCT_VIP', 'true');
@@ -675,11 +673,11 @@
     );
   }
 
-  function loadCategorySectionTabs(cat, skeletonCount) {
+  function loadCategorySectionTabs(cat, perPage) {
     var catId = cat && cat.ID;
     if (!catId) return;
     var p = '#home-category-products-' + catId;
-    var sk = skeletonCount == null ? 10 : skeletonCount;
+    var n = perPage == null ? 10 : perPage;
 
     if (hasChildCategoryTabs(cat)) {
       var children = getCategoryChildren(cat);
@@ -687,7 +685,7 @@
       // Tab 1 = Nổi bật (parent category)
       loadProducts('category', p + '-t1', {
         categoryId: catId,
-        skeletonCount: sk,
+        perPage: n,
         boLoc: 'default',
         productHot: true,
         trackCategoryId: catId,
@@ -695,7 +693,7 @@
       for (var i = 0; i < children.length; i++) {
         loadProducts('category', p + '-t' + (i + 2), {
           categoryId: children[i].ID,
-          skeletonCount: sk,
+          perPage: n,
           boLoc: 'default',
           trackCategoryId: catId,
         });
@@ -704,12 +702,12 @@
     }
 
     beginCategoryLoads(catId, 6);
-    loadProducts('category', p + '-t1', { categoryId: catId, skeletonCount: sk, boLoc: 'default', trackCategoryId: catId });
-    loadProducts('category', p + '-t2', { categoryId: catId, skeletonCount: sk, boLoc: 'gia-tang', trackCategoryId: catId });
-    loadProducts('category', p + '-t3', { categoryId: catId, skeletonCount: sk, boLoc: 'gia-giam', trackCategoryId: catId });
-    loadProducts('category', p + '-t4', { categoryId: catId, skeletonCount: sk, boLoc: 'a-z', trackCategoryId: catId });
-    loadProducts('category', p + '-t5', { categoryId: catId, skeletonCount: sk, boLoc: 'z-a', trackCategoryId: catId });
-    loadProducts('category', p + '-t6', { categoryId: catId, skeletonCount: sk, boLoc: 'default', trackCategoryId: catId });
+    loadProducts('category', p + '-t1', { categoryId: catId, perPage: n, boLoc: 'default', trackCategoryId: catId });
+    loadProducts('category', p + '-t2', { categoryId: catId, perPage: n, boLoc: 'gia-tang', trackCategoryId: catId });
+    loadProducts('category', p + '-t3', { categoryId: catId, perPage: n, boLoc: 'gia-giam', trackCategoryId: catId });
+    loadProducts('category', p + '-t4', { categoryId: catId, perPage: n, boLoc: 'a-z', trackCategoryId: catId });
+    loadProducts('category', p + '-t5', { categoryId: catId, perPage: n, boLoc: 'z-a', trackCategoryId: catId });
+    loadProducts('category', p + '-t6', { categoryId: catId, perPage: n, boLoc: 'default', trackCategoryId: catId });
   }
 
   function insertCategorySectionsAndLoad() {
