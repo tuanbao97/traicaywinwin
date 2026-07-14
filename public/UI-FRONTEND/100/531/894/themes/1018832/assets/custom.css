@@ -1274,12 +1274,15 @@ body.ww-all-products {
 	overflow-x: clip;
 }
 
-body.ega-theme.search main,
-body.ww-all-products main,
-body.ega-theme.search .container,
-body.ww-all-products .index-container {
-	max-width: 100%;
+/* Chỉ thu hẹp vùng nội dung lọc/grid — giữ .container max-width như trang chủ (có margin L/R) */
+body.ega-theme.search main .ww-search-layout,
+body.ww-all-products main .ww-search-layout,
+body.ega-theme.search main .min-w-0,
+body.ww-all-products main .min-w-0,
+body.ega-theme.search #search-results-grid,
+body.ww-all-products #search-results-grid {
 	min-width: 0;
+	max-width: 100%;
 }
 
 .ww-search-filter-card {
