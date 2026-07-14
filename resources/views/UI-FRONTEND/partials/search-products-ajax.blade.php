@@ -15,12 +15,14 @@
     giaDen: @json($giaDen ?? null),
     page: @json($page ?? 1),
     perPage: @json($perPage ?? 20),
+    skeletonCount: 20,
     containerId: 'search-results-grid',
     paginationId: 'search-pagination',
     listAll: @json(!empty($listAll)),
     productHot: @json(!empty($productHot)),
     productVip: @json(!empty($productVip)),
     pageBasePath: @json($pageBasePath ?? '/tat-ca-san-pham'),
+    noPagination: true,
   };
 
   if (!cfg.query && !cfg.categoryId && !cfg.listAll && !cfg.productHot && !cfg.productVip) return;
@@ -362,6 +364,12 @@
   function renderPagination(totalPages, currentPage) {
     var nav = document.getElementById(cfg.paginationId);
     if (!nav) return;
+    // Danh sách sản phẩm: không phân trang
+    if (cfg.noPagination) {
+      nav.innerHTML = '';
+      nav.setAttribute('hidden', 'hidden');
+      return;
+    }
     if (!totalPages || totalPages <= 1) {
       nav.innerHTML = '';
       return;
@@ -399,15 +407,21 @@
   }
 
   function loadSearchResults(page) {
-    cfg.page = page || 1;
+    cfg.page = cfg.noPagination ? 1 : page || 1;
     cfg.selectedGia = getSelectedGiaFromDom();
 
     var el = document.getElementById(cfg.containerId);
-    if (el) el.innerHTML = buildSkeletonHtml(cfg.perPage);
+    if (el) el.innerHTML = buildSkeletonHtml(cfg.skeletonCount || cfg.perPage || 20);
 
     var params = new URLSearchParams();
-    params.set('PAGE', String(cfg.page));
-    params.set('PER_PAGE', String(cfg.perPage));
+    params.set('PAGE', '1');
+    if (cfg.noPagination) {
+      params.set('IS_GET_ALL_ELEMENTS', 'true');
+      params.set('PER_PAGE', '9999');
+    } else {
+      params.set('PAGE', String(cfg.page));
+      params.set('PER_PAGE', String(cfg.perPage));
+    }
     params.set('BO_LOC', cfg.boLoc || 'default');
     params.set('TRANG_THAI_HOAT_DONG', 'true');
     params.set('IS_API_PUBLIC', 'true');
@@ -435,8 +449,8 @@
         var currentPage = Number(pagination.CURRENT_PAGE) || cfg.page;
 
         updateTotalCount(totalItems);
-        renderPagination(totalPages, currentPage);
-        syncBrowserUrl(currentPage);
+        renderPagination(cfg.noPagination ? 1 : totalPages, cfg.noPagination ? 1 : currentPage);
+        syncBrowserUrl(cfg.noPagination ? 1 : currentPage);
 
         if (!rows.length) {
           el.innerHTML = '<p class="col-span-full text-center text-sm text-slate-600 py-8">Không tìm thấy sản phẩm phù hợp.</p>';

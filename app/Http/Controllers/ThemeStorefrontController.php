@@ -452,7 +452,8 @@ class ThemeStorefrontController extends Controller
             $mucGia,
             $listAll,
             $productHot,
-            $productVip
+            $productVip,
+            $view !== 'quick-search'
         );
         $appUrl = rtrim(url('/'), '/');
         $categoryName = $categoryId > 0 ? $this->resolveCategoryName($categoryId) : '';
@@ -651,7 +652,8 @@ class ThemeStorefrontController extends Controller
         array $mucGia = [],
         bool $listAll = false,
         bool $productHot = false,
-        bool $productVip = false
+        bool $productVip = false,
+        bool $getAll = false
     ): array {
         // Cho phép xem danh sách theo danh mục / tất cả / flash sale mà không cần từ khóa
         if ($query === '' && $categoryIds === [] && ! $listAll && ! $productHot && ! $productVip) {
@@ -659,12 +661,15 @@ class ThemeStorefrontController extends Controller
         }
 
         $params = [
-            'PAGE' => $page,
-            'PER_PAGE' => $perPage,
+            'PAGE' => $getAll ? 1 : $page,
+            'PER_PAGE' => $getAll ? 9999 : $perPage,
             'BO_LOC' => $boLoc,
             'TRANG_THAI_HOAT_DONG' => true,
             'IS_API_PUBLIC' => true,
         ];
+        if ($getAll) {
+            $params['IS_GET_ALL_ELEMENTS'] = true;
+        }
         if ($query !== '') {
             $params['TU_KHOA'] = $query;
         }
@@ -689,7 +694,7 @@ class ThemeStorefrontController extends Controller
         return [
             'products' => $pagination['DATA'] ?? [],
             'total' => (int) ($pagination['TOTAL_ITEM'] ?? 0),
-            'totalPages' => (int) ($pagination['TOTAL_PAGE'] ?? 0),
+            'totalPages' => $getAll ? 1 : (int) ($pagination['TOTAL_PAGE'] ?? 0),
         ];
     }
 

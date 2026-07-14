@@ -1244,6 +1244,114 @@ product-form.loading .product-cta .btn .loading-icon {
 	color: #fff;
 }
 
+/* CTA "Xem tất cả" — vị trí dưới grid; style giống section Video */
+.ww-home-viewmore {
+	display: flex;
+	justify-content: center;
+	margin-top: 1.25rem;
+	padding: 0.25rem 0 0.35rem;
+}
+
+@media (min-width: 768px) {
+	.ww-home-viewmore {
+		margin-top: 1.75rem;
+	}
+}
+
+.ww-home-viewmore__btn {
+	--ww-vm-from: #0284c7;
+	--ww-vm-to: #0ea5e9;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	min-height: 3rem;
+	padding: 0.55rem 1.35rem;
+	border-radius: 999px;
+	border: 0;
+	background: linear-gradient(135deg, var(--ww-vm-from) 0%, var(--ww-vm-to) 100%);
+	color: #fff !important;
+	font-size: var(--font-size-body, 1.5rem);
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	line-height: 1.2;
+	text-decoration: none !important;
+	box-shadow: 0 6px 16px rgba(2, 132, 199, 0.22);
+	transition:
+		transform 0.22s ease,
+		box-shadow 0.22s ease,
+		filter 0.22s ease;
+	position: relative;
+	overflow: hidden;
+	flex-shrink: 0;
+}
+
+.ww-home-viewmore__btn::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.22) 50%, transparent 70%);
+	transform: translateX(-120%);
+	transition: transform 0.55s ease;
+	pointer-events: none;
+}
+
+.ww-home-viewmore__btn:hover {
+	transform: translateY(-2px) scale(1.02);
+	filter: brightness(1.05);
+	box-shadow: 0 10px 22px rgba(2, 132, 199, 0.32);
+	color: #fff !important;
+}
+
+.ww-home-viewmore__btn:hover::before {
+	transform: translateX(120%);
+}
+
+.ww-home-viewmore__btn:active {
+	transform: translateY(0) scale(0.99);
+}
+
+.ww-home-viewmore__label {
+	position: relative;
+	z-index: 1;
+}
+
+.ww-home-viewmore__icon {
+	position: relative;
+	z-index: 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.45rem;
+	height: 1.45rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.22);
+	transition: transform 0.22s ease, background-color 0.22s ease;
+}
+
+.ww-home-viewmore__icon .icon {
+	font-size: 0.85rem;
+	line-height: 1;
+}
+
+.ww-home-viewmore__btn:hover .ww-home-viewmore__icon {
+	transform: translateX(3px);
+	background: rgba(255, 255, 255, 0.32);
+}
+
+/* Alias giữ class compact = cùng style (section Video / sản phẩm) */
+.ww-home-viewmore__btn--compact {
+	min-height: 3rem;
+	padding: 0.55rem 1.35rem;
+	font-size: var(--font-size-body, 1.5rem);
+	gap: 0.5rem;
+}
+
+.ww-home-viewmore__btn--compact .ww-home-viewmore__icon {
+	width: 1.45rem;
+	height: 1.45rem;
+}
+
 /* Tab sort / filter: cuộn ngang + scrollbar vừa phải (inherits global) */
 .heading-tabs.heading-tabs--scroll {
 	display: flex;

@@ -11,8 +11,9 @@
         <h2 class="heading w-auto font-semibold mb-0">
           <a class="link" href="{{ url('/video') }}" title="Video">Video</a>
         </h2>
-        <a href="{{ url('/video') }}" class="btn link text-primary font-semibold inline-flex items-center gap-1" title="Xem tất cả video">
-          Xem tất cả <i class="icon icon-carret-right"></i>
+        <a href="{{ url('/video') }}" class="ww-home-viewmore__btn ww-home-viewmore__btn--compact" title="Xem tất cả video">
+          <span class="ww-home-viewmore__label">Xem tất cả</span>
+          <span class="ww-home-viewmore__icon" aria-hidden="true"><i class="icon icon-carret-right"></i></span>
         </a>
       </div>
       <div

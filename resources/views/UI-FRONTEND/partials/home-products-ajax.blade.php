@@ -662,9 +662,14 @@
       tabsHtml +
       '</div>' +
       panelsHtml +
+      '<div class="ww-home-viewmore">' +
       '<a href="' +
       escapeHtml(defaultViewmoreHref) +
-      '" title="Xem tất cả" class="btn tab-viewmore link text-primary items-center gap-1 flex w-auto rounded-sm justify-center mt-2 md:mt-6 font-semibold py-2.5 border-0">Xem tất cả <i class="icon icon-carret-right"></i></a>' +
+      '" title="Xem tất cả" class="ww-home-viewmore__btn ww-home-viewmore__btn--compact tab-viewmore">' +
+      '<span class="ww-home-viewmore__label">Xem tất cả</span>' +
+      '<span class="ww-home-viewmore__icon" aria-hidden="true"><i class="icon icon-carret-right"></i></span>' +
+      '</a>' +
+      '</div>' +
       '</div>' +
       '</tabs-section>' +
       '</div>' +
