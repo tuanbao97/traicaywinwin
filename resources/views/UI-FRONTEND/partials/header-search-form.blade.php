@@ -1,24 +1,39 @@
 {{-- Ô tìm kiếm header / drawer — gọi GET /search và API product/list qua ThemeStorefrontController --}}
 <div class="search-bar relative">
   <quick-search class="quick-search">
-    <form action="{{ url('/search') }}" method="get" class="m-0 flex bg-background pl-1 pr-0 py-0 rounded items-stretch relative border border-neutral-50 overflow-hidden" role="search">
+    <form action="{{ url('/tim-kiem') }}" method="get" data-ww-search-form class="m-0 flex bg-background pl-1 pr-0 py-0 rounded items-stretch relative border border-neutral-50 overflow-hidden" role="search">
       <div class="search-input-group w-full relative flex items-stretch min-h-[4rem]">
         <input
           type="text"
           name="query"
-          value="{{ request('query', '') }}"
+          value="{{ request()->route('query') ? rawurldecode((string) request()->route('query')) : request('query', '') }}"
           autocomplete="off"
           class="border-0 bg-transparent focus:ring-transparent py-0 pl-1 pr-2 w-full text-base text-foreground text-ellipsis self-center"
           required
           data-placeholder="Tìm trái cây, giỏ quà, yến sào,...; Tìm theo loại quà...;"
           placeholder="Tìm trái cây, giỏ quà, yến sào,..."
         >
-        <input type="hidden" name="type" value="product">
         <button type="submit" aria-label="search" class="search-button btn flex items-center justify-center shrink-0 text-foreground rounded-none rounded-r bg-[var(--color-search)] text-white">
           <i class="icon icon-search"></i>
         </button>
       </div>
     </form>
+    <script>
+      (function () {
+        var form = document.currentScript && document.currentScript.previousElementSibling;
+        if (!form || form.tagName !== 'FORM') {
+          form = document.querySelector('[data-ww-search-form]');
+        }
+        if (!form) return;
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var input = form.querySelector('input[name="query"]');
+          var q = (input && input.value ? input.value : '').trim();
+          if (!q) return;
+          window.location.href = @json(rtrim(url('/'), '/')) + '/tim-kiem/' + encodeURIComponent(q);
+        });
+      })();
+    </script>
     <div class="search-dropdown absolute bottom-0 top-full mt-1 left-0 bg-background rounded-lg py-3 text-foreground w-full px-2">
       <div class="search-loading absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full z-[1] bg-background flex items-center justify-center">
         <span class="loading-icon gap-1 hidden items-center justify-center">

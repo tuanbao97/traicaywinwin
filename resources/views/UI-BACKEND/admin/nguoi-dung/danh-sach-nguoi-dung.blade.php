@@ -213,11 +213,7 @@ $(document).ready(function(){
 				let inputSearching = !isEmpty(dataInput.search.value) ? dataInput.search.value : null;
 
 				// Tìm page mặc định
-				const queryString = window.location.search;
-				const urlParams = new URLSearchParams(queryString);
-				let startPageFrUrl = !isNaN(parseFloat(urlParams.get('page'))) 
-									? Number(parseFloat(urlParams.get('page'))) - 1 
-									: 0;
+				let startPageFrUrl = window.wwAdminListUrl ? window.wwAdminListUrl.pageIndex(10) : 0;
 				dataInput.start = startPageFrUrl * Number(dataInput.length);
 				
 				// Tìm giá trị phân trang
@@ -601,11 +597,7 @@ $(document).ready(function(){
 			// Chuyển đến trang cho lần refresh trang lần đầu tiên
 			const pageInfo = $('#tableNguoiDung').DataTable().page.info();
 			if (settings.iDraw == 2) { // Số lần vẽ bảng. 1 lần init empty table + 1 lần retrieve lần đầu tiên (First time)
-				const queryString = window.location.search;
-				const urlParams = new URLSearchParams(queryString);
-				let startPageFrUrl = !isNaN(parseFloat(urlParams.get('page'))) 
-									? Number(parseFloat(urlParams.get('page'))) - 1 
-									: 0;
+				let startPageFrUrl = window.wwAdminListUrl ? window.wwAdminListUrl.pageIndex(10) : 0;
 				if (Number(pageInfo.pages) >= Number(startPageFrUrl)) 
 
 				settings.IS_CALL_AJAX = false;
@@ -634,22 +626,17 @@ $(document).ready(function(){
 		// Thêm tham số page vào URL
 		let page = pageInfo.page + 1; // DataTables sử dụng index 0 cho trang, +1 để phù hợp với hiển thị của người dùng
 		let length =  pageInfo.length > 0 ? pageInfo.length : 'all';
-		if (page > 0) {
-			const url = new URL(window.location);
-			url.searchParams.set('page', page);
-			url.searchParams.set('length', length);
-			window.history.pushState({}, '', url);
+		if (page > 0 && window.wwAdminListUrl) {
+			window.wwAdminListUrl.sync(page, length);
 		}
 	}).on('length.dt', function(e, settings, len) { // Event thay đổi 
 		if (settings.iDraw !== 1) {
 			settings.IS_CALL_AJAX = false;
 			datatableNguoiDung.page('first').draw(false); // Chuyển về trang đầu và vẽ lại bảng
 			
-			// Update query param
-			const url = new URL(window.location);
-			url.searchParams.set('page', 1);
-			url.searchParams.set('length', len);
-			window.history.pushState({}, '', url);
+			if (window.wwAdminListUrl) {
+				window.wwAdminListUrl.sync(1, len);
+			}
 		}
 	}).on('preDraw', function(e, settings) { // Trước khi draw bảng. return TRUE -> tiếp tục. FALSE -> dừng không vẽ
 		if (settings.IS_CALL_AJAX === false) {
@@ -789,11 +776,7 @@ $(document).ready(function(){
 
     function fnSearchUser() {
 		// Trigger call Ajax reload Datatables
-		const queryString = window.location.search;
-   		const urlParams = new URLSearchParams(queryString);
-		let length = !isNaN(parseFloat(urlParams.get('length'))) 
-				? Number(parseFloat(urlParams.get('length')))
-				: urlParams.get('length') == 'all' ? 2147483647 : $('#tableNguoiDung').DataTable().page.len();
+		let length = window.wwAdminListUrl ? window.wwAdminListUrl.dataTableLength(10) : $('#tableNguoiDung').DataTable().page.len();
 
 		// Fetch api retrieve data
 		datatableNguoiDung.page(0).page.len(length).ajax.reload(null, false);
@@ -815,10 +798,9 @@ $(document).ready(function(){
 
    	/* Handle event click btn search */
     $('#btnSearch').on('click', function() {
-		const url = new URL(window.location);
-		url.searchParams.set('page', 1);
-		url.searchParams.set('length', 10);
-		window.history.pushState({}, '', url);
+		if (window.wwAdminListUrl) {
+		window.wwAdminListUrl.sync(1, 10);
+		}
   
 		fnSearchUser();
     });

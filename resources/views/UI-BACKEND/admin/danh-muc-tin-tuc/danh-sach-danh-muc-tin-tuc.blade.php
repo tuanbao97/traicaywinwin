@@ -622,14 +622,13 @@ $(document).ready(function(){
 	// Khôi phục logic cập nhật URL khi chuyển trang hoặc thay đổi số lượng hiển thị
 	dataTableCategoryN.on('page.dt', function() {
 		const pageInfo = dataTableCategoryN.page.info();
-		const url = new URL(window.location);
-		url.searchParams.set('page', pageInfo.page + 1);
-		window.history.pushState({}, '', url);
+		if (window.wwAdminListUrl) {
+			window.wwAdminListUrl.sync(pageInfo.page + 1, pageInfo.length > 0 ? pageInfo.length : 'all');
+		}
 	}).on('length.dt', function(e, settings, len) {
-		const url = new URL(window.location);
-		url.searchParams.set('page', 1); // Reset to page 1 on length change
-		url.searchParams.set('length', len);
-		window.history.pushState({}, '', url);
+		if (window.wwAdminListUrl) {
+			window.wwAdminListUrl.sync(1, len);
+		}
 	});
  
 	/* Handle event click action từng dòng row datatables */
@@ -858,16 +857,13 @@ $(document).ready(function(){
 				// Add dataset vào datatables
 				dataTableCategoryN.rows.add(dataSet).draw();
 
-				// Chuyển đến trang và thiết lập length
-				// Trigger call Ajax reload Datatables
-				const queryString = window.location.search;
-				const urlParams = new URLSearchParams(queryString);
-				let length = !isNaN(parseFloat(urlParams.get('length'))) 
-						? Number(parseFloat(urlParams.get('length')))
-						: urlParams.get('length') == 'all' ? 2147483647 : $('#tableCategoryN').DataTable().page.len();
-				let startPageFrUrl = !isNaN(parseFloat(urlParams.get('page'))) 
-							? Number(parseFloat(urlParams.get('page'))) - 1 
-							: 0;
+				// Chuyển đến trang và thiết lập length từ URL path
+				let length = window.wwAdminListUrl
+					? window.wwAdminListUrl.dataTableLength(10)
+					: $('#tableCategoryN').DataTable().page.len();
+				let startPageFrUrl = window.wwAdminListUrl
+					? window.wwAdminListUrl.pageIndex(10)
+					: 0;
 				dataTableCategoryN.page.len(length).draw(); // Thiết lập length
 				dataTableCategoryN.page(startPageFrUrl).draw(false); // Chuyển đến trang cụ thể
 				/* End render table */

@@ -203,11 +203,7 @@ $(document).ready(function () {
 			, data: function (dataInput) {
 				let inputSearching = !isEmpty(dataInput.search.value) ? dataInput.search.value : null;
 
-				const queryString = window.location.search;
-				const urlParams = new URLSearchParams(queryString);
-				let startPageFrUrl = !isNaN(parseFloat(urlParams.get('page')))
-					? Number(parseFloat(urlParams.get('page'))) - 1
-					: 0;
+				let startPageFrUrl = window.wwAdminListUrl ? window.wwAdminListUrl.pageIndex(10) : 0;
 				dataInput.start = startPageFrUrl * Number(dataInput.length);
 
 				let start = Number(dataInput.start);
@@ -447,11 +443,7 @@ $(document).ready(function () {
 
 			const pageInfo = $('#tableDonHang').DataTable().page.info();
 			if (settings.iDraw == 2) {
-				const queryString = window.location.search;
-				const urlParams = new URLSearchParams(queryString);
-				let startPageFrUrl = !isNaN(parseFloat(urlParams.get('page')))
-					? Number(parseFloat(urlParams.get('page'))) - 1
-					: 0;
+				let startPageFrUrl = window.wwAdminListUrl ? window.wwAdminListUrl.pageIndex(10) : 0;
 				if (Number(pageInfo.pages) >= Number(startPageFrUrl)) {
 					settings.IS_CALL_AJAX = false;
 					$('#tableDonHang').DataTable().page(startPageFrUrl).draw(false);
@@ -472,20 +464,16 @@ $(document).ready(function () {
 		let pageInfo = dataTableDonHang.page.info();
 		let page = pageInfo.page + 1;
 		let length = pageInfo.length > 0 ? pageInfo.length : 'all';
-		if (page > 0) {
-			const url = new URL(window.location);
-			url.searchParams.set('page', page);
-			url.searchParams.set('length', length);
-			window.history.pushState({}, '', url);
+		if (page > 0 && window.wwAdminListUrl) {
+			window.wwAdminListUrl.sync(page, length);
 		}
 	}).on('length.dt', function (e, settings, len) {
 		if (settings.iDraw !== 1) {
 			settings.IS_CALL_AJAX = false;
 			dataTableDonHang.page('first').draw(false);
-			const url = new URL(window.location);
-			url.searchParams.set('page', 1);
-			url.searchParams.set('length', len);
-			window.history.pushState({}, '', url);
+			if (window.wwAdminListUrl) {
+				window.wwAdminListUrl.sync(1, len);
+			}
 		}
 	}).on('preDraw', function (e, settings) {
 		if (settings.IS_CALL_AJAX === false) {

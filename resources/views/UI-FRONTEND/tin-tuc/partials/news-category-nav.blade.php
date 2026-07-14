@@ -3,7 +3,7 @@
     $catId = (int) ($category['ID'] ?? 0);
     $catSlug = $category['TEN_DANH_MUC_TIN_TUC_SLUG'] ?? '';
     $catName = $category['TEN_DANH_MUC_TIN_TUC'] ?? '';
-    $catUrl = url('tin-tuc') . '?danh-muc=' . $catSlug . '-' . $catId;
+    $catUrl = storefrontNewsCategoryUrl((string) $catSlug, $catId);
     $isActive = isset($activeCategoryId) && (int) $activeCategoryId === $catId;
     $children = $category['DANH_SACH_CHILDREN'] ?? [];
     $level = (int) ($category['TREE_LEVEL'] ?? 0);

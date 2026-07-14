@@ -503,27 +503,23 @@
   var gioQuaPriceRanges = @json(storefrontGioQuaPriceRanges());
 
   function buildGioQuaPriceSearchUrl(range) {
-    var base = cfg.appUrl + '/search?type=product&danh-muc=' + encodeURIComponent('gio-qua-trai-cay-1004');
-    base += '&gia_tu=' + encodeURIComponent(String(range.min));
-    if (range.max != null) {
-      base += '&gia_den=' + encodeURIComponent(String(range.max));
-    }
-    return base;
+    var path = '/danh-muc/gio-qua-trai-cay-1004/gia/' + encodeURIComponent(String(range.min)) + '-' + (range.max != null ? encodeURIComponent(String(range.max)) : 'up');
+    return cfg.appUrl + path;
   }
 
   function buildCategoryListUrl(cat, opts) {
     opts = opts || {};
     var cid = opts.categoryId != null ? opts.categoryId : cat && cat.ID;
-    if (!cid) return cfg.appUrl + '/search?type=product';
+    if (!cid) return cfg.appUrl + '/tat-ca-san-pham';
     var slug = (opts.slug || (cat && cat.TEN_DANH_MUC_SAN_PHAM_SLUG) || 'danh-muc').toString();
-    var url = cfg.appUrl + '/search?type=product&danh-muc=' + encodeURIComponent(slug + '-' + cid);
-    if (opts.boLoc) {
-      url += '&bo_loc=' + encodeURIComponent(String(opts.boLoc));
+    var parts = ['/danh-muc/' + encodeURIComponent(slug + '-' + cid)];
+    if (opts.boLoc && opts.boLoc !== 'default') {
+      parts.push('sap-xep/' + encodeURIComponent(String(opts.boLoc)));
     }
     if (opts.productHot) {
-      url += '&PRODUCT_HOT=true';
+      parts.push('noi-bat');
     }
-    return url;
+    return cfg.appUrl + parts.join('/');
   }
 
   function buildFilterTabsHtml(cat, tabPrefix) {

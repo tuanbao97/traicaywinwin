@@ -634,7 +634,7 @@
           <div class="flex items-center gap-2 md:gap-3">
 
                           <h2 class="text-h4 text-center md:text-left lg:text-h3  font-bold flashsale-heading md:px-0 px-[var(--container-padding)]">
-                <a href="{{ url('/search?type=product&PRODUCT_VIP=true') }}" title="Chớp thời cơ. Giá như mơ!">
+                <a href="{{ storefrontListingUrl(['mode' => 'vip']) }}" title="Chớp thời cơ. Giá như mơ!">
                   Chớp thời cơ. Giá như mơ!                </a>
               </h2>
                       </div>

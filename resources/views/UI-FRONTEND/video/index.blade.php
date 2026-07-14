@@ -56,7 +56,7 @@
               <nav class="flex justify-center gap-2 mt-6 pt-6 flex-wrap" aria-label="Phân trang">
                 @for ($p = 1; $p <= $totalPages; $p++)
                   <a
-                    href="{{ url('video') }}?PAGE={{ $p }}"
+                    href="{{ storefrontVideoListUrl($p) }}"
                     class="btn px-3 py-1.5 rounded-sm border border-neutral-50 text-sm font-semibold {{ $p === $page ? 'bg-primary text-white border-primary' : 'hover:bg-neutral-50' }}"
                   >{{ $p }}</a>
                 @endfor

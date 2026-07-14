@@ -20,7 +20,7 @@
     listAll: @json(!empty($listAll)),
     productHot: @json(!empty($productHot)),
     productVip: @json(!empty($productVip)),
-    pageBasePath: @json($pageBasePath ?? '/search'),
+    pageBasePath: @json($pageBasePath ?? '/tat-ca-san-pham'),
   };
 
   if (!cfg.query && !cfg.categoryId && !cfg.listAll && !cfg.productHot && !cfg.productVip) return;
@@ -332,26 +332,31 @@
   }
 
   function buildSearchPageUrl(page) {
-    var basePath = cfg.pageBasePath || '/search';
-    var url = new URL(cfg.appUrl + basePath, window.location.origin);
-    if (basePath === '/search') {
-      url.searchParams.set('type', 'product');
+    var basePath = (cfg.pageBasePath || '/tat-ca-san-pham').replace(/\/+$/, '');
+    var parts = [];
+    if (cfg.giaTu != null && cfg.giaTu !== '') {
+      var maxPart = cfg.giaDen != null && cfg.giaDen !== '' ? String(cfg.giaDen) : 'up';
+      parts.push('gia/' + String(cfg.giaTu) + '-' + maxPart);
     }
-    if (cfg.query) url.searchParams.set('query', cfg.query);
-    if (cfg.categoryKey) url.searchParams.set('danh-muc', cfg.categoryKey);
-    if (cfg.productVip) url.searchParams.set('PRODUCT_VIP', 'true');
-    if (cfg.productHot) url.searchParams.set('PRODUCT_HOT', 'true');
-    if (cfg.boLoc && cfg.boLoc !== 'default') url.searchParams.set('bo_loc', cfg.boLoc);
-    if (cfg.selectedGia.length) url.searchParams.set('gia', cfg.selectedGia.join(','));
-    if (cfg.giaTu != null && cfg.giaTu !== '') url.searchParams.set('gia_tu', String(cfg.giaTu));
-    if (cfg.giaDen != null && cfg.giaDen !== '') url.searchParams.set('gia_den', String(cfg.giaDen));
-    if (page > 1) url.searchParams.set('PAGE', String(page));
-    return url;
+    if (cfg.selectedGia && cfg.selectedGia.length) {
+      parts.push('muc-gia/' + encodeURIComponent(cfg.selectedGia.join('--')));
+    }
+    if (cfg.boLoc && cfg.boLoc !== 'default') {
+      parts.push('sap-xep/' + encodeURIComponent(String(cfg.boLoc)));
+    }
+    if (cfg.productHot && String(basePath).indexOf('/danh-muc/') === 0) {
+      parts.push('noi-bat');
+    }
+    if (page > 1) {
+      parts.push('trang/' + String(page));
+    }
+    var path = parts.length ? basePath + '/' + parts.join('/') : basePath;
+    return new URL(cfg.appUrl + path, window.location.origin);
   }
 
   function syncBrowserUrl(page) {
     var url = buildSearchPageUrl(page);
-    window.history.replaceState({}, '', url.pathname + url.search);
+    window.history.replaceState({}, '', url.pathname);
   }
 
   function renderPagination(totalPages, currentPage) {
@@ -367,7 +372,7 @@
       var pageUrl = buildSearchPageUrl(p);
       html +=
         '<a href="' +
-        escapeHtml(pageUrl.pathname + pageUrl.search) +
+        escapeHtml(pageUrl.pathname) +
         '" data-page="' +
         p +
         '" class="ww-search-page-btn btn px-3 py-1.5 rounded-sm border border-neutral-50 text-sm font-semibold ' +

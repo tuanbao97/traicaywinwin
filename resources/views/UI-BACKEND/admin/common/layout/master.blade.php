@@ -558,7 +558,8 @@
 		}
 		
 		checkPermissionToAccessThisPage = function() {
-			var routeUri = "{{ Route::current()->uri() }}";
+			// Bỏ suffix /{filters?} của route danh-sách (URL path-based paging)
+			var routeUri = "{{ Route::current()->uri() }}".replace(/\/\{filters\?\}$/, '');
 			var isShowMasterBody = false;
 			// Create object data to check
 			var data = {
@@ -1062,6 +1063,7 @@
 	<script src="{{ asset('js/UI-BACKEND/template.js') }}?v={{ $timeUpdate }}"></script>
 	<script src="{{ asset('js/UI-BACKEND/settings.js') }}?v={{ $timeUpdate }}"></script>
 	<script src="{{ asset('js/UI-BACKEND/todolist.js') }}?v={{ $timeUpdate }}"></script>
+	<script src="{{ asset('js/UI-BACKEND/admin-list-url.js') }}?v={{ $timeUpdate }}"></script>
 
 	@yield('plugin-js-for-this-page')
 	<!-- End plugin js for this page-->

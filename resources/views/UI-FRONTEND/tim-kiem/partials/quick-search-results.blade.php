@@ -68,7 +68,7 @@
   @endforeach
   @if ($total > count($products))
     <a
-      href="{{ url('/search') }}?query={{ urlencode($query) }}&amp;type=product{{ !empty($categoryKey) ? '&danh-muc=' . urlencode($categoryKey) : '' }}"
+      href="{{ storefrontListingUrl(['mode' => !empty($categoryKey) ? 'category' : 'search', 'categoryKey' => $categoryKey ?? '', 'query' => $query]) }}"
       class="link text-primary text-sm font-semibold flex items-center justify-center gap-1 py-2 border-t border-neutral-50 mt-1"
     >
       Xem tất cả ({{ number_format($total, 0, ',', '.') }}) <i class="icon icon-carret-right text-xs"></i>

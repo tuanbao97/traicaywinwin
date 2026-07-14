@@ -373,7 +373,7 @@ subscribe(window.themeConfigs.firstInteraction, () => {
       let history = this.getHistory();
       let historyList = history.slice(0, 5).map((keyword) => {
         const searchHref = (window.themeUrl || ((p) => p))(
-          `/search?query=${encodeURIComponent(keyword)}&type=product`
+          `/tim-kiem/${encodeURIComponent(keyword)}`
         );
         return `<a class="search-history-item cursor-pointer py-2 flex items-center gap-2 px-2 hover:bg-neutral-50 rounded-sm  " href="${searchHref}" data-text="${keyword}">
 			  <i class="icon icon-search-history text-h6 text-neutral-100"></i>

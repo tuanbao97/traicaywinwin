@@ -1129,23 +1129,17 @@ $(document).ready(function () {
 		// Get thông tin page info
 		let pageInfo = dataTableSettingCountView.page.info();
 
-		// Thêm tham số page vào URL
+		// Đồng bộ page/length lên URL dạng path
 		let page = pageInfo.page + 1; // DataTables sử dụng index 0 cho trang, +1 để phù hợp với hiển thị của người dùng
 		let length =  pageInfo.length > 0 ? pageInfo.length : 'all';
-		if (page > 0) {
-			const url = new URL(window.location);
-			url.searchParams.set('page', page);
-			url.searchParams.set('length', length);
-			window.history.pushState({}, '', url);
+		if (page > 0 && window.wwAdminListUrl) {
+			window.wwAdminListUrl.sync(page, length);
 		}
 	}).on('length.dt', function(e, settings, len) { // Event thay đổi 
 		if (settings.iDraw !== 1) {
-			
-			// Update query param
-			const url = new URL(window.location);
-			url.searchParams.set('page', 1);
-			url.searchParams.set('length', len);
-			window.history.pushState({}, '', url);
+			if (window.wwAdminListUrl) {
+				window.wwAdminListUrl.sync(1, len);
+			}
 		}
 	}).on('preDraw', function(e, settings) { // Trước khi draw bảng. return TRUE -> tiếp tục. FALSE -> dừng không vẽ
 		return true;

@@ -37,7 +37,17 @@ Route::middleware(['count-client-view-website'])->group(function() {
 
     Route::get('tin-tuc/chi-tiet/{newsKey}', [ThemeStorefrontController::class, 'newsDetail'])
         ->where('newsKey', '.+');
+    Route::get('tin-tuc/danh-muc/{categoryKey}/trang/{page}', [ThemeStorefrontController::class, 'newsList'])
+        ->where('categoryKey', '[^/]+')
+        ->where('page', '[0-9]+');
+    Route::get('tin-tuc/danh-muc/{categoryKey}', [ThemeStorefrontController::class, 'newsList'])
+        ->where('categoryKey', '[^/]+');
+    Route::get('tin-tuc/trang/{page}', [ThemeStorefrontController::class, 'newsList'])
+        ->where('page', '[0-9]+');
     Route::get('tin-tuc', [ThemeStorefrontController::class, 'newsList']);
+
+    Route::get('video/trang/{page}', [ThemeStorefrontController::class, 'videoList'])
+        ->where('page', '[0-9]+');
     Route::get('video', [ThemeStorefrontController::class, 'videoList']);
 
     // Account
@@ -57,8 +67,22 @@ Route::middleware(['count-client-view-website'])->group(function() {
     Route::get('cart', [ThemeStorefrontController::class, 'cartPage']);
     Route::get('thanh-toan', [ThemeStorefrontController::class, 'checkoutPage']);
 
+    // Listing SP dạng path (/danh-muc/.../gia/.../sap-xep/.../trang/N)
+    Route::get('danh-muc/{categoryKey}/{filters?}', [ThemeStorefrontController::class, 'categoryListing'])
+        ->where('categoryKey', '[^/]+')
+        ->where('filters', '.*');
+    Route::get('tim-kiem/{query}/{filters?}', [ThemeStorefrontController::class, 'keywordListing'])
+        ->where('query', '[^/]+')
+        ->where('filters', '.*');
+    Route::get('san-pham-vip/{filters?}', [ThemeStorefrontController::class, 'vipListing'])
+        ->where('filters', '.*');
+    Route::get('san-pham-noi-bat/{filters?}', [ThemeStorefrontController::class, 'hotListing'])
+        ->where('filters', '.*');
+    Route::get('tat-ca-san-pham/{filters?}', [ThemeStorefrontController::class, 'allProducts'])
+        ->where('filters', '.*');
+
+    // /search giữ cho quick-search (?view=quick-search) + 301 URL cũ ?query=
     Route::get('search', [ThemeStorefrontController::class, 'search']);
-    Route::get('tat-ca-san-pham', [ThemeStorefrontController::class, 'allProducts']);
 
     Route::get('san-pham/chi-tiet/{productKey}', [ThemeStorefrontController::class, 'productDetail'])
         ->where('productKey', '.+');
@@ -407,17 +431,17 @@ Route::group(['prefix' => '/admin'], function() {
         return view('UI-BACKEND/admin/auth/reset-password/reset-password');
     });
 
-    Route::get('/cai-dat', function() {
+    Route::get('/cai-dat/{filters?}', function() {
         return view('UI-BACKEND/admin/cai-dat/cai-dat') ;
-    });
+    })->where('filters', '.*');
 
     Route::get('/error/page-not-found', function() {
         return view('UI-BACKEND/admin/common/layout/errors/page-404') ;
     });
 
-    Route::get('/nguoi-dung/danh-sach', function() {
+    Route::get('/nguoi-dung/danh-sach/{filters?}', function() {
         return view('UI-BACKEND/admin/nguoi-dung/danh-sach-nguoi-dung');
-    });
+    })->where('filters', '.*');
 
     Route::get('/nguoi-dung', function() {
         return redirect('/admin/nguoi-dung/danh-sach');
@@ -440,9 +464,9 @@ Route::group(['prefix' => '/admin'], function() {
         );
     });
 
-    Route::get('/danh-muc-san-pham/danh-sach', function() {
+    Route::get('/danh-muc-san-pham/danh-sach/{filters?}', function() {
        return view('UI-BACKEND/admin/danh-muc-san-pham/danh-sach-danh-muc-san-pham') ;
-    });
+    })->where('filters', '.*');
 
     Route::get('/danh-muc-san-pham', function() {
         return redirect('/admin/danh-muc-san-pham/danh-sach');
@@ -465,9 +489,9 @@ Route::group(['prefix' => '/admin'], function() {
         return view('UI-BACKEND/admin/san-pham/chi-tiet-san-pham') ;
     });
 
-    Route::get('/san-pham/danh-sach', function() {
+    Route::get('/san-pham/danh-sach/{filters?}', function() {
         return view('UI-BACKEND/admin/san-pham/danh-sach-san-pham');
-    });
+    })->where('filters', '.*');
 
     Route::get('/san-pham', function() {
         return redirect('/admin/san-pham/danh-sach');
@@ -483,9 +507,9 @@ Route::group(['prefix' => '/admin'], function() {
     });
 
 
-    Route::get('/danh-muc-tin-tuc/danh-sach', function() {
+    Route::get('/danh-muc-tin-tuc/danh-sach/{filters?}', function() {
        return view('UI-BACKEND/admin/danh-muc-tin-tuc/danh-sach-danh-muc-tin-tuc') ;
-    });
+    })->where('filters', '.*');
 
     Route::get('/danh-muc-tin-tuc', function() {
         return redirect('/admin/danh-muc-tin-tuc/danh-sach');
@@ -516,9 +540,9 @@ Route::group(['prefix' => '/admin'], function() {
         return view('UI-BACKEND/admin/thong-tin-ca-nhan/doi-mat-khau');
     });
 
-    Route::get('/tin-tuc/danh-sach', function() {
+    Route::get('/tin-tuc/danh-sach/{filters?}', function() {
         return view('UI-BACKEND/admin/tin-tuc/danh-sach-tin-tuc');
-    });
+    })->where('filters', '.*');
 
     Route::get('/tin-tuc', function() {
         return redirect('/admin/tin-tuc/danh-sach');
@@ -537,9 +561,9 @@ Route::group(['prefix' => '/admin'], function() {
         );
     });
 
-    Route::get('/video/danh-sach', function() {
+    Route::get('/video/danh-sach/{filters?}', function() {
         return view('UI-BACKEND/admin/video/danh-sach-video');
-    });
+    })->where('filters', '.*');
 
     Route::get('/video', function() {
         return redirect('/admin/video/danh-sach');
@@ -558,9 +582,9 @@ Route::group(['prefix' => '/admin'], function() {
         );
     });
 
-    Route::get('/don-hang/danh-sach', function() {
+    Route::get('/don-hang/danh-sach/{filters?}', function() {
         return view('UI-BACKEND/admin/don-hang/danh-sach-don-hang');
-    });
+    })->where('filters', '.*');
 
     Route::get('/don-hang', function() {
         return redirect('/admin/don-hang/danh-sach');

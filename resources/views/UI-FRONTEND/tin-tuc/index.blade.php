@@ -48,15 +48,10 @@
                 </div>
 
                 @if ($totalPages > 1)
-                  @php
-                    $categoryQuery = $categoryId
-                      ? '&danh-muc=' . urlencode(request()->query('danh-muc', ''))
-                      : '';
-                  @endphp
                   <nav class="flex justify-center gap-2 mt-6 pt-6 flex-wrap" aria-label="Phân trang" style="grid-column: 1 / -1">
                     @for ($p = 1; $p <= $totalPages; $p++)
                       <a
-                        href="{{ url('tin-tuc') }}?PAGE={{ $p }}{{ $categoryQuery }}"
+                        href="{{ storefrontNewsListUrl($p, $categoryKey ?? null) }}"
                         class="btn px-3 py-1.5 rounded-sm border border-neutral-50 text-sm font-semibold {{ $p === $page ? 'bg-primary text-white border-primary' : 'hover:bg-neutral-50' }}"
                       >{{ $p }}</a>
                     @endfor

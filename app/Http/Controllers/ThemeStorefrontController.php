@@ -8,6 +8,7 @@ use App\Service\NewsService;
 use App\Service\ProductService;
 use App\Service\VideoService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
@@ -301,27 +302,130 @@ class ThemeStorefrontController extends Controller
         ]);
     }
 
-    public function search(Request $request): View|Response
+    public function search(Request $request): View|Response|RedirectResponse
     {
-        $query = trim((string) ($request->query('query', $request->query('q', ''))));
-        $categoryId = $this->parseProductCategoryId($request);
-        $page = max(1, (int) $request->query('PAGE', 1));
+        $view = (string) $request->query('view', '');
+        if ($view === 'quick-search') {
+            return $this->renderProductListing($request, $this->listingParamsFromQuery($request));
+        }
+        // Fragment Sapo theme (product / product-row / section / …) — chưa port sang Laravel
+        if ($view !== '') {
+            return response('', 200)->header('Content-Type', 'text/html; charset=UTF-8');
+        }
+
+        if ($this->hasLegacyListingQuery($request)) {
+            $target = $this->legacyListingRedirectTarget($request, 'search');
+            if ($target !== null) {
+                return redirect($target, 301);
+            }
+        }
+
+        // /search không còn dùng làm trang listing; redirect về tất cả SP hoặc giữ empty search UI
+        $params = $this->listingParamsFromQuery($request);
+        if ($params['query'] === '' && $params['categoryKey'] === '' && ! $params['productHot'] && ! $params['productVip']) {
+            return redirect(storefrontListingUrl(['mode' => 'all']), 301);
+        }
+
+        return redirect($this->listingUrlFromParams($params), 301);
+    }
+
+    public function categoryListing(Request $request, string $categoryKey, ?string $filters = null): View|Response|RedirectResponse
+    {
+        $parsed = storefrontParseListingFilters($filters);
+        $params = $this->listingParamsFromPath($parsed, [
+            'mode' => 'category',
+            'categoryKey' => $categoryKey,
+            'categoryId' => (int) ($this->parseCategoryIdFromKey($categoryKey) ?? 0),
+        ]);
+
+        return $this->renderProductListing($request, $params);
+    }
+
+    public function keywordListing(Request $request, string $query, ?string $filters = null): View|Response|RedirectResponse
+    {
+        $parsed = storefrontParseListingFilters($filters);
+        $params = $this->listingParamsFromPath($parsed, [
+            'mode' => 'search',
+            'query' => trim(rawurldecode($query)),
+        ]);
+
+        return $this->renderProductListing($request, $params);
+    }
+
+    public function vipListing(Request $request, ?string $filters = null): View|Response|RedirectResponse
+    {
+        $parsed = storefrontParseListingFilters($filters);
+        $params = $this->listingParamsFromPath($parsed, [
+            'mode' => 'vip',
+            'productVip' => true,
+        ]);
+
+        return $this->renderProductListing($request, $params);
+    }
+
+    public function hotListing(Request $request, ?string $filters = null): View|Response|RedirectResponse
+    {
+        $parsed = storefrontParseListingFilters($filters);
+        $params = $this->listingParamsFromPath($parsed, [
+            'mode' => 'hot',
+            'productHot' => true,
+        ]);
+
+        return $this->renderProductListing($request, $params);
+    }
+
+    public function allProducts(Request $request, ?string $filters = null): View|Response|RedirectResponse
+    {
+        if ($filters === null && $this->hasLegacyListingQuery($request)) {
+            $target = $this->legacyListingRedirectTarget($request, 'all');
+            if ($target !== null) {
+                return redirect($target, 301);
+            }
+        }
+
+        $parsed = storefrontParseListingFilters($filters);
+        $params = $this->listingParamsFromPath($parsed, [
+            'mode' => 'all',
+            'listAll' => true,
+        ]);
+
+        return $this->renderProductListing($request, $params);
+    }
+
+    /**
+     * @param  array<string, mixed>  $params
+     */
+    private function renderProductListing(Request $request, array $params): View|Response
+    {
+        $query = (string) ($params['query'] ?? '');
+        $categoryId = (int) ($params['categoryId'] ?? 0);
+        $categoryKey = (string) ($params['categoryKey'] ?? '');
+        $page = max(1, (int) ($params['page'] ?? 1));
         $view = (string) $request->query('view', '');
         $perPage = $view === 'quick-search' ? 8 : 20;
-
-        $boLoc = (string) $request->query('bo_loc', 'default');
+        $boLoc = (string) ($params['boLoc'] ?? 'default');
         if (! in_array($boLoc, AppConstant::DANH_SACH_BO_LOC_TIM_KIEM, true)) {
             $boLoc = 'default';
         }
 
         $priceFilterOptions = $this->productPriceFilterOptions();
-        $selectedPriceFilterIds = $this->parseSelectedPriceFilterIds($request);
+        $selectedPriceFilterIds = array_values(array_filter(
+            (array) ($params['giaChips'] ?? []),
+            static fn ($id): bool => is_string($id) && $id !== ''
+        ));
+        $validIds = array_column($priceFilterOptions, 'id');
+        $selectedPriceFilterIds = array_values(array_filter(
+            $selectedPriceFilterIds,
+            static fn (string $id): bool => in_array($id, $validIds, true)
+        ));
         $mucGia = $this->buildMucGiaFromFilterIds($selectedPriceFilterIds, $priceFilterOptions);
 
-        $giaTu = $request->query('gia_tu');
-        $giaDen = $request->query('gia_den');
-        $giaTuVal = is_numeric($giaTu) ? (int) $giaTu : null;
-        $giaDenVal = is_numeric($giaDen) ? (int) $giaDen : null;
+        $giaTuVal = array_key_exists('giaTu', $params) && $params['giaTu'] !== null && $params['giaTu'] !== ''
+            ? (int) $params['giaTu']
+            : null;
+        $giaDenVal = array_key_exists('giaDen', $params) && $params['giaDen'] !== null && $params['giaDen'] !== ''
+            ? (int) $params['giaDen']
+            : null;
         if ($giaTuVal !== null || $giaDenVal !== null) {
             $range = [];
             if ($giaTuVal !== null && $giaTuVal >= 0) {
@@ -335,8 +439,9 @@ class ThemeStorefrontController extends Controller
             }
         }
 
-        $productHot = filter_var($request->query('PRODUCT_HOT', false), FILTER_VALIDATE_BOOLEAN);
-        $productVip = filter_var($request->query('PRODUCT_VIP', false), FILTER_VALIDATE_BOOLEAN);
+        $productHot = ! empty($params['productHot']);
+        $productVip = ! empty($params['productVip']);
+        $listAll = ! empty($params['listAll']) || (($params['mode'] ?? '') === 'all');
 
         $result = $this->searchProducts(
             $query,
@@ -345,13 +450,15 @@ class ThemeStorefrontController extends Controller
             $perPage,
             $boLoc,
             $mucGia,
-            false,
+            $listAll,
             $productHot,
             $productVip
         );
         $appUrl = rtrim(url('/'), '/');
         $categoryName = $categoryId > 0 ? $this->resolveCategoryName($categoryId) : '';
-        $categoryKey = $categoryId > 0 ? $this->buildProductCategoryKey($categoryId) : '';
+        if ($categoryKey === '' && $categoryId > 0) {
+            $categoryKey = $this->buildProductCategoryKey($categoryId);
+        }
         if ($productVip && $categoryName === '' && $query === '') {
             $categoryName = 'Chớp thời cơ. Giá như mơ!';
         } elseif ($productHot && $categoryName === '' && $query === '') {
@@ -369,11 +476,36 @@ class ThemeStorefrontController extends Controller
             ]);
         }
 
-        return view('UI-FRONTEND.tim-kiem.ket-qua', [
+        $mode = (string) ($params['mode'] ?? '');
+        if ($mode === '') {
+            if ($listAll) {
+                $mode = 'all';
+            } elseif ($productVip && $categoryKey === '' && $query === '') {
+                $mode = 'vip';
+            } elseif ($productHot && $categoryKey === '' && $query === '') {
+                $mode = 'hot';
+            } elseif ($categoryKey !== '') {
+                $mode = 'category';
+            } elseif ($query !== '') {
+                $mode = 'search';
+            } else {
+                $mode = 'all';
+            }
+        }
+
+        $pageBasePath = match ($mode) {
+            'vip' => '/san-pham-vip',
+            'hot' => '/san-pham-noi-bat',
+            'category' => '/danh-muc/' . ($categoryKey !== '' ? $categoryKey : 'danh-muc-0'),
+            'search' => '/tim-kiem/' . rawurlencode($query !== '' ? $query : '-'),
+            default => '/tat-ca-san-pham',
+        };
+
+        $viewData = [
             'query' => $query,
             'categoryId' => $categoryId,
             'categoryKey' => $categoryKey,
-            'categoryName' => $categoryName,
+            'categoryName' => $listAll && $categoryName === '' ? 'Tất cả sản phẩm' : $categoryName,
             'boLoc' => $boLoc,
             'priceFilterOptions' => $priceFilterOptions,
             'selectedPriceFilterIds' => $selectedPriceFilterIds,
@@ -386,74 +518,123 @@ class ThemeStorefrontController extends Controller
             'totalPages' => $result['totalPages'],
             'appUrl' => $appUrl,
             'productId' => 0,
-            'listAll' => false,
+            'listAll' => $listAll,
             'productHot' => $productHot,
             'productVip' => $productVip,
-            'pageBasePath' => '/search',
-        ]);
+            'pageBasePath' => $pageBasePath,
+            'listingMode' => $mode,
+        ];
+
+        if ($listAll && $query === '' && $categoryId <= 0 && ! $productHot && ! $productVip) {
+            return view('UI-FRONTEND.san-pham.tat-ca', $viewData);
+        }
+
+        return view('UI-FRONTEND.tim-kiem.ket-qua', $viewData);
     }
 
-    public function allProducts(Request $request): View
+    /**
+     * @param  array<string, mixed>  $parsed
+     * @param  array<string, mixed>  $overrides
+     * @return array<string, mixed>
+     */
+    private function listingParamsFromPath(array $parsed, array $overrides = []): array
     {
-        $page = max(1, (int) $request->query('PAGE', 1));
-        $perPage = 20;
-
-        $boLoc = (string) $request->query('bo_loc', 'default');
-        if (! in_array($boLoc, AppConstant::DANH_SACH_BO_LOC_TIM_KIEM, true)) {
-            $boLoc = 'default';
-        }
-
-        $priceFilterOptions = $this->productPriceFilterOptions();
-        $selectedPriceFilterIds = $this->parseSelectedPriceFilterIds($request);
-        $mucGia = $this->buildMucGiaFromFilterIds($selectedPriceFilterIds, $priceFilterOptions);
-
-        $giaTu = $request->query('gia_tu');
-        $giaDen = $request->query('gia_den');
-        $giaTuVal = is_numeric($giaTu) ? (int) $giaTu : null;
-        $giaDenVal = is_numeric($giaDen) ? (int) $giaDen : null;
-        if ($giaTuVal !== null || $giaDenVal !== null) {
-            $range = [];
-            if ($giaTuVal !== null && $giaTuVal >= 0) {
-                $range['MIN_VALUE'] = $giaTuVal;
-            }
-            if ($giaDenVal !== null && $giaDenVal > 0) {
-                $range['MAX_VALUE'] = $giaDenVal;
-            }
-            if ($range !== []) {
-                $mucGia[] = $range;
-            }
-        }
-
-        $result = $this->searchProducts(
-            '',
-            [],
-            $page,
-            $perPage,
-            $boLoc,
-            $mucGia,
-            true
-        );
-
-        return view('UI-FRONTEND.san-pham.tat-ca', [
+        return array_merge([
+            'mode' => '',
             'query' => '',
             'categoryId' => 0,
             'categoryKey' => '',
-            'categoryName' => 'Tất cả sản phẩm',
+            'boLoc' => $parsed['boLoc'] ?? 'default',
+            'giaTu' => $parsed['giaTu'] ?? null,
+            'giaDen' => $parsed['giaDen'] ?? null,
+            'giaChips' => $parsed['giaChips'] ?? [],
+            'page' => $parsed['page'] ?? 1,
+            'productHot' => ! empty($parsed['productHot']),
+            'productVip' => ! empty($parsed['productVip']),
+            'listAll' => false,
+        ], $overrides);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function listingParamsFromQuery(Request $request): array
+    {
+        $query = trim((string) ($request->query('query', $request->query('q', ''))));
+        $categoryId = $this->parseProductCategoryId($request);
+        $categoryKey = '';
+        $danhMuc = $request->query('danh-muc');
+        if (is_string($danhMuc) && $danhMuc !== '') {
+            $categoryKey = $danhMuc;
+        } elseif ($categoryId > 0) {
+            $categoryKey = $this->buildProductCategoryKey($categoryId);
+        }
+
+        $boLoc = (string) $request->query('bo_loc', 'default');
+        $giaTu = $request->query('gia_tu');
+        $giaDen = $request->query('gia_den');
+
+        return [
+            'mode' => '',
+            'query' => $query,
+            'categoryId' => $categoryId,
+            'categoryKey' => $categoryKey,
             'boLoc' => $boLoc,
-            'priceFilterOptions' => $priceFilterOptions,
-            'selectedPriceFilterIds' => $selectedPriceFilterIds,
-            'giaTu' => $giaTuVal,
-            'giaDen' => $giaDenVal,
-            'page' => $page,
-            'products' => $result['products'],
-            'total' => $result['total'],
-            'perPage' => $perPage,
-            'totalPages' => $result['totalPages'],
-            'appUrl' => rtrim(url('/'), '/'),
-            'productId' => 0,
-            'listAll' => true,
-            'pageBasePath' => '/tat-ca-san-pham',
-        ]);
+            'giaTu' => is_numeric($giaTu) ? (int) $giaTu : null,
+            'giaDen' => is_numeric($giaDen) ? (int) $giaDen : null,
+            'giaChips' => $this->parseSelectedPriceFilterIds($request),
+            'page' => max(1, (int) $request->query('PAGE', 1)),
+            'productHot' => filter_var($request->query('PRODUCT_HOT', false), FILTER_VALIDATE_BOOLEAN),
+            'productVip' => filter_var($request->query('PRODUCT_VIP', false), FILTER_VALIDATE_BOOLEAN),
+            'listAll' => false,
+        ];
+    }
+
+    private function hasLegacyListingQuery(Request $request): bool
+    {
+        foreach (['query', 'q', 'danh-muc', 'category_id', 'bo_loc', 'gia', 'gia_tu', 'gia_den', 'PAGE', 'PRODUCT_HOT', 'PRODUCT_VIP', 'type'] as $key) {
+            if ($request->query->has($key)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function legacyListingRedirectTarget(Request $request, string $context): ?string
+    {
+        $params = $this->listingParamsFromQuery($request);
+        if ($context === 'all') {
+            $params['mode'] = 'all';
+            $params['listAll'] = true;
+        }
+
+        return $this->listingUrlFromParams($params);
+    }
+
+    /**
+     * @param  array<string, mixed>  $params
+     */
+    private function listingUrlFromParams(array $params): string
+    {
+        $opts = [
+            'mode' => (string) ($params['mode'] ?? ''),
+            'categoryKey' => (string) ($params['categoryKey'] ?? ''),
+            'query' => (string) ($params['query'] ?? ''),
+            'boLoc' => (string) ($params['boLoc'] ?? 'default'),
+            'giaTu' => $params['giaTu'] ?? null,
+            'giaDen' => $params['giaDen'] ?? null,
+            'giaChips' => (array) ($params['giaChips'] ?? []),
+            'page' => max(1, (int) ($params['page'] ?? 1)),
+            'productHot' => ! empty($params['productHot']),
+            'productVip' => ! empty($params['productVip']),
+        ];
+
+        if ($opts['mode'] === '' && ! empty($params['listAll'])) {
+            $opts['mode'] = 'all';
+        }
+
+        return storefrontListingUrl($opts);
     }
 
     /**
@@ -550,13 +731,21 @@ class ThemeStorefrontController extends Controller
         ]);
     }
 
-    public function newsList(Request $request): View
+    public function newsList(Request $request, ?string $categoryKey = null, ?int $page = null): View|RedirectResponse
     {
-        $categoryId = $this->parseCategoryIdFromKey($request->query('danh-muc'));
-        $page = max(1, (int) $request->query('PAGE', 1));
+        if ($categoryKey === null && $page === null && ($request->query->has('danh-muc') || $request->query->has('PAGE'))) {
+            $legacyCategory = $request->query('danh-muc');
+            $legacyPage = max(1, (int) $request->query('PAGE', 1));
+            $key = is_string($legacyCategory) && $legacyCategory !== '' ? $legacyCategory : null;
+
+            return redirect(storefrontNewsListUrl($legacyPage, $key), 301);
+        }
+
+        $resolvedPage = max(1, $page ?? 1);
+        $categoryId = $categoryKey ? $this->parseCategoryIdFromKey($categoryKey) : null;
         $perPage = 12;
 
-        $result = $this->fetchNewsList($page, $perPage, $categoryId);
+        $result = $this->fetchNewsList($resolvedPage, $perPage, $categoryId);
         $hotNews = $this->fetchNewsList(1, 5, null, true);
 
         return view('UI-FRONTEND.tin-tuc.index', [
@@ -564,31 +753,37 @@ class ThemeStorefrontController extends Controller
             'newsList' => $result['items'],
             'total' => $result['total'],
             'totalPages' => $result['totalPages'],
-            'page' => $page,
+            'page' => $resolvedPage,
             'perPage' => $perPage,
             'categoryId' => $categoryId,
+            'categoryKey' => $categoryKey,
             'hotNews' => $hotNews['items'],
             'categories' => $this->fetchNewsCategoryTree(),
             'appUrl' => rtrim(url('/'), '/'),
         ]);
     }
 
-    public function videoList(Request $request): View
+    public function videoList(Request $request, ?int $page = null): View|RedirectResponse
     {
-        $page = max(1, (int) $request->query('PAGE', 1));
+        if ($page === null && $request->query->has('PAGE')) {
+            return redirect(storefrontVideoListUrl(max(1, (int) $request->query('PAGE', 1))), 301);
+        }
+
+        $resolvedPage = max(1, $page ?? 1);
         $perPage = 12;
-        $result = $this->fetchVideoList($page, $perPage);
+        $result = $this->fetchVideoList($resolvedPage, $perPage);
 
         return view('UI-FRONTEND.video.index', [
             'productId' => 0,
             'videoList' => $result['items'],
             'total' => $result['total'],
             'totalPages' => $result['totalPages'],
-            'page' => $page,
+            'page' => $resolvedPage,
             'perPage' => $perPage,
             'appUrl' => rtrim(url('/'), '/'),
         ]);
     }
+
 
     public function newsDetail(Request $request, string $newsKey): View
     {

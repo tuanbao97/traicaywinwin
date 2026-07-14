@@ -197,11 +197,219 @@ use Illuminate\Support\Facades\DB;
         }
     }
 
+    if (!function_exists('storefrontParseListingFilters')) {
+        /**
+         * Parse path segments kiểu: gia/350000-500000/muc-gia/duoi-300k--300-500k/sap-xep/gia-tang/noi-bat/trang/2
+         *
+         * @return array{
+         *   boLoc: string,
+         *   giaTu: int|null,
+         *   giaDen: int|null,
+         *   giaChips: array<int, string>,
+         *   page: int,
+         *   productHot: bool,
+         *   productVip: bool
+         * }
+         */
+        function storefrontParseListingFilters(?string $filters): array
+        {
+            $out = [
+                'boLoc' => 'default',
+                'giaTu' => null,
+                'giaDen' => null,
+                'giaChips' => [],
+                'page' => 1,
+                'productHot' => false,
+                'productVip' => false,
+            ];
+
+            $filters = trim((string) $filters, '/');
+            if ($filters === '') {
+                return $out;
+            }
+
+            $parts = array_values(array_filter(explode('/', $filters), static fn ($p) => $p !== ''));
+            $i = 0;
+            $n = count($parts);
+            while ($i < $n) {
+                $seg = $parts[$i];
+                if ($seg === 'gia' && isset($parts[$i + 1])) {
+                    $range = $parts[$i + 1];
+                    if (preg_match('/^(\d+)-(up|\d+)$/', $range, $m)) {
+                        $out['giaTu'] = (int) $m[1];
+                        $out['giaDen'] = $m[2] === 'up' ? null : (int) $m[2];
+                    } elseif (preg_match('/^(\d+)$/', $range, $m)) {
+                        $out['giaTu'] = (int) $m[1];
+                    }
+                    $i += 2;
+                    continue;
+                }
+                if ($seg === 'muc-gia' && isset($parts[$i + 1])) {
+                    $chips = array_values(array_filter(explode('--', $parts[$i + 1])));
+                    $out['giaChips'] = $chips;
+                    $i += 2;
+                    continue;
+                }
+                if ($seg === 'sap-xep' && isset($parts[$i + 1])) {
+                    $out['boLoc'] = $parts[$i + 1];
+                    $i += 2;
+                    continue;
+                }
+                if ($seg === 'trang' && isset($parts[$i + 1]) && ctype_digit($parts[$i + 1])) {
+                    $out['page'] = max(1, (int) $parts[$i + 1]);
+                    $i += 2;
+                    continue;
+                }
+                if ($seg === 'noi-bat' || $seg === 'hot') {
+                    $out['productHot'] = true;
+                    $i += 1;
+                    continue;
+                }
+                if ($seg === 'vip') {
+                    $out['productVip'] = true;
+                    $i += 1;
+                    continue;
+                }
+                $i += 1;
+            }
+
+            return $out;
+        }
+    }
+
+    if (!function_exists('storefrontBuildListingFiltersPath')) {
+        /**
+         * @param  array{
+         *   boLoc?: string,
+         *   giaTu?: int|null,
+         *   giaDen?: int|null,
+         *   giaChips?: array<int, string>,
+         *   page?: int,
+         *   productHot?: bool,
+         *   productVip?: bool
+         * }  $opts
+         */
+        function storefrontBuildListingFiltersPath(array $opts = []): string
+        {
+            $parts = [];
+
+            $giaTu = array_key_exists('giaTu', $opts) && $opts['giaTu'] !== null && $opts['giaTu'] !== ''
+                ? (int) $opts['giaTu']
+                : null;
+            $giaDen = array_key_exists('giaDen', $opts) && $opts['giaDen'] !== null && $opts['giaDen'] !== ''
+                ? (int) $opts['giaDen']
+                : null;
+            if ($giaTu !== null || $giaDen !== null) {
+                $min = $giaTu ?? 0;
+                $maxPart = $giaDen !== null ? (string) $giaDen : 'up';
+                $parts[] = 'gia';
+                $parts[] = $min . '-' . $maxPart;
+            }
+
+            $chips = array_values(array_filter($opts['giaChips'] ?? [], static fn ($c) => is_string($c) && $c !== ''));
+            if ($chips !== []) {
+                $parts[] = 'muc-gia';
+                $parts[] = implode('--', $chips);
+            }
+
+            $boLoc = (string) ($opts['boLoc'] ?? 'default');
+            if ($boLoc !== '' && $boLoc !== 'default') {
+                $parts[] = 'sap-xep';
+                $parts[] = $boLoc;
+            }
+
+            if (! empty($opts['productHot'])) {
+                $parts[] = 'noi-bat';
+            }
+            if (! empty($opts['productVip'])) {
+                $parts[] = 'vip';
+            }
+
+            $page = max(1, (int) ($opts['page'] ?? 1));
+            if ($page > 1) {
+                $parts[] = 'trang';
+                $parts[] = (string) $page;
+            }
+
+            return $parts === [] ? '' : implode('/', $parts);
+        }
+    }
+
+    if (!function_exists('storefrontListingUrl')) {
+        /**
+         * URL listing storefront dạng path (không query).
+         *
+         * @param  array{
+         *   mode?: 'category'|'search'|'vip'|'hot'|'all',
+         *   categoryKey?: string,
+         *   query?: string,
+         *   boLoc?: string,
+         *   giaTu?: int|null,
+         *   giaDen?: int|null,
+         *   giaChips?: array<int, string>,
+         *   page?: int,
+         *   productHot?: bool,
+         *   productVip?: bool
+         * }  $opts
+         */
+        function storefrontListingUrl(array $opts = []): string
+        {
+            $mode = (string) ($opts['mode'] ?? '');
+            $categoryKey = trim((string) ($opts['categoryKey'] ?? ''));
+            $query = trim((string) ($opts['query'] ?? ''));
+            $productVip = ! empty($opts['productVip']);
+            $productHot = ! empty($opts['productHot']);
+
+            if ($mode === '') {
+                if ($productVip && $categoryKey === '' && $query === '') {
+                    $mode = 'vip';
+                } elseif ($productHot && $categoryKey === '' && $query === '') {
+                    $mode = 'hot';
+                } elseif ($categoryKey !== '') {
+                    $mode = 'category';
+                } elseif ($query !== '') {
+                    $mode = 'search';
+                } else {
+                    $mode = 'all';
+                }
+            }
+
+            $filterOpts = $opts;
+            // Flag vip/hot trên segment khi đã có base riêng thì không lặp
+            if ($mode === 'vip') {
+                unset($filterOpts['productVip']);
+            }
+            if ($mode === 'hot') {
+                unset($filterOpts['productHot']);
+            }
+            // productHot kèm danh mục → giữ segment noi-bat
+            if ($mode === 'category' && $productHot) {
+                $filterOpts['productHot'] = true;
+            } elseif ($mode !== 'category') {
+                unset($filterOpts['productHot']);
+            }
+
+            $filters = storefrontBuildListingFiltersPath($filterOpts);
+
+            $base = match ($mode) {
+                'vip' => '/san-pham-vip',
+                'hot' => '/san-pham-noi-bat',
+                'category' => '/danh-muc/' . rawurlencode($categoryKey !== '' ? $categoryKey : 'danh-muc-0'),
+                'search' => '/tim-kiem/' . rawurlencode($query !== '' ? $query : '-'),
+                default => '/tat-ca-san-pham',
+            };
+
+            $path = $filters !== '' ? rtrim($base, '/') . '/' . $filters : $base;
+
+            return url($path);
+        }
+    }
+
     if (!function_exists('storefrontProductCategoryUrl')) {
         function storefrontProductCategoryUrl(int $categoryId, ?string $name = null): string
         {
             if ($categoryId <= 0) {
-                return url('/search') . '?type=product';
+                return storefrontListingUrl(['mode' => 'all']);
             }
 
             if ($name === null || $name === '') {
@@ -217,7 +425,10 @@ use Illuminate\Support\Facades\DB;
 
             $slug = convertStrToSlug($name ?: 'danh-muc');
 
-            return url('/search') . '?type=product&danh-muc=' . rawurlencode($slug . '-' . $categoryId);
+            return storefrontListingUrl([
+                'mode' => 'category',
+                'categoryKey' => $slug . '-' . $categoryId,
+            ]);
         }
     }
 
@@ -279,13 +490,12 @@ use Illuminate\Support\Facades\DB;
     if (!function_exists('storefrontGioQuaPriceSearchUrl')) {
         function storefrontGioQuaPriceSearchUrl(int $min, ?int $max = null): string
         {
-            $url = storefrontProductCategoryUrl(1004, 'Giỏ quà trái cây');
-            $url .= '&gia_tu=' . $min;
-            if ($max !== null) {
-                $url .= '&gia_den=' . $max;
-            }
-
-            return $url;
+            return storefrontListingUrl([
+                'mode' => 'category',
+                'categoryKey' => 'gio-qua-trai-cay-1004',
+                'giaTu' => $min,
+                'giaDen' => $max,
+            ]);
         }
     }
 
@@ -304,6 +514,42 @@ use Illuminate\Support\Facades\DB;
             }
 
             return $map;
+        }
+    }
+
+    if (!function_exists('storefrontNewsCategoryUrl')) {
+        function storefrontNewsCategoryUrl(string $slug, int $categoryId, int $page = 1): string
+        {
+            $key = trim($slug . '-' . $categoryId, '-');
+            $path = '/tin-tuc/danh-muc/' . rawurlencode($key);
+            if ($page > 1) {
+                $path .= '/trang/' . $page;
+            }
+
+            return url($path);
+        }
+    }
+
+    if (!function_exists('storefrontNewsListUrl')) {
+        function storefrontNewsListUrl(int $page = 1, ?string $categoryKey = null): string
+        {
+            if ($categoryKey) {
+                $path = '/tin-tuc/danh-muc/' . rawurlencode($categoryKey);
+                if ($page > 1) {
+                    $path .= '/trang/' . $page;
+                }
+
+                return url($path);
+            }
+
+            return $page > 1 ? url('/tin-tuc/trang/' . $page) : url('/tin-tuc');
+        }
+    }
+
+    if (!function_exists('storefrontVideoListUrl')) {
+        function storefrontVideoListUrl(int $page = 1): string
+        {
+            return $page > 1 ? url('/video/trang/' . $page) : url('/video');
         }
     }
 
