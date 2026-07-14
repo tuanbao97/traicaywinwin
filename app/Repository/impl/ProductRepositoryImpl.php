@@ -262,10 +262,6 @@ class ProductRepositoryImpl extends BaseRepository implements ProductRepository
         } else if (!blank($boLoc)) {
             // Luôn đẩy sản phẩm đã bán (SOLD) xuống cuối
             $query->orderByRaw('CASE WHEN p.STATUS = ? THEN 1 ELSE 0 END', [AppConstant::STATUS_SOLD]);
-            // Các bộ lọc khác (không phải default): frontend ưu tiên nổi bật trước
-            if ($isApiPublic === true && $boLoc !== 'default') {
-                $query->orderByRaw('CASE WHEN p.PRODUCT_HOT = ? THEN 0 ELSE 1 END', [true]);
-            }
             switch ($boLoc) {
                 case 'default':
                     if ($isApiPublic === true) {
@@ -280,7 +276,14 @@ class ProductRepositoryImpl extends BaseRepository implements ProductRepository
                     }
                     break;
                 case 'gia-tang':
-                    $query->orderByRaw('COALESCE(p.PRICE, 999999999999999) ASC');
+                    if ($isApiPublic === true) {
+                        $query->orderByRaw('CASE WHEN p.PRICE IS NULL OR p.PRICE <= 0 THEN 1 ELSE 0 END ASC');
+                        $query->orderByRaw('COALESCE(NULLIF(p.PRICE, 0), 999999999999999) ASC');
+                        $query->orderByRaw('CASE WHEN p.PRODUCT_HOT = ? THEN 0 ELSE 1 END', [true]);
+                        $query->orderBy('p.UPD_DT', 'desc');
+                    } else {
+                        $query->orderByRaw('COALESCE(p.PRICE, 999999999999999) ASC');
+                    }
                     break;
                 case 'gia-giam':
                     $query->orderByRaw('COALESCE(p.PRICE, -1) DESC');

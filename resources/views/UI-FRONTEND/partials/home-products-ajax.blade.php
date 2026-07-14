@@ -413,7 +413,7 @@
     el.innerHTML = buildProductGridSkeletonHtml(per, section === 'flash');
 
     params.set('PER_PAGE', String(per));
-    params.set('BO_LOC', (opts && opts.boLoc) || 'moi-den-cu');
+    params.set('BO_LOC', (opts && opts.boLoc) || 'default');
     if (section === 'flash') {
       params.set('PRODUCT_VIP', 'true');
     } else if (opts && opts.productVip) {
@@ -524,7 +524,7 @@
 
   function buildFilterTabsHtml(cat, tabPrefix) {
     var defs = [
-      { label: 'Nổi bật', boLoc: 'moi-den-cu' },
+      { label: 'Nổi bật', boLoc: 'default' },
       { label: 'Giá tăng dần', boLoc: 'gia-tang' },
       { label: 'Giá giảm dần', boLoc: 'gia-giam' },
       { label: 'Tên từ A-Z', boLoc: 'a-z' },
@@ -555,7 +555,7 @@
 
   function buildChildTabsHtml(cat, tabPrefix) {
     var children = getCategoryChildren(cat);
-    var firstHref = buildCategoryListUrl(cat, { boLoc: 'moi-den-cu', productHot: true });
+    var firstHref = buildCategoryListUrl(cat, { boLoc: 'default', productHot: true });
     var html =
       '<ul class="heading-tabs heading-tabs--scroll mb-4 md:mb-6 w-full max-w-full overflow-x-auto list-none flex md:gap-3 gap-2 font-semibold whitespace-nowrap">' +
       '<li aria-controls="' +
@@ -566,7 +566,7 @@
     for (var i = 0; i < children.length; i++) {
       var child = children[i];
       var childTitle = child.TEN_DANH_MUC_SAN_PHAM || 'Danh mục';
-      var childHref = buildCategoryListUrl(child, { boLoc: 'moi-den-cu' });
+      var childHref = buildCategoryListUrl(child, { boLoc: 'default' });
       html +=
         '<li aria-controls="' +
         tabPrefix +
@@ -625,8 +625,8 @@
     var useChildTabs = hasChildCategoryTabs(cat);
     var children = useChildTabs ? getCategoryChildren(cat) : [];
     var defaultViewmoreHref = useChildTabs
-      ? buildCategoryListUrl(cat, { boLoc: 'moi-den-cu', productHot: true })
-      : buildCategoryListUrl(cat, { boLoc: 'moi-den-cu' });
+      ? buildCategoryListUrl(cat, { boLoc: 'default', productHot: true })
+      : buildCategoryListUrl(cat, { boLoc: 'default' });
     var titleHref = buildCategoryListUrl(cat);
     var baseGrid = 'home-category-products-' + cid;
     var tabPrefix = 'home-cat-' + cid;
@@ -686,7 +686,7 @@
       loadProducts('category', p + '-t1', {
         categoryId: catId,
         perPage: n,
-        boLoc: 'moi-den-cu',
+        boLoc: 'default',
         productHot: true,
         trackCategoryId: catId,
       });
@@ -694,7 +694,7 @@
         loadProducts('category', p + '-t' + (i + 2), {
           categoryId: children[i].ID,
           perPage: n,
-          boLoc: 'moi-den-cu',
+          boLoc: 'default',
           trackCategoryId: catId,
         });
       }
@@ -702,7 +702,7 @@
     }
 
     beginCategoryLoads(catId, 6);
-    loadProducts('category', p + '-t1', { categoryId: catId, perPage: n, boLoc: 'moi-den-cu', trackCategoryId: catId });
+    loadProducts('category', p + '-t1', { categoryId: catId, perPage: n, boLoc: 'default', trackCategoryId: catId });
     loadProducts('category', p + '-t2', { categoryId: catId, perPage: n, boLoc: 'gia-tang', trackCategoryId: catId });
     loadProducts('category', p + '-t3', { categoryId: catId, perPage: n, boLoc: 'gia-giam', trackCategoryId: catId });
     loadProducts('category', p + '-t4', { categoryId: catId, perPage: n, boLoc: 'a-z', trackCategoryId: catId });
