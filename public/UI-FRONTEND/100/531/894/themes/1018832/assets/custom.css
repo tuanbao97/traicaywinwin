@@ -1,3 +1,62 @@
+/* Scrollbar toàn site: kích thước vừa (10px), đồng nhất mọi màn hình */
+body.ega-theme {
+	--ww-scrollbar-size: 10px;
+	--ww-scrollbar-thumb: rgba(2, 132, 199, 0.55);
+	--ww-scrollbar-thumb-hover: rgba(2, 132, 199, 0.85);
+	--ww-scrollbar-track: rgba(148, 163, 184, 0.22);
+	scrollbar-width: thin;
+	scrollbar-color: var(--ww-scrollbar-thumb) var(--ww-scrollbar-track);
+}
+
+body.ega-theme *,
+body.ega-theme *::before,
+body.ega-theme *::after {
+	scrollbar-width: thin;
+	scrollbar-color: var(--ww-scrollbar-thumb) var(--ww-scrollbar-track);
+}
+
+body.ega-theme::-webkit-scrollbar,
+body.ega-theme *::-webkit-scrollbar {
+	width: var(--ww-scrollbar-size);
+	height: var(--ww-scrollbar-size);
+}
+
+body.ega-theme::-webkit-scrollbar-track,
+body.ega-theme *::-webkit-scrollbar-track {
+	background: var(--ww-scrollbar-track);
+	border-radius: 999px;
+}
+
+body.ega-theme::-webkit-scrollbar-thumb,
+body.ega-theme *::-webkit-scrollbar-thumb {
+	background-color: var(--ww-scrollbar-thumb);
+	border-radius: 999px;
+	border: 2px solid transparent;
+	background-clip: padding-box;
+}
+
+body.ega-theme::-webkit-scrollbar-thumb:hover,
+body.ega-theme *::-webkit-scrollbar-thumb:hover {
+	background-color: var(--ww-scrollbar-thumb-hover);
+}
+
+body.ega-theme::-webkit-scrollbar-corner,
+body.ega-theme *::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+/* Chỉ ẩn khi class no-scrollbar (menu / carousel cố ý) */
+body.ega-theme .no-scrollbar {
+	scrollbar-width: none !important;
+	-ms-overflow-style: none;
+}
+
+body.ega-theme .no-scrollbar::-webkit-scrollbar {
+	display: none !important;
+	width: 0 !important;
+	height: 0 !important;
+}
+
 select {
   padding: 4px;
 }
@@ -1185,13 +1244,17 @@ product-form.loading .product-cta .btn .loading-icon {
 	color: #fff;
 }
 
-/* Tab menu trang chủ / sort: cuộn ngang mặc định trình duyệt */
+/* Tab sort / filter: cuộn ngang + scrollbar vừa phải (inherits global) */
 .heading-tabs.heading-tabs--scroll {
 	display: flex;
 	flex-wrap: nowrap;
 	width: 100%;
 	max-width: 100%;
 	overflow-x: auto;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
+	padding-bottom: 6px;
+	margin-bottom: 2px;
 }
 
 .heading-tabs.heading-tabs--scroll > .tab-btn {
@@ -1224,7 +1287,6 @@ body.ww-all-products .index-container {
 	border: 1px solid rgba(2, 132, 199, 0.14);
 	border-radius: 1.2rem;
 	box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
-	/* Không clip — overflow:hidden cắt mất scrollbar mặc định của hàng chip */
 	overflow: visible;
 	max-width: 100%;
 }
@@ -1285,7 +1347,9 @@ body.ww-all-products .index-container {
 	min-width: 0;
 	flex-wrap: nowrap;
 	overflow-x: auto;
-	padding-bottom: 5px;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
+	padding-bottom: 6px;
 }
 
 .ww-search-price-filters--inline > li {
@@ -1415,10 +1479,6 @@ body.ww-all-products .index-container {
 }
 
 /* Trang tất cả sản phẩm: giữ menu trái ổn định khi filter làm đổi chiều cao danh sách */
-html:has(body.ww-all-products) {
-	scrollbar-gutter: stable;
-}
-
 @media (min-width: 1280px) {
 	body.ww-all-products .index-container {
 		align-items: start;
@@ -2077,40 +2137,18 @@ cart-form .product-list > div{
 	border-radius: 1.25rem;
 	box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
 }
-.ww-video-modal__scroll::-webkit-scrollbar {
-	width: 12px;
-}
-.ww-video-modal__scroll::-webkit-scrollbar-track {
-	background: rgba(255, 255, 255, 0.08);
-	border-radius: 999px;
-}
-.ww-video-modal__scroll::-webkit-scrollbar-thumb {
-	background: rgba(148, 163, 184, 0.7);
-	border-radius: 999px;
-	border: 2px solid transparent;
-	background-clip: padding-box;
-}
-.ww-video-modal__scroll::-webkit-scrollbar-thumb:hover {
-	background: rgba(226, 232, 240, 0.85);
-	border: 2px solid transparent;
-	background-clip: padding-box;
-}
 .ww-video-modal__scroll {
 	flex: 1 1 auto;
 	min-height: 0;
 	overflow-x: hidden;
-	overflow-y: scroll;
+	overflow-y: auto;
 	overscroll-behavior: contain;
 	-webkit-overflow-scrolling: touch;
-	scrollbar-gutter: stable;
-	scrollbar-width: auto;
-	scrollbar-color: rgba(148, 163, 184, 0.75) rgba(255, 255, 255, 0.08);
 }
 .ww-video-modal__close {
 	position: absolute;
 	top: 0.85rem;
-	/* Tránh chồng lên thanh scroll bên phải */
-	right: calc(0.85rem + 14px);
+	right: 0.85rem;
 	left: auto;
 	z-index: 5;
 	width: 2.4rem;

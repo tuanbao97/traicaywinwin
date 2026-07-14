@@ -34,13 +34,13 @@
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/components.css?1768901692132" media="all">
     <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/icon.css?1768901692132">
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/icon.css?1768901692132" media="all">
-    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/global.css?1768901692132">
-    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/global.css?1768901692132" media="all">
-    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-scroll-pad-5">
-    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-scroll-pad-5" media="all">
+    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1">
+    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1" media="all">
+    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-scroll-mid-1">
+    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-scroll-mid-1" media="all">
     <link
       rel="stylesheet"
-      href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-unlock-1"
+      href="100/531/894/themes/1018832/assets/quickview.css?ww-scroll-mid-1"
       media="print"
       onload="this.media='all'"
     >
@@ -52,7 +52,7 @@
     >
     <noscript>
       <link
-        href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-unlock-1"
+        href="100/531/894/themes/1018832/assets/quickview.css?ww-scroll-mid-1"
         rel="stylesheet"
         type="text/css"
         media="all"
