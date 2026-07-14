@@ -262,14 +262,22 @@ class ProductRepositoryImpl extends BaseRepository implements ProductRepository
         } else if (!blank($boLoc)) {
             // Luôn đẩy sản phẩm đã bán (SOLD) xuống cuối
             $query->orderByRaw('CASE WHEN p.STATUS = ? THEN 1 ELSE 0 END', [AppConstant::STATUS_SOLD]);
-            // Frontend: luôn ưu tiên sản phẩm nổi bật trước
-            if ($isApiPublic === true) {
+            // Các bộ lọc khác (không phải default): frontend ưu tiên nổi bật trước
+            if ($isApiPublic === true && $boLoc !== 'default') {
                 $query->orderByRaw('CASE WHEN p.PRODUCT_HOT = ? THEN 0 ELSE 1 END', [true]);
             }
             switch ($boLoc) {
                 case 'default':
-                    // Sau nổi bật: sắp theo thời gian tạo mới nhất
-                    $query->orderBy('p.CRT_DT', 'desc');
+                    if ($isApiPublic === true) {
+                        // UI mặc định: giá tăng dần (giá liên hệ / không giá cuối), rồi nổi bật, rồi cập nhật mới nhất
+                        $query->orderByRaw('CASE WHEN p.PRICE IS NULL OR p.PRICE <= 0 THEN 1 ELSE 0 END ASC');
+                        $query->orderByRaw('COALESCE(NULLIF(p.PRICE, 0), 999999999999999) ASC');
+                        $query->orderByRaw('CASE WHEN p.PRODUCT_HOT = ? THEN 0 ELSE 1 END', [true]);
+                        $query->orderBy('p.UPD_DT', 'desc');
+                    } else {
+                        // Admin/BE: giữ sort cũ theo ngày tạo
+                        $query->orderBy('p.CRT_DT', 'desc');
+                    }
                     break;
                 case 'gia-tang':
                     $query->orderByRaw('COALESCE(p.PRICE, 999999999999999) ASC');
@@ -332,12 +340,16 @@ class ProductRepositoryImpl extends BaseRepository implements ProductRepository
                     break;
             } 
         } else {
-            // Sắp xếp mặc định: SOLD cuối; frontend ưu tiên nổi bật rồi CRT_DT
+            // Không có BO_LOC: SOLD cuối; frontend = giá tăng (liên hệ cuối) → nổi bật → UPD_DT
             $query->orderByRaw('CASE WHEN p.STATUS = ? THEN 1 ELSE 0 END', [AppConstant::STATUS_SOLD]);
             if ($isApiPublic === true) {
+                $query->orderByRaw('CASE WHEN p.PRICE IS NULL OR p.PRICE <= 0 THEN 1 ELSE 0 END ASC');
+                $query->orderByRaw('COALESCE(NULLIF(p.PRICE, 0), 999999999999999) ASC');
                 $query->orderByRaw('CASE WHEN p.PRODUCT_HOT = ? THEN 0 ELSE 1 END', [true]);
+                $query->orderBy('p.UPD_DT', 'desc');
+            } else {
+                $query->orderBy('p.CRT_DT', 'desc');
             }
-            $query->orderBy('p.CRT_DT', 'desc');
         }
 
         $query = $query->paginate($perPage, ['*'], 'page', $page);
