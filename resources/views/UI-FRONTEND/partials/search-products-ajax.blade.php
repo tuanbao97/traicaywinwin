@@ -488,12 +488,56 @@
     });
   });
 
+  function keepChipInHorizontalStrip(strip, el) {
+    if (!strip || !el) return;
+    var stripRect = strip.getBoundingClientRect();
+    var elRect = el.getBoundingClientRect();
+    if (elRect.right > stripRect.right) {
+      strip.scrollLeft += elRect.right - stripRect.right + 12;
+    } else if (elRect.left < stripRect.left) {
+      strip.scrollLeft -= stripRect.left - elRect.left + 12;
+    }
+    requestAnimationFrame(function () {
+      if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
+    });
+  }
+
   document.querySelectorAll('.ww-search-price-checkbox').forEach(function (checkbox) {
     checkbox.addEventListener('change', function () {
       updateClearPriceButton();
       loadSearchResults(1);
     });
+    // Mobile: giữ chip trong strip, không để browser đẩy cả trang sang phải
+    checkbox.addEventListener('focus', function () {
+      var strip = checkbox.closest('.ww-search-price-filters--inline');
+      var chip = checkbox.closest('li') || checkbox.closest('label');
+      keepChipInHorizontalStrip(strip, chip);
+    });
+    checkbox.addEventListener('click', function () {
+      var strip = checkbox.closest('.ww-search-price-filters--inline');
+      var chip = checkbox.closest('li') || checkbox.closest('label');
+      keepChipInHorizontalStrip(strip, chip);
+    });
   });
+
+  document.querySelectorAll('#search-sort-tabs .tab-btn').forEach(function (tab) {
+    tab.addEventListener('focus', function () {
+      var strip = tab.closest('.heading-tabs--scroll') || document.getElementById('search-sort-tabs');
+      keepChipInHorizontalStrip(strip, tab);
+    });
+    tab.addEventListener('click', function () {
+      var strip = tab.closest('.heading-tabs--scroll') || document.getElementById('search-sort-tabs');
+      keepChipInHorizontalStrip(strip, tab);
+    });
+  });
+
+  window.addEventListener(
+    'scroll',
+    function () {
+      if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
+    },
+    { passive: true }
+  );
 
   var clearBtn = document.getElementById('ww-search-price-clear');
   if (clearBtn) {

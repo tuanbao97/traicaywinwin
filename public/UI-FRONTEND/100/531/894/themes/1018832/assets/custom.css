@@ -1380,9 +1380,12 @@ body.ega-theme #cart-drawer .overflow-x-auto {
 	flex-wrap: nowrap;
 	width: 100%;
 	max-width: 100%;
+	min-width: 0;
 	overflow-x: auto;
 	overflow-y: hidden;
 	-webkit-overflow-scrolling: touch;
+	overscroll-behavior-x: contain;
+	touch-action: pan-x;
 	padding-bottom: 5px;
 	margin-bottom: 5px;
 }
@@ -1401,7 +1404,9 @@ body.ega-theme #cart-drawer .overflow-x-auto {
 /* Tr?nh chip l?c gi? / tab sort k?o r?ng viewport tr?n mobile */
 body.ega-theme.search,
 body.ww-all-products {
-	overflow-x: clip;
+	overflow-x: hidden;
+	max-width: 100%;
+	position: relative;
 }
 
 /* Ch? thu h?p v?ng n?i dung l?c/grid ? gi? .container max-width nh? trang ch? (c? margin L/R) */
@@ -1413,6 +1418,24 @@ body.ega-theme.search #search-results-grid,
 body.ww-all-products #search-results-grid {
 	min-width: 0;
 	max-width: 100%;
+	overflow-x: clip;
+}
+
+body.ega-theme.search .index-container,
+body.ww-all-products .index-container,
+body.ega-theme.search .section-main-search,
+body.ww-all-products .section-main-search,
+body.ega-theme.search main,
+body.ww-all-products main {
+	min-width: 0;
+	max-width: 100%;
+	overflow-x: clip;
+}
+
+html:has(body.ega-theme.search),
+html:has(body.ww-all-products) {
+	overflow-x: hidden;
+	max-width: 100%;
 }
 
 .ww-search-filter-card {
@@ -1420,12 +1443,12 @@ body.ww-all-products #search-results-grid {
 	border: 1px solid rgba(2, 132, 199, 0.14);
 	border-radius: 1.2rem;
 	box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
-	overflow: visible;
+	overflow: hidden;
 	max-width: 100%;
 }
 
 .ww-search-filter-card--inline {
-	overflow: visible;
+	overflow: hidden;
 	max-width: 100%;
 }
 
@@ -1482,6 +1505,8 @@ body.ww-all-products #search-results-grid {
 	overflow-x: auto;
 	overflow-y: hidden;
 	-webkit-overflow-scrolling: touch;
+	overscroll-behavior-x: contain;
+	touch-action: pan-x;
 	padding-bottom: 5px;
 	margin-bottom: 5px;
 }
