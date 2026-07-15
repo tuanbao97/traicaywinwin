@@ -1362,6 +1362,17 @@ product-form.loading .product-cta .btn .loading-icon {
 	height: 1.45rem;
 }
 
+/* Khoảng trống dưới vùng cuộn ngang (tab / filter / list scroll) */
+body.ega-theme .heading-tabs.heading-tabs--scroll,
+body.ega-theme .ww-search-price-filters--inline,
+body.ega-theme .navigation-horizontal-wrapper,
+body.ega-theme .brand-list.overflow-auto,
+body.ega-theme .cart-left.overflow-y-auto,
+body.ega-theme #cart-drawer .overflow-x-auto {
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+}
+
 /* Tab sort / filter: cuộn ngang + scrollbar vừa phải (inherits global) */
 .heading-tabs.heading-tabs--scroll {
 	display: flex;
@@ -1371,8 +1382,8 @@ product-form.loading .product-cta .btn .loading-icon {
 	overflow-x: auto;
 	overflow-y: hidden;
 	-webkit-overflow-scrolling: touch;
-	padding-bottom: 6px;
-	margin-bottom: 2px;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 .heading-tabs.heading-tabs--scroll > .tab-btn {
@@ -1470,7 +1481,8 @@ body.ww-all-products #search-results-grid {
 	overflow-x: auto;
 	overflow-y: hidden;
 	-webkit-overflow-scrolling: touch;
-	padding-bottom: 6px;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 .ww-search-price-filters--inline > li {
