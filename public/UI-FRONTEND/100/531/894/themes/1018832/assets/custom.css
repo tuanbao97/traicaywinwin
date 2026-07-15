@@ -2024,6 +2024,24 @@ top: auto!important;
 .card-product__body .card-product__price-row .price-box {
 	min-width: 0;
 	padding-right: 0.25rem;
+	display: flex !important;
+	flex-direction: column !important;
+	flex-wrap: nowrap !important;
+	align-items: flex-start !important;
+	gap: 0.15rem 0 !important;
+}
+.card-product__body .card-product__price-row .price-box > .flex {
+	display: flex;
+	flex-direction: column !important;
+	flex-wrap: nowrap !important;
+	align-items: flex-start !important;
+	gap: 0.15rem !important;
+	width: 100%;
+}
+.card-product__body .card-product__price-row .price-box .price,
+.card-product__body .card-product__price-row .price-box .compare-price {
+	display: block;
+	width: 100%;
 }
 
 .card-product__body .card-product__price-actions {

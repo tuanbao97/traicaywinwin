@@ -152,13 +152,15 @@
 
     var priceBlock =
       priceInt <= 0
-        ? '<span class="price text-h6 font-semibold leading-tight text-neutral-500">Liên hệ</span>'
-        : '<span class="price text-h6 font-semibold leading-tight text-rose-600">' + escapeHtml(priceLabel) + '</span>' +
+        ? '<div class="flex flex-col gap-0.5"><span class="price text-h6 font-semibold leading-tight text-neutral-500">Liên hệ</span></div>'
+        : '<div class="flex flex-col gap-1 min-w-0">' +
+          '<span class="price text-h6 font-semibold leading-tight text-rose-600">' + escapeHtml(priceLabel) + '</span>' +
           (showCompare
             ? '<span class="compare-price price--struck line-through text-sm font-medium text-neutral-400">' +
               escapeHtml(compareLabel) +
               '</span>'
-            : '');
+            : '') +
+          '</div>';
 
     var hoverPictures = hasHover
       ? '<picture><source media="(max-width: 600px)" srcset="' +
@@ -196,7 +198,7 @@
       '</a>' +
       '<div class="card-product__price-row flex justify-between items-center gap-3 w-full min-w-0">' +
       '<a class="link flex-1 min-w-0" href="' + escapeHtml(href) + '" title="' + escapeHtml(title) + '">' +
-      '<div class="price-box flex-1 min-w-0 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">' + priceBlock + '</div>' +
+      '<div class="price-box flex-1 min-w-0 flex flex-col items-start gap-1">' + priceBlock + '</div>' +
       '</a>' +
       '<div class="card-product__cart-btn shrink-0">' +
       '<input type="hidden" name="variantId" value="' + escapeHtml(p.ID) + '">' +
