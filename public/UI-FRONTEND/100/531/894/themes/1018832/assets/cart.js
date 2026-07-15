@@ -119,9 +119,22 @@ function wwBuildCartRecommendationCard(product, slideClass) {
   const categoryId = product.DANH_MUC_SAN_PHAM && product.DANH_MUC_SAN_PHAM.ID
     ? product.DANH_MUC_SAN_PHAM.ID
     : "";
-  const compareInt = priceInt > 0 ? Math.ceil((priceInt * 1.18) / 10000) * 10000 : 0;
-  const compareLabel = compareInt > priceInt ? wwFormatPriceShortVnd(compareInt) : "";
+  const compareInt = Math.round(Number(product.GIA_GOC) || 0);
+  const showCompare = priceInt > 0 && compareInt > priceInt;
+  const compareLabel = showCompare ? wwFormatPriceShortVnd(compareInt) : "";
   const frameSrc = themeApiUrl("/UI-FRONTEND/images/Khung vien xanh.png");
+
+  const priceBlock =
+    priceInt <= 0
+      ? '<div class="flex flex-col gap-0.5"><span class="price text-h6 font-semibold leading-tight text-neutral-500">Liên hệ</span></div>'
+      : '<div class="flex flex-col gap-1 min-w-0">' +
+        '<span class="price text-h6 font-semibold leading-tight text-rose-600">' + wwEscapeHtml(priceLabel) + '</span>' +
+        (showCompare
+          ? '<span class="compare-price price--struck line-through text-sm font-medium text-neutral-400">' +
+            wwEscapeHtml(compareLabel) +
+            '</span>'
+          : '') +
+        '</div>';
 
   return (
     '<div class="' + wwEscapeHtml(slideClass || "") + '">' +
@@ -144,9 +157,8 @@ function wwBuildCartRecommendationCard(product, slideClass) {
     '</a>' +
     '<div class="card-product__price-row flex justify-between items-center gap-3 w-full min-w-0">' +
     '<a class="link flex-1 min-w-0" href="' + wwEscapeHtml(href) + '" title="' + wwEscapeHtml(title) + '">' +
-    '<div class="price-box flex-1 min-w-0 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">' +
-    '<span class="price text-h6 font-semibold leading-tight text-rose-600">' + wwEscapeHtml(priceLabel) + '</span>' +
-    (compareLabel ? '<span class="compare-price price--struck line-through text-sm font-medium text-neutral-400">' + wwEscapeHtml(compareLabel) + '</span>' : '') +
+    '<div class="price-box flex-1 min-w-0 flex flex-col items-start gap-1">' +
+    priceBlock +
     '</div></a>' +
     '<div class="card-product__cart-btn shrink-0">' +
     '<input type="hidden" name="variantId" value="' + wwEscapeHtml(product.ID) + '">' +
