@@ -95,8 +95,8 @@ details[open] > summary > .icon-carret-right {
     width: 3.6rem;
     height: 3.6rem;
     background: transparent;
-    color: #0ea5e9;
-    border-color: #0ea5e9;
+    color: #f97316;
+    border-color: #f97316;
     position: relative;
   }
 
@@ -2057,11 +2057,11 @@ top: auto!important;
 	padding: 0;
 	border-radius: 0.85rem;
 	gap: 0;
-	color: #0ea5e9;
-	border-color: #0ea5e9 !important;
+	color: #f97316;
+	border-color: #f97316 !important;
 }
 
-/* Icon trên card s?n ph?m: xanh da tr?i + to h?n d? b?m */
+/* Icon tr?n card s?n ph?m: xanh da tr?i + to h?n d? b?m */
 .card-product .ww-quick-view-btn {
   width: 5rem !important;
   height: 5rem !important;
@@ -2080,17 +2080,17 @@ top: auto!important;
 .card-product .addtocart-btn {
   width: 3.6rem !important;
   height: 3.6rem !important;
-  color: #0ea5e9 !important;
-  border-color: #0ea5e9 !important;
+  color: #f97316 !important;
+  border-color: #f97316 !important;
 }
 .card-product .addtocart-btn .icon-cart,
 .card-product .addtocart-btn .icon-cart::before,
 .card-product .card-product__cart-btn .icon-cart,
 .card-product .card-product__cart-btn .icon-cart::before {
-  color: #0ea5e9 !important;
+  color: #f97316 !important;
   font-size: 1.8rem !important;
   line-height: 1;
-  -webkit-text-stroke: 0.35px #0ea5e9;
+  -webkit-text-stroke: 0.35px #f97316;
   paint-order: stroke fill;
 }
 .card-product .addtocart-btn:hover,
@@ -2098,7 +2098,7 @@ top: auto!important;
   filter: brightness(0.95);
 }
 
-/* Nút m?i tên carousel (embla) ? xanh da tr?i */
+/* N?t m?i t?n carousel (embla) ? xanh da tr?i */
 .embla .embla__button {
   color: #0ea5e9;
   border: 1px solid #0ea5e9;
