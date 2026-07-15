@@ -474,13 +474,138 @@ __wwBootCartComponents(() => {
 
   defineElement("cart-form", CartForm);
 
+  function wwEnsureCartRemoveConfirm() {
+    let el = document.getElementById("ww-cart-remove-confirm");
+    if (el) return el;
+
+    el = document.createElement("div");
+    el.id = "ww-cart-remove-confirm";
+    el.className = "ww-cart-remove-confirm";
+    el.setAttribute("hidden", "");
+    el.setAttribute("role", "dialog");
+    el.setAttribute("aria-modal", "true");
+    el.setAttribute("aria-labelledby", "ww-cart-remove-confirm-title");
+    el.innerHTML = `
+      <div class="ww-cart-remove-confirm__overlay" data-ww-confirm-dismiss></div>
+      <div class="ww-cart-remove-confirm__panel" role="document">
+        <div class="ww-cart-remove-confirm__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+            <path d="M10 11v6"></path>
+            <path d="M14 11v6"></path>
+            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+          </svg>
+        </div>
+        <h3 id="ww-cart-remove-confirm-title" class="ww-cart-remove-confirm__title">Xóa khỏi giỏ hàng</h3>
+        <div class="ww-cart-remove-confirm__product">
+          <img class="ww-cart-remove-confirm__thumb" src="" alt="" width="56" height="56" hidden>
+          <p class="ww-cart-remove-confirm__name"></p>
+        </div>
+        <div class="ww-cart-remove-confirm__actions">
+          <button type="button" class="ww-cart-remove-confirm__btn ww-cart-remove-confirm__btn--ghost" data-ww-confirm-cancel>Giữ lại</button>
+          <button type="button" class="ww-cart-remove-confirm__btn ww-cart-remove-confirm__btn--danger" data-ww-confirm-ok>Xóa sản phẩm</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(el);
+    return el;
+  }
+
+  function wwConfirmCartRemove({ title, image } = {}) {
+    return new Promise((resolve) => {
+      const modal = wwEnsureCartRemoveConfirm();
+      const nameEl = modal.querySelector(".ww-cart-remove-confirm__name");
+      const thumbEl = modal.querySelector(".ww-cart-remove-confirm__thumb");
+      const panel = modal.querySelector(".ww-cart-remove-confirm__panel");
+      const okBtn = modal.querySelector("[data-ww-confirm-ok]");
+      const cancelBtn = modal.querySelector("[data-ww-confirm-cancel]");
+
+      const productTitle = (title || "").trim();
+      nameEl.textContent = productTitle || "Sản phẩm trong giỏ";
+      if (image) {
+        thumbEl.src = image;
+        thumbEl.alt = productTitle || "Sản phẩm";
+        thumbEl.hidden = false;
+      } else {
+        thumbEl.removeAttribute("src");
+        thumbEl.hidden = true;
+      }
+
+      let settled = false;
+      const cleanup = (confirmed) => {
+        if (settled) return;
+        settled = true;
+        document.removeEventListener("keydown", onKey, true);
+        document.removeEventListener("keyup", onKey, true);
+        modal.removeEventListener("click", onClick);
+        modal.classList.remove("is-open");
+        panel.classList.remove("is-in");
+        window.setTimeout(() => {
+          modal.setAttribute("hidden", "");
+          resolve(confirmed);
+        }, 180);
+      };
+
+      const onKey = (e) => {
+        if (e.key !== "Escape" && e.code !== "Escape") return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+        if (e.type === "keydown") cleanup(false);
+      };
+
+      const onClick = (e) => {
+        if (e.target.closest("[data-ww-confirm-ok]")) {
+          e.preventDefault();
+          cleanup(true);
+          return;
+        }
+        if (e.target.closest("[data-ww-confirm-cancel]") || e.target.closest("[data-ww-confirm-dismiss]")) {
+          e.preventDefault();
+          cleanup(false);
+        }
+      };
+
+      modal.removeAttribute("hidden");
+      // force reflow for enter animation
+      void modal.offsetWidth;
+      modal.classList.add("is-open");
+      requestAnimationFrame(() => panel.classList.add("is-in"));
+      document.addEventListener("keydown", onKey, true);
+      document.addEventListener("keyup", onKey, true);
+      modal.addEventListener("click", onClick);
+      (cancelBtn || okBtn)?.focus?.();
+    });
+  }
+
   class RemoveCartButton extends HTMLElement {
     constructor() {
       super();
-      this.addEventListener("click", (event) => {
+      this.addEventListener("click", async (event) => {
         event.preventDefault();
+        event.stopPropagation();
+        if (this.dataset.confirming === "1") return;
+
         const cartForm = this.closest("cart-form");
-        cartForm.quantityUpdate(this.dataset.lineIndex, 0);
+        if (!cartForm) return;
+
+        const item = this.closest(".cart-item");
+        const title =
+          item?.querySelector(".cart-product-col .link")?.textContent?.trim() ||
+          item?.querySelector("img")?.alt ||
+          "";
+        const image = item?.querySelector(".ww-cart-item-img")?.getAttribute("src") || "";
+
+        this.dataset.confirming = "1";
+        try {
+          const ok = await wwConfirmCartRemove({ title, image });
+          if (ok) {
+            cartForm.quantityUpdate(this.dataset.lineIndex, 0);
+          }
+        } finally {
+          this.dataset.confirming = "0";
+        }
       });
     }
   }
