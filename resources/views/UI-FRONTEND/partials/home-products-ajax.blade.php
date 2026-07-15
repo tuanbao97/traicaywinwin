@@ -493,6 +493,23 @@
       });
   }
 
+  /** Tab riêng "Mẫu giỏ trái cây đẹp" bị ẩn — sản phẩm vẫn nằm trong tab Tất cả (parent) */
+  function isGioTraiCayDepChild(child) {
+    if (!child) return false;
+    if (Number(child.ID) === 1041) return true;
+    var name = String(child.TEN_DANH_MUC_SAN_PHAM || '').toLowerCase();
+    return (
+      name.indexOf('mẫu giỏ trái cây đẹp') !== -1 ||
+      name.indexOf('giỏ trái cây đẹp') !== -1
+    );
+  }
+
+  function getGioQuaVisibleChildren(cat) {
+    return getCategoryChildren(cat).filter(function (c) {
+      return !isGioTraiCayDepChild(c);
+    });
+  }
+
   function hasChildCategoryTabs(cat) {
     // Chỉ section Giỏ quà trái cây dùng tab = menu con (+ hardcode mức giá)
     var name = ((cat && cat.TEN_DANH_MUC_SAN_PHAM) || '').toLowerCase();
@@ -554,15 +571,15 @@
   }
 
   function buildChildTabsHtml(cat, tabPrefix) {
-    var children = getCategoryChildren(cat);
-    var firstHref = buildCategoryListUrl(cat, { boLoc: 'default', productHot: true });
+    var children = getGioQuaVisibleChildren(cat);
+    var allHref = buildCategoryListUrl(cat, { boLoc: 'default' });
     var html =
       '<ul class="heading-tabs heading-tabs--scroll mb-4 md:mb-6 w-full max-w-full overflow-x-auto list-none flex md:gap-3 gap-2 font-semibold whitespace-nowrap">' +
       '<li aria-controls="' +
       tabPrefix +
       '-tab1" data-ww-href="' +
-      escapeHtml(firstHref) +
-      '" class="tab-btn cursor-pointer heading-tab px-5 py-2 bg-white rounded-pill text-secondary font-semibold hover:text-foreground active inline-flex items-center md:gap-3 gap-2">Nổi bật</li>';
+      escapeHtml(allHref) +
+      '" class="tab-btn cursor-pointer heading-tab px-5 py-2 bg-white rounded-pill text-secondary font-semibold hover:text-foreground active inline-flex items-center md:gap-3 gap-2">Tất cả</li>';
     for (var i = 0; i < children.length; i++) {
       var child = children[i];
       var childTitle = child.TEN_DANH_MUC_SAN_PHAM || 'Danh mục';
@@ -623,10 +640,8 @@
     var cid = cat && cat.ID ? String(cat.ID) : '0';
     var title = (cat && cat.TEN_DANH_MUC_SAN_PHAM) || 'Danh mục';
     var useChildTabs = hasChildCategoryTabs(cat);
-    var children = useChildTabs ? getCategoryChildren(cat) : [];
-    var defaultViewmoreHref = useChildTabs
-      ? buildCategoryListUrl(cat, { boLoc: 'default', productHot: true })
-      : buildCategoryListUrl(cat, { boLoc: 'default' });
+    var children = useChildTabs ? getGioQuaVisibleChildren(cat) : [];
+    var defaultViewmoreHref = buildCategoryListUrl(cat, { boLoc: 'default' });
     var titleHref = buildCategoryListUrl(cat);
     var baseGrid = 'home-category-products-' + cid;
     var tabPrefix = 'home-cat-' + cid;
@@ -685,14 +700,13 @@
     var n = perPage == null ? 10 : perPage;
 
     if (hasChildCategoryTabs(cat)) {
-      var children = getCategoryChildren(cat);
+      var children = getGioQuaVisibleChildren(cat);
       beginCategoryLoads(catId, children.length + 1);
-      // Tab 1 = Nổi bật (parent category)
+      // Tab 1 = Tất cả (parent + mọi danh mục con, kể cả giỏ đẹp)
       loadProducts('category', p + '-t1', {
         categoryId: catId,
         perPage: n,
         boLoc: 'default',
-        productHot: true,
         trackCategoryId: catId,
       });
       for (var i = 0; i < children.length; i++) {
