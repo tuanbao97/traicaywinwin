@@ -9,7 +9,7 @@
     </div>
 
         <div class="mt-6">
-      <a href="{{ url('/tat-ca-san-pham') }}" title="Tất cả sản phẩm">
+      <a href="https://traicaywinwin.com/" title="Win Win Trái Cây">
         <img class="rounded" loading="lazy" src="{{ asset('UI-FRONTEND/100/531/894/themes/1018832/assets/main_menu_banner.jpg') }}?ww-menu-banner-1" alt="Shop quà tặng - Cho sức khỏe & yêu thương">
       </a>
     </div>

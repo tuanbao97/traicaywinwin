@@ -1,7 +1,7 @@
 @include('UI-FRONTEND.partials.storefront-image-cache')
 {{--
 <div class="top-banner">
-  <a href="{{ url('/') }}" class="top-banner__link" title="Ưu đãi đặc biệt" aria-label="Ưu đãi đặc biệt"></a>
+  <a href="https://traicaywinwin.com/" class="top-banner__link" title="Ưu đãi đặc biệt" aria-label="Ưu đãi đặc biệt"></a>
 </div>
 --}}
 

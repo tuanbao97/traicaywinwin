@@ -197,7 +197,7 @@
               >
                 <div class="embla__container flex">
                   <div class="embla__slide flex-[0_0_100%] overflow-hidden rounded">
-                    <a class="block" href="collections/all.html" title="Trái cây tươi — Giao nhanh">
+                    <a class="block" href="https://traicaywinwin.com/" title="Trái cây tươi — Giao nhanh">
                       <picture>
                         <source media="(max-width: 480px)" srcset="{{ asset('UI-FRONTEND/images/Banner gio trai cay.png') }}">
                         <img class="block mx-auto w-full object-contain" loading="eager" width="1920" height="624" src="{{ asset('UI-FRONTEND/images/Banner gio trai cay.png') }}" alt="Trái cây tươi — Giao nhanh" fetchpriority="high">
@@ -205,7 +205,7 @@
                     </a>
                   </div>
                   <div class="embla__slide flex-[0_0_100%] overflow-hidden rounded">
-                    <a class="block" href="collections/all.html" title="Giỏ quà &amp; combo — Ưu đãi">
+                    <a class="block" href="https://traicaywinwin.com/" title="Giỏ quà &amp; combo — Ưu đãi">
                       <picture>
                         <source media="(max-width: 480px)" srcset="{{ asset('UI-FRONTEND/images/Banner qua tang thieu nhi.png') }}">
                         <img class="block mx-auto w-full object-contain" loading="lazy" width="1920" height="624" src="{{ asset('UI-FRONTEND/images/Banner qua tang thieu nhi.png') }}" alt="Giỏ quà &amp; combo — Ưu đãi" fetchpriority="high">
@@ -860,7 +860,7 @@
 {{-- Banner ngang (block 1) — tạm ẩn
             <div class=" position-relative" style="background: transparent">
 	<div class="text-center  container">
-				<a class="position-relative block " href="collections/all.html" title="banner ngang">
+				<a class="position-relative block " href="https://traicaywinwin.com/" title="banner ngang">
 			<picture>
 				<source media="(max-width: 480px)" srcset="thumb/large/100/531/894/themes/1018832/assets/banner_image.jpg?1768901692132">
 				<img class='img-fluid position-absolute mx-auto' src="100/531/894/themes/1018832/assets/banner_image.jpg?1768901692132" style="left:0" alt="banner ngang" width="984" height="164" loading="lazy">
@@ -885,7 +885,7 @@
 
 
                 <div class="embla__slide">
-                  <a href="collections/all.html" title="GIẢM GIÁ NHẬP HỌC 30%" class="block">
+                  <a href="https://traicaywinwin.com/" title="GIẢM GIÁ NHẬP HỌC 30%" class="block">
                     <picture>
                       <source media="(max-width: 480px)" srcset="thumb/large/100/531/894/themes/1018832/assets/banner_group_1.jpg?1768901692132">
 
@@ -896,7 +896,7 @@
 
 
                 <div class="embla__slide">
-                  <a href="collections/all.html" title="ƯU ĐÃI MÙA HÈ ĐẾN 60%" class="block">
+                  <a href="https://traicaywinwin.com/" title="ƯU ĐÃI MÙA HÈ ĐẾN 60%" class="block">
                     <picture>
                       <source media="(max-width: 480px)" srcset="thumb/large/100/531/894/themes/1018832/assets/banner_group_2.jpg?1768901692132">
 
@@ -907,7 +907,7 @@
 
 
                 <div class="embla__slide">
-                  <a href="collections/all.html" title="GIẢM 500.000 ₫ cho đơn 2tr" class="block">
+                  <a href="https://traicaywinwin.com/" title="GIẢM 500.000 ₫ cho đơn 2tr" class="block">
                     <picture>
                       <source media="(max-width: 480px)" srcset="thumb/large/100/531/894/themes/1018832/assets/banner_group_3.jpg?1768901692132">
 
@@ -1955,7 +1955,7 @@ Nước giải khát lon, chai                    </a>
 <div class="addThis_listSharing">
 			{{--
 			<div class="floating_banner relative">
-			<a class="block p-2 hover:scale-105 transition-all" href="collections/all.html" title="sticky banner">
+			<a class="block p-2 hover:scale-105 transition-all" href="https://traicaywinwin.com/" title="sticky banner">
 				<img src="100/531/894/themes/1018832/assets/floating-banner.png?1768901692132" alt="sticky banner" width="100" height="100">
 			</a>
 			<button class="btn p-0  absolute -top-3 right-1 link">
