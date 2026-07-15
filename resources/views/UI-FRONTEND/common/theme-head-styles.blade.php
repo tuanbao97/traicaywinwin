@@ -36,8 +36,8 @@
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/icon.css?1768901692132" media="all">
     <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1">
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1" media="all">
-    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-icon-sky-1">
-    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-icon-sky-1" media="all">
+    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-icon-sky-2">
+    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-icon-sky-2" media="all">
     <link
       rel="stylesheet"
       href="100/531/894/themes/1018832/assets/quickview.css?ww-scroll-mid-1"
@@ -410,7 +410,7 @@
         width: 5rem;
         height: 5rem;
         color: #0ea5e9;
-        border-color: #7dd3fc;
+        border-color: #0ea5e9;
       }
       .ww-quick-view-btn .icon-eye {
         font-size: 2.45rem;

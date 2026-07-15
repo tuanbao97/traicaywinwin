@@ -1,4 +1,4 @@
-/* Scrollbar toàn site: kích th??c v?a (10px), ??ng nh?t m?i màn hình */
+/* Scrollbar to?n site: k?ch th??c v?a (10px), ??ng nh?t m?i m?n h?nh */
 body.ega-theme {
 	--ww-scrollbar-size: 10px;
 	--ww-scrollbar-thumb: rgba(2, 132, 199, 0.55);
@@ -45,7 +45,7 @@ body.ega-theme *::-webkit-scrollbar-corner {
 	background: transparent;
 }
 
-/* Ch? ?n khi class no-scrollbar (menu / carousel c? ý) */
+/* Ch? ?n khi class no-scrollbar (menu / carousel c? ?) */
 body.ega-theme .no-scrollbar {
 	scrollbar-width: none !important;
 	-ms-overflow-style: none;
@@ -95,7 +95,8 @@ details[open] > summary > .icon-carret-right {
     width: 3.6rem;
     height: 3.6rem;
     background: transparent;
-    color: #f97316;
+    color: #0ea5e9;
+    border-color: #0ea5e9;
     position: relative;
   }
 
@@ -1254,7 +1255,7 @@ product-form.loading .product-cta .btn .loading-icon {
 	}
 }
 
-/* CTA "Xem t?t c?" ? v? trí d??i grid; style gi?ng section Video */
+/* CTA "Xem t?t c?" ? v? tr? d??i grid; style gi?ng section Video */
 .ww-home-viewmore {
 	display: flex;
 	justify-content: center;
@@ -1349,7 +1350,7 @@ product-form.loading .product-cta .btn .loading-icon {
 	background: rgba(255, 255, 255, 0.32);
 }
 
-/* Alias gi? class compact = cùng style (section Video / s?n ph?m) */
+/* Alias gi? class compact = c?ng style (section Video / s?n ph?m) */
 .ww-home-viewmore__btn--compact {
 	min-height: 3rem;
 	padding: 0.55rem 1.35rem;
@@ -1362,7 +1363,7 @@ product-form.loading .product-cta .btn .loading-icon {
 	height: 1.45rem;
 }
 
-/* Kho?ng tr?ng d??i vùng cu?n ngang (tab / filter / list scroll) */
+/* Kho?ng tr?ng d??i v?ng cu?n ngang (tab / filter / list scroll) */
 body.ega-theme .heading-tabs.heading-tabs--scroll,
 body.ega-theme .ww-search-price-filters--inline,
 body.ega-theme .navigation-horizontal-wrapper,
@@ -1390,20 +1391,20 @@ body.ega-theme #cart-drawer .overflow-x-auto {
 	flex: 0 0 auto;
 }
 
-/* B? l?c giá trang tìm ki?m / danh sách s?n ph?m */
+/* B? l?c gi? trang t?m ki?m / danh s?ch s?n ph?m */
 .ww-search-layout {
 	width: 100%;
 	max-width: 100%;
 	min-width: 0;
 }
 
-/* Tránh chip l?c giá / tab sort kéo r?ng viewport trên mobile */
+/* Tr?nh chip l?c gi? / tab sort k?o r?ng viewport tr?n mobile */
 body.ega-theme.search,
 body.ww-all-products {
 	overflow-x: clip;
 }
 
-/* Ch? thu h?p vùng n?i dung l?c/grid ? gi? .container max-width nh? trang ch? (có margin L/R) */
+/* Ch? thu h?p v?ng n?i dung l?c/grid ? gi? .container max-width nh? trang ch? (c? margin L/R) */
 body.ega-theme.search main .ww-search-layout,
 body.ww-all-products main .ww-search-layout,
 body.ega-theme.search main .min-w-0,
@@ -1611,7 +1612,7 @@ body.ww-all-products #search-results-grid {
 	display: none !important;
 }
 
-/* Trang t?t c? s?n ph?m: gi? menu trái ?n ??nh khi filter làm ??i chi?u cao danh sách */
+/* Trang t?t c? s?n ph?m: gi? menu tr?i ?n ??nh khi filter l?m ??i chi?u cao danh s?ch */
 @media (min-width: 1280px) {
 	body.ww-all-products .index-container {
 		align-items: start;
@@ -1629,7 +1630,7 @@ body.ww-all-products #search-results-grid {
 	}
 }
 
-/* Gi? ch? nút Xóa ?? filter không co giãn layout khi tick giá */
+/* Gi? ch? n?t X?a ?? filter kh?ng co gi?n layout khi tick gi? */
 body.ww-all-products .ww-search-price-clear[hidden] {
 	display: inline-flex !important;
 	visibility: hidden;
@@ -1996,7 +1997,7 @@ top: auto!important;
 	font-family: var(--font-body-family)
 }
 
-/* Giá g?c g?ch ngang: rõ, cân gi?a ch? */
+/* Gi? g?c g?ch ngang: r?, c?n gi?a ch? */
 .compare-price.price--struck {
 	color: var(--color-price-compare, #929292);
 	text-decoration: line-through;
@@ -2006,7 +2007,7 @@ top: auto!important;
 	text-decoration-skip-ink: auto;
 }
 
-/* Flash sale: giá bán và giá g?c (g?ch) cùng c? ch? (?u tiên h?n utility Tailwind) */
+/* Flash sale: gi? b?n v? gi? g?c (g?ch) c?ng c? ch? (?u ti?n h?n utility Tailwind) */
 .card-product__body .card-product__price-row .price-box .price,
 .card-product__body .card-product__price-row .price-box .compare-price.price--struck {
 	font-size: 1.45rem !important;
@@ -2014,7 +2015,7 @@ top: auto!important;
 	line-height: 1.25 !important;
 }
 
-/* Hàng giá flash sale: hai giá c?n gi?a theo tr?c d?c v?i c?t gi? + % */
+/* H?ng gi? flash sale: hai gi? c?n gi?a theo tr?c d?c v?i c?t gi? + % */
 .card-product__body .card-product__price-row {
 	align-items: center;
 	gap: 0.75rem;
@@ -2057,14 +2058,15 @@ top: auto!important;
 	border-radius: 0.85rem;
 	gap: 0;
 	color: #0ea5e9;
+	border-color: #0ea5e9 !important;
 }
 
-/* Icon tr?n card s?n ph?m: xanh da tr?i + to h?n d? b?m */
+/* Icon trên card s?n ph?m: xanh da tr?i + to h?n d? b?m */
 .card-product .ww-quick-view-btn {
   width: 5rem !important;
   height: 5rem !important;
   color: #0ea5e9 !important;
-  border-color: #7dd3fc !important;
+  border: 1px solid #0ea5e9 !important;
   box-shadow: 0 6px 18px rgba(14, 165, 233, 0.18);
 }
 .card-product .ww-quick-view-btn .icon-eye,
@@ -2079,6 +2081,7 @@ top: auto!important;
   width: 3.6rem !important;
   height: 3.6rem !important;
   color: #0ea5e9 !important;
+  border-color: #0ea5e9 !important;
 }
 .card-product .addtocart-btn .icon-cart,
 .card-product .addtocart-btn .icon-cart::before,
@@ -2095,9 +2098,10 @@ top: auto!important;
   filter: brightness(0.95);
 }
 
-/* N?t m?i t?n carousel (embla) ? xanh da tr?i */
+/* Nút m?i tên carousel (embla) ? xanh da tr?i */
 .embla .embla__button {
   color: #0ea5e9;
+  border: 1px solid #0ea5e9;
 }
 .embla .embla__button .icon,
 .embla .embla__button .icon::before {
@@ -2106,10 +2110,12 @@ top: auto!important;
 .embla .embla__button:hover {
   background: #e0f2fe;
   color: #0284c7;
+  border-color: #0284c7;
 }
 .embla .embla__button[disabled],
 .embla .embla__button:disabled {
   color: #7dd3fc;
+  border-color: #7dd3fc;
   opacity: 0.55;
 }
 
@@ -2126,7 +2132,7 @@ cart-form .product-list > div{
 	min-width: 270px;
 }
 
-/** ?n nút LIVE và modal livestream (b? block này n?u c?n b?t l?i) **/
+/** ?n n?t LIVE v? modal livestream (b? block n?y n?u c?n b?t l?i) **/
 .header-box-live {
 	display: none !important;
 }
@@ -2152,7 +2158,7 @@ cart-form .product-list > div{
 	margin: 0.75rem auto;
 }
 
-/* Emoji / icon nh? trong mô t? SP: luôn inline cùng dòng ch? */
+/* Emoji / icon nh? trong m? t? SP: lu?n inline c?ng d?ng ch? */
 #ww-pd-desc img[src*="emoji.php"],
 #ww-pd-desc img[src*="/emoji/"],
 #ww-pd-desc img[width="16"],
@@ -2173,7 +2179,7 @@ cart-form .product-list > div{
 	display: inline !important;
 }
 
-/* HTML dán t? Facebook: m?i kh?i div là 1 dòng/?o?n */
+/* HTML d?n t? Facebook: m?i kh?i div l? 1 d?ng/?o?n */
 #ww-pd-desc > div {
 	display: block;
 	margin: 0 0 0.85em;
@@ -2195,7 +2201,7 @@ cart-form .product-list > div{
 	margin-top: 0.35em;
 }
 
-/* Gradient "Xem thêm" không ch?n click ?nh */
+/* Gradient "Xem th?m" kh?ng ch?n click ?nh */
 .product-description .expandable-content:not(.show-all)::after {
 	pointer-events: none;
 }
@@ -2323,7 +2329,7 @@ cart-form .product-list > div{
 .ww-video-modal__media {
 	position: relative;
 	display: block;
-	/* ?? l?i kho?ng cho title/mô t? bên d??i trong modal 80vh */
+	/* ?? l?i kho?ng cho title/m? t? b?n d??i trong modal 80vh */
 	width: min(100%, calc(70vh * 9 / 16));
 	max-width: 100%;
 	aspect-ratio: 9 / 16;
@@ -2422,7 +2428,7 @@ html.ww-video-modal-open body {
 	overflow: hidden;
 }
 
-/* Cart header: icon + badge cam, s? nh?y t? d??i lên */
+/* Cart header: icon + badge cam, s? nh?y t? d??i l?n */
 .mini-cart .header-icon {
   border-width: 1.5px !important;
   border-color: #f97316 !important;
