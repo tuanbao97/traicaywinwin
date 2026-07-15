@@ -138,6 +138,13 @@
         font-size: 62.5%;
         height: 100%;
       }
+
+      /* Máy tính bảng: tăng base rem để chữ toàn site to hơn (~20%) */
+      @media (min-width: 768px) and (max-width: 1199px) {
+        html {
+          font-size: 75%;
+        }
+      }
       :root {
        /*
          replace font family and font weight
@@ -288,6 +295,16 @@
          --logo-width: auto;
          --logo-height: calc(var(--header-height) - var(--spacing-3));
          --header-height: 6.4rem;
+       }
+     }
+
+     /* Tablet: chữ body / heading hơi to hơn desktop tương đối */
+     @media (min-width: 768px) and (max-width: 1199px) {
+       :root {
+         --font-size-body: 1.6rem;
+         --font-size-h4: 3rem;
+         --font-size-h5: 2.2rem;
+         --font-size-h6: 1.75rem;
        }
      }
 
