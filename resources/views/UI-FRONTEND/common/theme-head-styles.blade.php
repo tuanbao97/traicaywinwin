@@ -36,8 +36,8 @@
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/icon.css?1768901692132" media="all">
     <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1">
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1" media="all">
-    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-cart-remove-confirm-1">
-    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-cart-remove-confirm-1" media="all">
+    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-icon-sky-1">
+    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-icon-sky-1" media="all">
     <link
       rel="stylesheet"
       href="100/531/894/themes/1018832/assets/quickview.css?ww-scroll-mid-1"
@@ -409,12 +409,12 @@
         z-index: 50;
         width: 5rem;
         height: 5rem;
-        color: #f97316;
-        border-color: #fdba74;
+        color: #0ea5e9;
+        border-color: #7dd3fc;
       }
       .ww-quick-view-btn .icon-eye {
         font-size: 2.45rem;
-        color: #f97316;
+        color: #0ea5e9;
       }
       card-product:hover .card-product__top > a.link,
       .card-product:hover .card-product__top > a.link {
