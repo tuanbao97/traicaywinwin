@@ -296,7 +296,39 @@ function debounce(fn, wait) {
   };
 }
 
-subscribe(window.themeConfigs.firstInteraction, () => {
+function __wwBootCartComponents(bootFn) {
+  const run = () => {
+    if (window.__wwCartComponentsBooted) return;
+    window.__wwCartComponentsBooted = true;
+    try {
+      bootFn();
+    } catch (err) {
+      window.__wwCartComponentsBooted = false;
+      console.error("Cart components boot failed:", err);
+    }
+  };
+  if (typeof subscribe === "function" && window.themeConfigs && window.themeConfigs.firstInteraction) {
+    subscribe(window.themeConfigs.firstInteraction, run);
+  }
+  // Nếu firstInteraction đã fire trước khi cart.js kịp subscribe → vẫn boot
+  if (window.__wwFirstInteractionDone) {
+    run();
+  } else {
+    // Fallback: sau khi vendors/deferred sẵn sàng muộn hơn
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+        if (window.__wwFirstInteractionDone) run();
+      },
+      { once: true }
+    );
+    setTimeout(() => {
+      if (window.__wwFirstInteractionDone) run();
+    }, 1500);
+  }
+}
+
+__wwBootCartComponents(() => {
   class CartForm extends HTMLElement {
     constructor() {
       super();
@@ -555,11 +587,17 @@ subscribe(window.themeConfigs.firstInteraction, () => {
       super.hide();
     }
     show(opener) {
-      if (!this.inited) {
-        this.cartForm.updateCart();
-        this.inited = true;
-      } else if (typeof window.__wwLoadCartRecommendations === "function") {
-        window.__wwLoadCartRecommendations();
+      try {
+        if (!this.inited) {
+          if (this.cartForm && typeof this.cartForm.updateCart === "function") {
+            this.cartForm.updateCart();
+          }
+          this.inited = true;
+        } else if (typeof window.__wwLoadCartRecommendations === "function") {
+          window.__wwLoadCartRecommendations();
+        }
+      } catch (err) {
+        console.warn("Cart drawer refresh skipped:", err);
       }
       this.changeHash(true);
       super.show(opener);

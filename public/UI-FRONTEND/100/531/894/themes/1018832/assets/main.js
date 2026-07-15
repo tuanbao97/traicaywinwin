@@ -115,10 +115,35 @@ class PortalOpener extends HTMLElement {
   }
   onClick(e) {
     e.preventDefault();
-    const portal = document.querySelector(
-      e.currentTarget.getAttribute("data-portal")
-    );
-    if (portal && portal.show) portal.show(this.button);
+    e.stopPropagation();
+    const selector = e.currentTarget.getAttribute("data-portal");
+    if (!selector) return;
+
+    const openPortal = () => {
+      const portal = document.querySelector(selector);
+      if (portal && typeof portal.show === "function") {
+        portal.show(this.button);
+        return true;
+      }
+      return false;
+    };
+
+    if (openPortal()) return;
+
+    // cart-drawer đôi khi chưa upgrade (miss firstInteraction) — retry ngắn rồi fallback /cart
+    let left = 40;
+    const timer = setInterval(() => {
+      left -= 1;
+      if (openPortal() || left <= 0) {
+        clearInterval(timer);
+        if (left <= 0 && !openPortal()) {
+          const href = this.button.getAttribute("href") || "";
+          if (href && href !== "#" && href.indexOf("javascript:") !== 0 && !/\.html$/i.test(href)) {
+            window.location.href = href;
+          }
+        }
+      }
+    }, 50);
   }
 }
 defineElement("portal-opener", PortalOpener);

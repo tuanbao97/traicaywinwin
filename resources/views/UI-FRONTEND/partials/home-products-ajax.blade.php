@@ -624,7 +624,7 @@
         '-tab' +
         i +
         '">' +
-        '<div class="product-list grid tab-content-inner grid-cols-3 md:grid-cols-5 lg:grid-cols-5 gap-2 mt-2" id="' +
+        '<div class="product-list grid tab-content-inner grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 mt-2" id="' +
         baseGrid +
         '-t' +
         i +

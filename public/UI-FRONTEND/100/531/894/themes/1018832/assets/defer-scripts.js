@@ -28,9 +28,8 @@ function loadDefer(){
 	loaded = true;
 	loadCSS(window.themeConfigs.vendorsCssLink)
 	getScript(window.themeConfigs.vendorsJSLink, (e)=>{
-		//
-		 publish(window.themeConfigs.firstInteraction, e)
-
+		window.__wwFirstInteractionDone = true;
+		publish(window.themeConfigs.firstInteraction, e)
 	})
 
 
