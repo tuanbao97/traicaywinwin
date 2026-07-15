@@ -1244,6 +1244,16 @@ product-form.loading .product-cta .btn .loading-icon {
 	color: #fff;
 }
 
+/* Lưới sản phẩm — chuẩn responsive
+   < 480px: 2 cột (mobile nhỏ)
+   480px–975px: 3 cột (mobile lớn / tablet)
+   ≥ 976px: giữ lg/xl (4–5 cột) từ utility class */
+@media (min-width: 480px) and (max-width: 975px) {
+	body.ega-theme .product-list.grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
 /* CTA "Xem tất cả" — vị trí dưới grid; style giống section Video */
 .ww-home-viewmore {
 	display: flex;
