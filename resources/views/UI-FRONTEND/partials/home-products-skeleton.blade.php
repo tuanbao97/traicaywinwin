@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="product-list grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+      <div class="product-list grid grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
         @for ($i = 0; $i < 10; $i++)
           <div class="skeleton__product-grid__item bg-background border border-neutral-50 relative z-10 m-0 h-full">
             <div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse"></div>

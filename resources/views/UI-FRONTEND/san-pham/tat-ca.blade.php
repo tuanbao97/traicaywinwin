@@ -101,7 +101,7 @@
               >Tên từ Z-A</li>
             </ul>
 
-            <div id="search-results-grid" class="product-list grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2">
+            <div id="search-results-grid" class="product-list grid grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2">
               @if ($total === 0)
                 <p class="col-span-full text-center text-sm text-slate-600 py-8">Không tìm thấy sản phẩm phù hợp.</p>
               @else
