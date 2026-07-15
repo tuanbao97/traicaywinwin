@@ -119,7 +119,8 @@ function wwBuildCartRecommendationCard(product, slideClass) {
   const categoryId = product.DANH_MUC_SAN_PHAM && product.DANH_MUC_SAN_PHAM.ID
     ? product.DANH_MUC_SAN_PHAM.ID
     : "";
-  const compareInt = Math.round(Number(product.GIA_GOC) || 0);
+  const compareRaw = product.GIA_GOC;
+  const compareInt = compareRaw == null || compareRaw === "" ? 0 : Math.round(Number(compareRaw) || 0);
   const showCompare = priceInt > 0 && compareInt > priceInt;
   const compareLabel = showCompare ? wwFormatPriceShortVnd(compareInt) : "";
   const frameSrc = themeApiUrl("/UI-FRONTEND/images/Khung vien xanh.png");

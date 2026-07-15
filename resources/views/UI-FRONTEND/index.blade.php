@@ -2651,7 +2651,7 @@ Hẹn giờ nhận hàng
 	    );
 	  })();
 	</script>
-	<script src="100/531/894/themes/1018832/assets/cart.js?ww-cart-open-fix-1" defer="" fetchpriority="low"></script>
+	<script src="100/531/894/themes/1018832/assets/cart.js?ww-cart-no-fake-compare-2" defer="" fetchpriority="low"></script>
 	<script src="100/531/894/themes/1018832/assets/flashsale.js?1768901692132" defer="" fetchpriority="low"></script>
 	<script src="100/531/894/themes/1018832/assets/coupon.js?1768901692132" defer="" fetchpriority="low"></script>
 
