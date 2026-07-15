@@ -488,6 +488,28 @@
     });
   });
 
+  function lockPageHorizontal() {
+    try {
+      document.documentElement.scrollLeft = 0;
+      document.body.scrollLeft = 0;
+      if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
+      [
+        'main',
+        '.index-container',
+        '.ww-search-layout',
+        '.ww-search-filter-card',
+        '.ww-search-filter-card__row',
+        '.section-main-search',
+      ].forEach(function (sel) {
+        document.querySelectorAll(sel).forEach(function (node) {
+          if (node && node.scrollLeft) node.scrollLeft = 0;
+        });
+      });
+    } catch (err) {
+      /* ignore */
+    }
+  }
+
   function keepChipInHorizontalStrip(strip, el) {
     if (!strip || !el) return;
     var stripRect = strip.getBoundingClientRect();
@@ -497,17 +519,28 @@
     } else if (elRect.left < stripRect.left) {
       strip.scrollLeft -= stripRect.left - elRect.left + 12;
     }
-    requestAnimationFrame(function () {
-      if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
-    });
+    lockPageHorizontal();
+    requestAnimationFrame(lockPageHorizontal);
+    setTimeout(lockPageHorizontal, 50);
+    setTimeout(lockPageHorizontal, 200);
   }
 
   document.querySelectorAll('.ww-search-price-checkbox').forEach(function (checkbox) {
     checkbox.addEventListener('change', function () {
       updateClearPriceButton();
+      cfg.selectedGia = getSelectedGiaFromDom();
+      var strip = checkbox.closest('.ww-search-price-filters--inline');
+      var chip = checkbox.closest('li') || checkbox.closest('label');
+      keepChipInHorizontalStrip(strip, chip);
+      try {
+        checkbox.blur();
+      } catch (err) {
+        /* ignore */
+      }
+      lockPageHorizontal();
       loadSearchResults(1);
+      lockPageHorizontal();
     });
-    // Mobile: giữ chip trong strip, không để browser đẩy cả trang sang phải
     checkbox.addEventListener('focus', function () {
       var strip = checkbox.closest('.ww-search-price-filters--inline');
       var chip = checkbox.closest('li') || checkbox.closest('label');
@@ -531,10 +564,15 @@
     });
   });
 
-  window.addEventListener(
-    'scroll',
-    function () {
-      if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
+  window.addEventListener('scroll', lockPageHorizontal, { passive: true });
+  window.addEventListener('resize', lockPageHorizontal, { passive: true });
+  document.addEventListener(
+    'touchend',
+    function (e) {
+      if (e.target && e.target.closest && e.target.closest('.ww-search-price-filters--inline, #search-sort-tabs')) {
+        lockPageHorizontal();
+        setTimeout(lockPageHorizontal, 30);
+      }
     },
     { passive: true }
   );

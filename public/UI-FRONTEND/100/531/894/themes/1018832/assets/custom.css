@@ -1459,6 +1459,7 @@ html:has(body.ww-all-products) {
 	padding: 0.85rem 1rem;
 	min-width: 0;
 	max-width: 100%;
+	overflow: hidden;
 }
 
 .ww-search-filter-card__head {
@@ -1507,34 +1508,45 @@ html:has(body.ww-all-products) {
 	-webkit-overflow-scrolling: touch;
 	overscroll-behavior-x: contain;
 	touch-action: pan-x;
-	padding-bottom: 5px;
-	margin-bottom: 5px;
+	padding: 0.2rem 0.35rem 0.55rem;
+	margin-bottom: 0;
+	scrollbar-gutter: stable;
 }
 
 .ww-search-price-filters--inline > li {
 	flex: 0 0 auto;
+	max-width: none;
 }
 
 .ww-search-price-chip {
+	position: relative;
 	display: block;
 	cursor: pointer;
+	overflow: hidden;
+	max-width: 100%;
 }
 
 .ww-search-price-checkbox {
 	position: absolute;
+	left: 0;
+	top: 0;
 	opacity: 0;
-	width: 0;
-	height: 0;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	padding: 0;
+	border: 0;
 	pointer-events: none;
+	clip: rect(0 0 0 0);
 }
 
 .ww-search-price-chip__inner {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: 0.5rem;
+	gap: 0.45rem;
 	min-height: 3.4rem;
-	padding: 0.65rem 1.25rem;
+	padding: 0.65rem 1.15rem;
 	border-radius: 999px;
 	border: 1.5px solid #dbe3ee;
 	background: #fff;
@@ -1543,17 +1555,16 @@ html:has(body.ww-all-products) {
 	font-weight: 600;
 	line-height: 1.35;
 	white-space: nowrap;
+	box-sizing: border-box;
 	transition:
 		border-color 0.2s ease,
 		background-color 0.2s ease,
-		color 0.2s ease,
-		box-shadow 0.2s ease;
+		color 0.2s ease;
 }
 
 .ww-search-price-chip:hover .ww-search-price-chip__inner {
 	border-color: rgba(2, 132, 199, 0.4);
 	background: #f8fbff;
-	box-shadow: 0 6px 16px rgba(2, 132, 199, 0.1);
 }
 
 .ww-search-price-chip__label {
@@ -1572,27 +1583,29 @@ html:has(body.ww-all-products) {
 	font-size: 0.9rem;
 	flex-shrink: 0;
 	opacity: 0;
-	transform: scale(0.75);
-	transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+	visibility: hidden;
+	transform: none;
+	transition: opacity 0.2s ease, visibility 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
 
 .ww-search-price-checkbox:checked + .ww-search-price-chip__inner {
 	border-color: var(--color-secondary, #0284c7);
 	background: var(--color-secondary, #0284c7);
 	color: #fff;
-	box-shadow: 0 8px 20px rgba(2, 132, 199, 0.24);
+	/* Kh?ng d?ng box-shadow: d? l?m scrollWidth v??t viewport tr?n mobile */
+	box-shadow: none;
 }
 
 .ww-search-price-checkbox:checked + .ww-search-price-chip__inner .ww-search-price-chip__tick {
 	opacity: 1;
-	transform: scale(1);
+	visibility: visible;
 	background: rgba(255, 255, 255, 0.2);
 	color: #fff;
 }
 
 .ww-search-price-checkbox:focus-visible + .ww-search-price-chip__inner {
 	outline: 2px solid rgba(2, 132, 199, 0.45);
-	outline-offset: 2px;
+	outline-offset: 0;
 }
 
 .ww-search-price-clear {
@@ -1634,7 +1647,9 @@ html:has(body.ww-all-products) {
 }
 
 .ww-search-price-clear[hidden] {
-	display: none !important;
+	display: inline-flex !important;
+	visibility: hidden;
+	pointer-events: none;
 }
 
 /* Trang t?t c? s?n ph?m: gi? menu tr?i ?n ??nh khi filter l?m ??i chi?u cao danh s?ch */
