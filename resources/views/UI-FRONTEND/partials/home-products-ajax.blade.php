@@ -108,17 +108,6 @@
     return '<input type="hidden" name="_token" value="' + escapeHtml(m.content) + '">';
   }
 
-  function quickViewBtnHtml(productId) {
-    return (
-      '<button type="button" class="ww-quick-view-btn absolute left-1/2 top-1/2 z-[50] w-[4.2rem] h-[4.2rem] rounded-full bg-white/95 text-foreground shadow-l border border-neutral-50 flex items-center justify-center transition-all duration-200" data-product-id="' +
-      escapeHtml(productId) +
-      '" aria-label="Xem nhanh" onclick="return window.wwQuickViewClick && window.wwQuickViewClick(event, this);" onmousedown="event.preventDefault();event.stopPropagation();">' +
-      '<i class="icon icon-eye text-[2rem] pointer-events-none"></i>' +
-      '<span class="ww-quick-view-tooltip absolute left-1/2 bottom-full mb-2 whitespace-nowrap rounded bg-white px-3 py-1.5 text-sm font-medium text-foreground shadow border border-neutral-50 pointer-events-none">Xem nhanh</span>' +
-      '</button>'
-    );
-  }
-
   function buildCardHtml(p, opts) {
     var wrapFlash = opts && opts.wrapFlash;
     var title = p.TEN_SAN_PHAM || 'Sản phẩm';
@@ -186,7 +175,9 @@
       : 'border: 1px solid rgba(2, 132, 199, 0.18);"';
 
     var inner =
-      '<card-product class="h-full card-product--vertical" data-prefetch="' +
+      '<card-product class="h-full card-product--vertical ww-card-opens-qv" data-product-id="' +
+      escapeHtml(p.ID) +
+      '" data-prefetch="' +
       escapeHtml(pref) +
       '">' +
       '<div class=" item_product_main card-product relative transition-transform duration-200 ease-in-out  h-full h-full">' +
@@ -236,7 +227,6 @@
       '"></picture>' +
       hoverPictures +
       '</a>' +
-      quickViewBtnHtml(p.ID) +
       '</div>' +
       '<div class="card-product__body flex flex-col gap-2 px-2 pb-2 md:gap-1 md:px-2 md:pb-2">' +
       '<a class="link block" href="' +

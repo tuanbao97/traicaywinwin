@@ -2121,19 +2121,11 @@ top: auto!important;
 
 /* Icon tr?n card s?n ph?m: xanh da tr?i + to h?n d? b?m */
 .card-product .ww-quick-view-btn {
-  width: 5rem !important;
-  height: 5rem !important;
-  color: #0ea5e9 !important;
-  border: 1px solid #0ea5e9 !important;
-  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.18);
+  display: none !important;
 }
 .card-product .ww-quick-view-btn .icon-eye,
 .card-product .ww-quick-view-btn .icon-eye::before {
-  color: #0ea5e9 !important;
-  font-size: 2.45rem !important;
-  line-height: 1;
-  -webkit-text-stroke: 0.35px #0ea5e9;
-  paint-order: stroke fill;
+  display: none !important;
 }
 .card-product .addtocart-btn {
   width: 3.6rem !important;
@@ -2151,8 +2143,7 @@ top: auto!important;
   -webkit-text-stroke: 0.35px #f97316;
   paint-order: stroke fill;
 }
-.card-product .addtocart-btn:hover,
-.card-product .ww-quick-view-btn:hover {
+.card-product .addtocart-btn:hover {
   filter: brightness(0.95);
 }
 

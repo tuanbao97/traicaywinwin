@@ -860,7 +860,8 @@ subscribe(window.themeConfigs.firstInteraction, () => {
         .then((res) => {
           inner.classList.remove("loading");
           let html = new DOMParser().parseFromString(res, "text/html");
-          const pf = html.querySelector("product-form");
+          const shell = html.querySelector(".ww-qv-shell");
+          const pf = shell || html.querySelector("product-form");
           if (!pf) {
             publish(window.themeConfigs.error, {
               error: new Error("Không tải được nội dung xem nhanh"),

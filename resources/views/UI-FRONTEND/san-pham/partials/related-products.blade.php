@@ -124,17 +124,6 @@
     return '<input type="hidden" name="_token" value="' + escapeHtml(m.content) + '">';
   }
 
-  function quickViewBtnHtml(productId) {
-    return (
-      '<button type="button" class="ww-quick-view-btn absolute left-1/2 top-1/2 z-[50] w-[4.2rem] h-[4.2rem] rounded-full bg-white/95 text-foreground shadow-l border border-neutral-50 flex items-center justify-center transition-all duration-200" data-product-id="' +
-      escapeHtml(productId) +
-      '" aria-label="Xem nhanh" onclick="return window.wwQuickViewClick && window.wwQuickViewClick(event, this);" onmousedown="event.preventDefault();event.stopPropagation();">' +
-      '<i class="icon icon-eye text-[2rem] pointer-events-none"></i>' +
-      '<span class="ww-quick-view-tooltip absolute left-1/2 bottom-full mb-2 whitespace-nowrap rounded bg-white px-3 py-1.5 text-sm font-medium text-foreground shadow border border-neutral-50 pointer-events-none">Xem nhanh</span>' +
-      '</button>'
-    );
-  }
-
   function buildCardHtml(p) {
     var title = p.TEN_SAN_PHAM || 'Sản phẩm';
     var href = detailUrl(p);
@@ -174,7 +163,9 @@
 
     return (
       '<div class="embla__slide h-inherit">' +
-      '<card-product class="h-full card-product--vertical">' +
+      '<card-product class="h-full card-product--vertical ww-card-opens-qv" data-product-id="' +
+      escapeHtml(p.ID) +
+      '">' +
       '<div class="item_product_main card-product relative transition-transform duration-200 ease-in-out h-full">' +
       '<form action="/cart/add" method="post" enctype="multipart/form-data" class="bg-background relative z-10 m-0 h-full" style="border: 1px solid rgba(2, 132, 199, 0.18);">' +
       csrfField() +
@@ -190,7 +181,6 @@
       '<img class="' + imgMainClass + '" width="480" height="480" loading="lazy" style="--image-scale:0.9" src="' + escapeHtml(avatarUrl(p)) + '" alt="' + escapeHtml(title) + '"></picture>' +
       hoverPictures +
       '</a>' +
-      quickViewBtnHtml(p.ID) +
       '</div>' +
       '<div class="card-product__body flex flex-col gap-2 px-2 pb-2 md:gap-1 md:px-2 md:pb-2">' +
       '<a class="link block" href="' + escapeHtml(href) + '" title="' + escapeHtml(title) + '">' +

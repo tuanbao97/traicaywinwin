@@ -69,12 +69,40 @@
 	width: 100%;
 	height: 100% !important;
 	max-height: 100%;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	box-shadow: var(--shadow-l);
+	transition: min-height 0.28s ease, opacity 0.28s ease;
+	background: var(--color-background, #fff);
+}
+
+#quick-view-product .ww-qv-shell {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 0;
+	width: 100%;
+}
+
+#quick-view-product .ww-qv-scroll {
+	flex: 1 1 auto;
+	min-height: 0;
 	overflow-x: hidden;
 	overflow-y: auto;
 	overscroll-behavior: contain;
 	-webkit-overflow-scrolling: touch;
-	box-shadow: var(--shadow-l);
-	transition: min-height 0.28s ease, opacity 0.28s ease;
+}
+
+#quick-view-product .ww-qv-footer {
+	flex: 0 0 auto;
+	position: sticky;
+	bottom: 0;
+	z-index: 5;
+	padding: 1rem 1.2rem 1.2rem;
+	border-top: 1px solid var(--color-neutral-50);
+	background: var(--color-background, #fff);
+	box-shadow: 0 -6px 16px rgba(15, 23, 42, 0.06);
 }
 
 #quick-view-product .product-wrapper.is-loading {

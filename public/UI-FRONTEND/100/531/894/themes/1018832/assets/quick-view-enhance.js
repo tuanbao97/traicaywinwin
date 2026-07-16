@@ -19,8 +19,18 @@
   }
 
   function productIdFromCard(card) {
-    const btn = card.querySelector(".ww-quick-view-btn[data-product-id]");
-    if (btn && btn.dataset.productId) return parseInt(btn.dataset.productId, 10) || 0;
+    if (!card) return 0;
+    if (card.dataset && card.dataset.productId) {
+      return parseInt(card.dataset.productId, 10) || 0;
+    }
+    const btn = card.querySelector("[data-product-id], .ww-quick-view-btn[data-product-id]");
+    if (btn && btn.dataset && btn.dataset.productId) {
+      return parseInt(btn.dataset.productId, 10) || 0;
+    }
+    const cartBtn = card.querySelector(".add_to_cart[data-variant-id], .addtocart-btn[data-variant-id]");
+    if (cartBtn && cartBtn.dataset && cartBtn.dataset.variantId) {
+      return parseInt(cartBtn.dataset.variantId, 10) || 0;
+    }
     const input = card.querySelector('input[name="variantId"]');
     if (input && input.value) return parseInt(input.value, 10) || 0;
     const form = card.querySelector("form[data-id]");
@@ -28,15 +38,20 @@
     return match ? parseInt(match[1], 10) || 0 : 0;
   }
 
-  function quickViewBtnHtml(productId) {
-    return (
-      '<button type="button" class="ww-quick-view-btn absolute left-1/2 top-1/2 z-[50] w-[4.2rem] h-[4.2rem] rounded-full bg-white/95 text-foreground shadow-l border border-neutral-50 flex items-center justify-center transition-all duration-200" data-product-id="' +
-      escapeHtml(productId) +
-      '" aria-label="Xem nhanh" onclick="return window.wwQuickViewClick && window.wwQuickViewClick(event, this);" onmousedown="event.preventDefault();event.stopPropagation();">' +
-      '<i class="icon icon-eye text-[2rem] pointer-events-none"></i>' +
-      '<span class="ww-quick-view-tooltip absolute left-1/2 bottom-full mb-2 whitespace-nowrap rounded bg-white px-3 py-1.5 text-sm font-medium text-foreground shadow border border-neutral-50 pointer-events-none">Xem nhanh</span>' +
-      "</button>"
+  function isCartActionTarget(target) {
+    return !!(
+      target &&
+      target.closest &&
+      target.closest(
+        ".addtocart-btn, .add_to_cart, .card-product__cart-btn, button[name='addtocart'], button[name='buynow'], quantity-input, .custom-number-input, .ww-search-price-clear, .ww-search-price-chip"
+      )
     );
+  }
+
+  function removeQuickViewEyeButtons(root) {
+    (root || document).querySelectorAll(".ww-quick-view-btn").forEach(function (btn) {
+      btn.remove();
+    });
   }
 
   function ensureModalInBody() {
@@ -353,11 +368,14 @@
     if (!wrapper) return false;
 
     const doc = new DOMParser().parseFromString(html, "text/html");
+    // Prefer full shell (scroll body + frozen "Xem chi tiết" footer)
+    const shell = doc.querySelector(".ww-qv-shell");
     const productForm = doc.querySelector("product-form");
-    if (!productForm) return false;
+    const content = shell || productForm;
+    if (!content) return false;
 
     wrapper.replaceChildren();
-    wrapper.appendChild(document.importNode(productForm, true));
+    wrapper.appendChild(document.importNode(content, true));
     setQuickViewLoading(false);
     wrapper.classList.remove("is-ready");
     void wrapper.offsetWidth;
@@ -422,56 +440,55 @@
     return false;
   };
 
-  function bindQuickViewButton(btn) {
-    if (!btn || btn.dataset.wwQvBound === "1") return;
-    btn.dataset.wwQvBound = "1";
-    const activate = function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-      loadProduct(parseInt(btn.dataset.productId, 10) || 0);
-    };
-    btn.addEventListener("mousedown", activate, true);
-    btn.addEventListener("click", activate, true);
-    btn.addEventListener("touchstart", activate, { capture: true, passive: false });
+  function openQuickViewFromCard(card) {
+    const id = productIdFromCard(card);
+    if (!id) return false;
+    loadProduct(id);
+    return true;
   }
 
-  function ensureButtons(root) {
-    (root || document).querySelectorAll(".ww-quick-view-btn").forEach(bindQuickViewButton);
+  function ensureCardQuickView(root) {
+    removeQuickViewEyeButtons(root);
     (root || document).querySelectorAll("card-product").forEach(function (card) {
-      if (card.querySelector(".ww-quick-view-btn")) return;
       const pid = productIdFromCard(card);
-      const top = card.querySelector(".card-product__top");
-      if (!pid || !top) return;
-      top.classList.add("relative");
-      top.insertAdjacentHTML("beforeend", quickViewBtnHtml(pid));
-      const btn = top.querySelector(".ww-quick-view-btn");
-      if (btn) bindQuickViewButton(btn);
+      if (pid && (!card.dataset.productId || card.dataset.productId === "")) {
+        card.dataset.productId = String(pid);
+      }
+      card.classList.add("ww-card-opens-qv");
     });
   }
 
-  document.addEventListener("click", function (e) {
-    if (e.target.closest("#PortalClose-quick-view-product, #quick-view-product .portal-overlay")) {
+  document.addEventListener(
+    "click",
+    function (e) {
+      if (e.target.closest("#PortalClose-quick-view-product, #quick-view-product .portal-overlay")) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeModal();
+        if (typeof window.__wwUnlockPageIfIdle === "function") {
+          window.setTimeout(window.__wwUnlockPageIfIdle, 50);
+        }
+        return;
+      }
+
+      if (isCartActionTarget(e.target)) return;
+
+      const card = e.target.closest("card-product");
+      if (!card) return;
+
+      // Click ảnh / chữ / vùng card → mở xem nhanh (không vào trang chi tiết)
       e.preventDefault();
       e.stopPropagation();
-      closeModal();
-      if (typeof window.__wwUnlockPageIfIdle === "function") {
-        window.setTimeout(window.__wwUnlockPageIfIdle, 50);
-      }
-      return;
-    }
-    const btn = e.target.closest(".ww-quick-view-btn");
-    if (!btn) return;
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-    loadProduct(parseInt(btn.dataset.productId, 10) || 0);
-  }, true);
+      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+      openQuickViewFromCard(card);
+    },
+    true
+  );
 
   function initQuickViewButtons() {
     ensureModalInBody();
     bindQuickViewPortalHooks();
-    ensureButtons(document);
+    ensureCardQuickView(document);
   }
 
   if (document.readyState === "loading") {
@@ -521,7 +538,7 @@
   new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
       mutation.addedNodes.forEach(function (node) {
-        if (node.nodeType === 1) ensureButtons(node);
+        if (node.nodeType === 1) ensureCardQuickView(node);
       });
     });
   }).observe(document.documentElement, { childList: true, subtree: true });

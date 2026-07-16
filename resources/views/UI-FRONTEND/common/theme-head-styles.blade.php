@@ -36,11 +36,11 @@
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/icon.css?1768901692132" media="all">
     <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1">
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1" media="all">
-    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-filter-overflow-2">
-    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-filter-overflow-2" media="all">
+    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-qv-card-click-1">
+    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-qv-card-click-1" media="all">
     <link
       rel="stylesheet"
-      href="100/531/894/themes/1018832/assets/quickview.css?ww-scroll-mid-1"
+      href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-footer-1"
       media="print"
       onload="this.media='all'"
     >
@@ -52,7 +52,7 @@
     >
     <noscript>
       <link
-        href="100/531/894/themes/1018832/assets/quickview.css?ww-scroll-mid-1"
+        href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-footer-1"
         rel="stylesheet"
         type="text/css"
         media="all"
@@ -402,40 +402,19 @@
     </style>
 
     <style id="ww-quick-view-styles">
-      .ww-quick-view-btn {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.92);
-        pointer-events: none;
-        z-index: 50;
-        width: 5rem;
-        height: 5rem;
-        color: #0ea5e9;
-        border-color: #0ea5e9;
-      }
-      .ww-quick-view-btn .icon-eye {
-        font-size: 2.45rem;
-        color: #0ea5e9;
-      }
-      card-product:hover .card-product__top > a.link,
-      .card-product:hover .card-product__top > a.link {
-        pointer-events: none;
-      }
-      card-product:hover .ww-quick-view-btn,
-      .card-product:hover .ww-quick-view-btn,
-      .ww-quick-view-btn:hover {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-        pointer-events: auto;
-      }
+      /* Click cả card (ảnh + chữ) mở xem nhanh; ẩn icon mắt */
+      .ww-quick-view-btn,
       .ww-quick-view-tooltip {
-        opacity: 0;
-        transform: translateX(-50%) translateY(4px);
-        transition: all 0.18s ease;
-        z-index: 40;
+        display: none !important;
       }
-      .ww-quick-view-btn:hover .ww-quick-view-tooltip {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
+      card-product.ww-card-opens-qv,
+      card-product.ww-card-opens-qv .card-product {
+        cursor: pointer;
+      }
+      card-product.ww-card-opens-qv .card-product__cart-btn,
+      card-product.ww-card-opens-qv .addtocart-btn,
+      card-product.ww-card-opens-qv .add_to_cart {
+        cursor: pointer;
       }
       #quick-view-product.ww-open {
         visibility: visible;
