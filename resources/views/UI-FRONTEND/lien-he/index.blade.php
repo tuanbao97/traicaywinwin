@@ -139,7 +139,7 @@
                   <iframe
                     title="{{ $ww['storeName'] }} — Google Maps"
                     data-ww-contact="map"
-                    src="{{ $ww['mapUrl'] }}"
+                    data-src="{{ $ww['mapUrl'] }}"
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"
                     allowfullscreen

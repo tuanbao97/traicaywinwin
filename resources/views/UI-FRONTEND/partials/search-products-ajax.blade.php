@@ -23,8 +23,7 @@
     productHot: @json(!empty($productHot)),
     productVip: @json(!empty($productVip)),
     pageBasePath: @json($pageBasePath ?? '/tat-ca-san-pham'),
-    // Phân trang — tránh nhồi cả nghìn card vào DOM (lag nặng trên iPhone Safari)
-    noPagination: false,
+    noPagination: true,
   };
 
   var canHover =

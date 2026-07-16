@@ -170,8 +170,20 @@
 
           <p class="font-semibold mb-2">Bản đồ cửa hàng</p>
           @if($ww['mapUrl'] !== '')
-          <div class="w-full overflow-hidden rounded border border-neutral-50 bg-neutral-50">
-            <iframe class="block w-full h-[200px] sm:h-[240px] md:h-[200px]" data-ww-contact="map" src="{{ $ww['mapUrl'] }}" width="600" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{{ $ww['storeName'] }} — Google Maps"></iframe>
+          <div class="w-full overflow-hidden rounded border border-neutral-50 bg-neutral-50 ww-footer-map" style="content-visibility:auto;contain:layout paint style;min-height:200px">
+            {{-- Không set src ngay: Google Maps iframe làm iPhone giật khi scroll — load khi gần footer --}}
+            <iframe
+              class="block w-full h-[200px] sm:h-[240px] md:h-[200px]"
+              data-ww-contact="map"
+              data-src="{{ $ww['mapUrl'] }}"
+              width="600"
+              height="300"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="{{ $ww['storeName'] }} — Google Maps"
+            ></iframe>
           </div>
           @endif
 

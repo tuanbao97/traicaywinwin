@@ -93,7 +93,11 @@
       }
       if (wrap) wrap.hidden = false;
       if (el.tagName === 'IFRAME') {
-        el.src = url;
+        // Chỉ ghi data-src; src gắn khi gần viewport (tránh Maps load sớm → giật scroll iOS)
+        el.setAttribute('data-src', url);
+        if (el.getAttribute('data-map-loaded') !== '1') {
+          el.removeAttribute('src');
+        }
         return;
       }
       el.href = url;
@@ -241,5 +245,52 @@
     .catch(function () {
       /* giữ bootstrap từ server */
     });
+
+  // Google Maps: chỉ gắn src khi iframe gần viewport (giảm giật scroll trên iPhone)
+  var mapIo = null;
+
+  function activateMapIframe(iframe) {
+    if (!iframe || iframe.getAttribute('data-map-loaded') === '1') return;
+    var url = iframe.getAttribute('data-src') || '';
+    if (!url) return;
+    iframe.setAttribute('src', url);
+    iframe.setAttribute('data-map-loaded', '1');
+  }
+
+  function observeLazyMaps() {
+    var maps = document.querySelectorAll('iframe[data-ww-contact="map"][data-src]:not([data-map-loaded="1"])');
+    if (!maps.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      maps.forEach(activateMapIframe);
+      return;
+    }
+
+    if (!mapIo) {
+      mapIo = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            activateMapIframe(entry.target);
+            mapIo.unobserve(entry.target);
+          });
+        },
+        { rootMargin: '200px 0px', threshold: 0.01 }
+      );
+    }
+
+    maps.forEach(function (iframe) {
+      mapIo.observe(iframe);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', observeLazyMaps);
+  } else {
+    observeLazyMaps();
+  }
+  document.addEventListener('ww:contact-ready', function () {
+    setTimeout(observeLazyMaps, 0);
+  });
 })();
 </script>
