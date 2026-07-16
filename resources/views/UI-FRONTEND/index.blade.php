@@ -1106,32 +1106,20 @@ Giỏ trái cây đám tang                    </a>
 
 
                   <li class="submenu__item submenu__item--main font-semibold ">
-                    <a class="link" title="Giỏ trái cây nhập khẩu 350k" href="collections/all.html" data-prefetch="/collections/all">
-Giỏ trái cây nhập khẩu 350k                    </a>
+                    <a class="link" title="Giỏ trái cây dưới 500k" href="collections/all.html" data-prefetch="/collections/all">
+Giỏ trái cây dưới 500k                    </a>
                   </li>
 
 
                   <li class="submenu__item submenu__item--main font-semibold ">
-                    <a class="link" title="Giỏ trái cây nhập khẩu 500k" href="collections/all.html" data-prefetch="/collections/all">
-Giỏ trái cây nhập khẩu 500k                    </a>
+                    <a class="link" title="Giỏ trái cây từ 500k đến 700k" href="collections/all.html" data-prefetch="/collections/all">
+Giỏ trái cây từ 500k đến 700k                    </a>
                   </li>
 
 
                   <li class="submenu__item submenu__item--main font-semibold ">
-                    <a class="link" title="Giỏ trái cây nhập khẩu 550k-700k" href="collections/all.html" data-prefetch="/collections/all">
-Giỏ trái cây nhập khẩu 550k-700k                    </a>
-                  </li>
-
-
-                  <li class="submenu__item submenu__item--main font-semibold ">
-                    <a class="link" title="Giỏ trái cây nhập khẩu 750k-900k" href="collections/all.html" data-prefetch="/collections/all">
-Giỏ trái cây nhập khẩu 750k-900k                    </a>
-                  </li>
-
-
-                  <li class="submenu__item submenu__item--main font-semibold ">
-                    <a class="link" title="Giỏ trái cây nhập khẩu > 900k" href="collections/all.html" data-prefetch="/collections/all">
-Giỏ trái cây nhập khẩu &gt; 900k                    </a>
+                    <a class="link" title="Giỏ trái cây trên 700k" href="collections/all.html" data-prefetch="/collections/all">
+Giỏ trái cây trên 700k                    </a>
                   </li>
 
 

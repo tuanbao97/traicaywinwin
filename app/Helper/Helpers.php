@@ -478,11 +478,9 @@ use Illuminate\Support\Facades\DB;
         function storefrontGioQuaPriceRanges(): array
         {
             return [
-                ['label' => 'Giỏ trái cây nhập khẩu 350k', 'min' => 350000, 'max' => 500000],
-                ['label' => 'Giỏ trái cây nhập khẩu 500k', 'min' => 500000, 'max' => 550000],
-                ['label' => 'Giỏ trái cây nhập khẩu 550k-700k', 'min' => 550000, 'max' => 750000],
-                ['label' => 'Giỏ trái cây nhập khẩu 750k-900k', 'min' => 750000, 'max' => 900000],
-                ['label' => 'Giỏ trái cây nhập khẩu > 900k', 'min' => 900000, 'max' => null],
+                ['label' => 'Giỏ trái cây dưới 500k', 'min' => 0, 'max' => 500000],
+                ['label' => 'Giỏ trái cây từ 500k đến 700k', 'min' => 500000, 'max' => 700000],
+                ['label' => 'Giỏ trái cây trên 700k', 'min' => 700000, 'max' => null],
             ];
         }
     }
