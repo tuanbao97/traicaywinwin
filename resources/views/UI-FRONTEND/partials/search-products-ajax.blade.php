@@ -23,8 +23,12 @@
     productHot: @json(!empty($productHot)),
     productVip: @json(!empty($productVip)),
     pageBasePath: @json($pageBasePath ?? '/tat-ca-san-pham'),
-    noPagination: true,
+    // Phân trang — tránh nhồi cả nghìn card vào DOM (lag nặng trên iPhone Safari)
+    noPagination: false,
   };
+
+  var canHover =
+    window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   if (!cfg.query && !cfg.categoryId && !cfg.listAll && !cfg.productHot && !cfg.productVip) return;
 
@@ -130,11 +134,11 @@
       discountPct = Math.min(99, Math.max(1, Math.round((1 - priceInt / compareInt) * 100)));
     }
     var compareLabel = showCompare ? formatPriceShortVnd(compareInt) : '';
-    var hov = hoverUrl(p);
+    var hov = canHover ? hoverUrl(p) : '';
     var hasHover = hov !== '';
     var imgMainClass =
-      'card-product__image max-h-full w-auto object-contain scale-[var(--image-scale)] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition duration-300 ease-out' +
-      (hasHover ? ' group-hover/card:opacity-0' : '');
+      'card-product__image max-h-full w-auto object-contain scale-[var(--image-scale)] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' +
+      (hasHover ? ' transition duration-300 ease-out group-hover/card:opacity-0' : '');
 
     var priceBlock = '';
     if (priceInt <= 0) {
@@ -601,7 +605,6 @@
     });
   });
 
-  window.addEventListener('scroll', lockPageHorizontal, { passive: true });
   window.addEventListener('resize', lockPageHorizontal, { passive: true });
   document.addEventListener(
     'touchend',

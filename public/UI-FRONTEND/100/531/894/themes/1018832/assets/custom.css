@@ -1255,6 +1255,14 @@ product-form.loading .product-cta .btn .loading-icon {
 	}
 }
 
+/* iOS Safari: gi?m work khi l??t danh sách dài */
+@supports (content-visibility: auto) {
+  body.ega-theme .product-list.grid > * {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 320px;
+  }
+}
+
 /* CTA "Xem t?t c?" ? v? tr? d??i grid; style gi?ng section Video */
 .ww-home-viewmore {
 	display: flex;
