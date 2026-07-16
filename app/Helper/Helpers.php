@@ -748,12 +748,16 @@ use Illuminate\Support\Facades\DB;
     }
 
     /**
-     * Ảnh mặc định khi share Facebook / OG (asset thuộc domain Win Win).
+     * Ảnh mặc định khi share Facebook / OG.
+     * Dùng bản 1200×630 từ logo-win-win-tron.png (URL mới để phá cache Baby Mart trên FB).
      */
     if (!function_exists('storefrontDefaultShareImageUrl')) {
         function storefrontDefaultShareImageUrl(): string
         {
-            return storefrontAbsoluteUrl(asset('UI-FRONTEND/images/win-win-cua-hang.png'));
+            $url = storefrontAbsoluteUrl(asset('UI-FRONTEND/images/og-share-logo.png'));
+            $version = '20260716';
+
+            return $url . (str_contains($url, '?') ? '&' : '?') . 'v=' . $version;
         }
     }
 
