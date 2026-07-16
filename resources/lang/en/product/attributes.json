@@ -8,6 +8,7 @@
     "DANH_SACH_VIDEO.*": "Video List",
     "DANH_MUC_SAN_PHAM.ID": "Product Category",
     "TEN_SAN_PHAM": "Product Name",
+    "MA_SAN_PHAM": "Product Code",
     "KEYWORDS_SEO_WEBSITE": "SEO Keywords",
     "MO_TA_NGAN_GON_SAN_PHAM": "Brief description of the product",
     "MO_TA_CHI_TIET": "Detailed Description",

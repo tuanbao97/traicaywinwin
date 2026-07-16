@@ -33,6 +33,15 @@ class ProductMapper
             $product->UUID = self::generateUniqueUuid();
         }
         // Khi update: giữ nguyên UUID cũ, không cập nhật
+
+        $maSanPham = self::issetkey($data, 'MA_SAN_PHAM');
+        $maSanPham = is_string($maSanPham) ? trim($maSanPham) : $maSanPham;
+        if ($maSanPham === null || $maSanPham === '') {
+            // Chưa nhập: dùng ID nếu đã có (update); create sẽ gán sau khi save
+            $product->MA_SAN_PHAM = !empty($product->ID) ? (string) $product->ID : null;
+        } else {
+            $product->MA_SAN_PHAM = (string) $maSanPham;
+        }
         
         $product->NAME = self::issetkey($data, 'TEN_SAN_PHAM');
         $product->KEYWORDS_SEO_WEBSITE = self::issetkey($data, 'KEYWORDS_SEO_WEBSITE');
@@ -327,6 +336,9 @@ class ProductMapper
         
         $productDto->name = $product->NAME;
         $productDto->uuid = $product->UUID;
+        $productDto->maSanPham = !empty($product->MA_SAN_PHAM)
+            ? (string) $product->MA_SAN_PHAM
+            : (string) $product->ID;
         $productDto->nameSlug = convertStrToSlug($product->NAME);
         $productDto->keywordsSeoWebsite = $product->KEYWORDS_SEO_WEBSITE;
 
@@ -482,6 +494,9 @@ class ProductMapper
         // Tên sản phẩm
         $productDto->name = $product->NAME;
         $productDto->uuid = $product->UUID;
+        $productDto->maSanPham = !empty($product->MA_SAN_PHAM)
+            ? (string) $product->MA_SAN_PHAM
+            : (string) $product->ID;
         $productDto->nameSlug = convertStrToSlug($product->NAME);
         $productDto->keywordsSeoWebsite = $product->KEYWORDS_SEO_WEBSITE;
 

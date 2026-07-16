@@ -120,6 +120,12 @@ class ProductServiceImpl implements ProductService
         $product->ATTR50 = AppConstant::PATH_CHI_TIET_PRODUCT_COMMON;
         $arrProduct = $product->toArray();
         $product = $this->productRepository->save($arrProduct); // Lưu product vào database
+
+        // Mặc định mã sản phẩm = ID nếu chưa nhập
+        if (empty($product->MA_SAN_PHAM)) {
+            $product->MA_SAN_PHAM = (string) $product->ID;
+            $this->productRepository->save($product->toArray());
+        }
         
         // Nếu là update (có ID), fetch lại thông tin product
         if (!is_null($id)) {

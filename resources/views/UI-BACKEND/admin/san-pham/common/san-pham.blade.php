@@ -63,6 +63,17 @@ $uuid2 = 'section_' . Str::random(6);
       </div>
     </div>
 
+    <div class="section-block col-lg-6 col-md-6">
+      <div class="form-group">
+        <label for="{{ $uuid1 }}_EDIT_MA_SAN_PHAM">Mã sản phẩm</label>
+        <input type="text" class="form-control" id="{{ $uuid1 }}_EDIT_MA_SAN_PHAM" placeholder="Để trống sẽ dùng ID sản phẩm" maxlength="100">
+        <div class="mt-2">
+          <span class="text-muted">Nếu để trống, hệ thống mặc định lấy ID sản phẩm.</span>
+        </div>
+        <span class="error-message"></span>
+      </div>
+    </div>
+
   <p class="card-description">Giá cả</p>
   <div class="section-block col-lg-12 col-md-12">
     <div class="form-group">
@@ -530,6 +541,10 @@ $(document).ready(function () {
           let tenSanPham = @json($duLieu['TEN_SAN_PHAM'] ?? null);
           $('#{{ $uuid1 }}_EDIT_TEN_SAN_PHAM').val(tenSanPham);
 
+          // Mã sản phẩm
+          let maSanPham = @json($duLieu['MA_SAN_PHAM'] ?? null);
+          $('#{{ $uuid1 }}_EDIT_MA_SAN_PHAM').val(maSanPham);
+
           // Loại sản phẩm
 
 
@@ -604,6 +619,10 @@ $(document).ready(function () {
           ID :  !isEmpty($('#EDIT_ID').val()) ? $('#EDIT_ID').val() : null
         , DANH_MUC_SAN_PHAM: objDanhMucSanPham
         , TEN_SAN_PHAM: $("#{{ $uuid1 }}_EDIT_TEN_SAN_PHAM").val()
+        , MA_SAN_PHAM: (function() {
+            let v = $("#{{ $uuid1 }}_EDIT_MA_SAN_PHAM").val();
+            return !isEmpty(v) ? String(v).trim() : null;
+          })()
         , KEYWORDS_SEO_WEBSITE: $('#{{ $uuid1 }}_EDIT_KEYWORDS_SEO_WEBSITE').val() || null
         , MO_TA_CHI_TIET: getEditorContent("{{ $uuid1 }}_EDIT_MO_TA_CHI_TIET")
         , MO_TA_CHI_TIET_ONLY_TEXT: getEditorContentOnlyText("{{ $uuid1 }}_EDIT_MO_TA_CHI_TIET")
@@ -719,6 +738,7 @@ $(document).ready(function () {
               'DANH_SACH_HINH_ANH_DAI_DIEN': '#MSG_ANH_DAI_DIEN',
               'DANH_MUC_SAN_PHAM': '#MSG_EDIT_DANH_MUC_SAN_PHAM',
               'TEN_SAN_PHAM': '#{{ $uuid1 }}_EDIT_TEN_SAN_PHAM',
+              'MA_SAN_PHAM': '#{{ $uuid1 }}_EDIT_MA_SAN_PHAM',
               'KEYWORDS_SEO_WEBSITE': '#{{ $uuid1 }}_EDIT_KEYWORDS_SEO_WEBSITE',
               'GIA_CA': '#{{ $uuid1 }}_EDIT_GIA_CA',
               'GIA_GOC': '#{{ $uuid1 }}_EDIT_GIA_GOC',

@@ -12,6 +12,7 @@ class ProductDetailDto implements \JsonSerializable
 {
     public ?int $id;
     public ?string $uuid;
+    public ?string $maSanPham;
     public ?string $name;
     public ?string $nameSlug;
     public ?string $type;
@@ -155,6 +156,7 @@ class ProductDetailDto implements \JsonSerializable
     {
         $this->id = $id;
         $this->uuid = null;
+        $this->maSanPham = null;
         $this->name = $name;
         $this->nameSlug = $nameSlug;
         $this->type = $type;
@@ -274,6 +276,7 @@ class ProductDetailDto implements \JsonSerializable
         return [
             'ID' => $this->id
             , 'UUID' => $this->uuid
+            , 'MA_SAN_PHAM' => $this->maSanPham
             , 'TEN_SAN_PHAM' => $this->name
             , 'TEN_SAN_PHAM_SLUG' => $this->nameSlug
             

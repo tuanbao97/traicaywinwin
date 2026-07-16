@@ -187,9 +187,15 @@
       </div>
     </div>
 
-    <div class="ww-pd-stock flex items-center gap-2 mb-4 text-sm" id="ww-pd-stock" hidden>
-      <span class="text-neutral-400">Trạng thái:</span>
-      <span class="font-semibold" id="ww-pd-stock-label">—</span>
+    <div class="ww-pd-meta flex flex-col gap-1 mb-4 text-sm" id="ww-pd-meta" hidden>
+      <div class="flex items-center gap-2">
+        <span class="text-neutral-400">Mã sản phẩm:</span>
+        <span class="font-semibold text-foreground" id="ww-pd-sku">—</span>
+      </div>
+      <div class="ww-pd-stock flex items-center gap-2" id="ww-pd-stock">
+        <span class="text-neutral-400">Trạng thái:</span>
+        <span class="font-semibold" id="ww-pd-stock-label">—</span>
+      </div>
     </div>
   </div>
     

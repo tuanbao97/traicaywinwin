@@ -103,6 +103,12 @@ class ProductSaveRequest extends FormRequest
                 'bail'
                 , 'required'
             ]
+            , 'MA_SAN_PHAM' => [
+                'bail'
+                , 'nullable'
+                , 'string'
+                , 'max:100'
+            ]
             , 'KEYWORDS_SEO_WEBSITE' => [
                 'bail'
                 , 'required'
@@ -262,6 +268,7 @@ class ProductSaveRequest extends FormRequest
             'GIA_GOC' => 'Giá gốc',
             'GIA_HIEN_THI' => 'Giá hiển thị',
             'KEYWORDS_SEO_WEBSITE' => 'Từ khóa SEO',
+            'MA_SAN_PHAM' => 'Mã sản phẩm',
         ];
 
         /* Merge message from locale and for this request */

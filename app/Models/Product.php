@@ -41,6 +41,7 @@ class Product extends Model
     protected $attributes = [
         'ID' => null,
         'UUID' => null,
+        'MA_SAN_PHAM' => null,
         'NAME' => null,
         'TYPE' => null,
         'SHORT_DESCRIPTION' => null,

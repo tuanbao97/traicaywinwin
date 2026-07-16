@@ -322,14 +322,19 @@
     setText('ww-pd-price', formatPriceShortVnd(priceInt));
 
     var isSold = String(p.TRANG_THAI || '').toUpperCase() === 'SOLD';
+    var metaWrap = document.getElementById('ww-pd-meta');
+    var skuEl = document.getElementById('ww-pd-sku');
     var stockWrap = document.getElementById('ww-pd-stock');
     var stockLabel = document.getElementById('ww-pd-stock-label');
+    if (skuEl) {
+      skuEl.textContent = String(p.MA_SAN_PHAM || p.ID || productId || '—');
+    }
     if (stockWrap && stockLabel) {
       stockLabel.textContent = isSold ? 'Hết hàng' : 'Còn hàng';
       stockLabel.classList.toggle('text-error', isSold);
       stockLabel.classList.toggle('text-success', !isSold);
-      stockWrap.hidden = false;
     }
+    if (metaWrap) metaWrap.hidden = false;
     var soldOutBtn = document.getElementById('ww-pd-soldout');
     var cartForm = document.getElementById('add-to-cart-form');
     if (soldOutBtn) soldOutBtn.classList.toggle('hidden', !isSold);
