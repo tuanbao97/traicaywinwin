@@ -13,6 +13,7 @@
     selectedGia: @json($selectedPriceFilterIds ?? []),
     giaTu: @json($giaTu ?? null),
     giaDen: @json($giaDen ?? null),
+    priceOptions: @json($priceFilterOptions ?? []),
     page: @json($page ?? 1),
     perPage: @json($perPage ?? 20),
     skeletonCount: 20,
@@ -294,35 +295,78 @@
   }
 
   function getSelectedGiaFromDom() {
+    var boxes = document.querySelectorAll('.ww-search-price-checkbox');
+    // Filter UI đang ẩn: giữ chip từ URL/server
+    if (!boxes.length) {
+      return Array.isArray(cfg.selectedGia) ? cfg.selectedGia.slice() : [];
+    }
     var ids = [];
-    document.querySelectorAll('.ww-search-price-checkbox:checked').forEach(function (el) {
-      if (el.value) ids.push(el.value);
+    boxes.forEach(function (el) {
+      if (el.checked && el.value) ids.push(el.value);
     });
     return ids;
   }
 
+  function appendMucGiaRange(params, index, opt) {
+    if (!opt) return;
+    if (opt.min != null && opt.min !== '') {
+      params.append('MUC_GIA[' + index + '][MIN_VALUE]', String(opt.min));
+      params.append(
+        'MUC_GIA[' + index + '][MIN_INCLUSIVE]',
+        opt.minInclusive === false ? '0' : '1'
+      );
+    }
+    if (opt.max != null && opt.max !== '') {
+      params.append('MUC_GIA[' + index + '][MAX_VALUE]', String(opt.max));
+      params.append(
+        'MUC_GIA[' + index + '][MAX_INCLUSIVE]',
+        opt.maxInclusive === false ? '0' : '1'
+      );
+    }
+  }
+
   function buildMucGiaParams(params) {
     var index = 0;
-    document.querySelectorAll('.ww-search-price-checkbox:checked').forEach(function (el) {
-      var min = el.getAttribute('data-min');
-      var max = el.getAttribute('data-max');
-      if (min !== null && min !== '') {
-        params.append('MUC_GIA[' + index + '][MIN_VALUE]', min);
-      }
-      if (max !== null && max !== '') {
-        params.append('MUC_GIA[' + index + '][MAX_VALUE]', max);
-      }
+    var optionMap = {};
+    (cfg.priceOptions || []).forEach(function (opt) {
+      if (opt && opt.id) optionMap[opt.id] = opt;
+    });
+
+    var chipIds = getSelectedGiaFromDom();
+    chipIds.forEach(function (id) {
+      appendMucGiaRange(params, index, optionMap[id]);
       index++;
     });
 
-    var hasTu = cfg.giaTu != null && cfg.giaTu !== '';
-    var hasDen = cfg.giaDen != null && cfg.giaDen !== '';
-    if (hasTu || hasDen) {
-      if (hasTu) {
-        params.append('MUC_GIA[' + index + '][MIN_VALUE]', String(cfg.giaTu));
-      }
-      if (hasDen) {
-        params.append('MUC_GIA[' + index + '][MAX_VALUE]', String(cfg.giaDen));
+    // Fallback URL gia/tu-den khi không có chip
+    if (!chipIds.length) {
+      var hasTu = cfg.giaTu != null && cfg.giaTu !== '';
+      var hasDen = cfg.giaDen != null && cfg.giaDen !== '';
+      if (hasTu || hasDen) {
+        var tu = hasTu ? Number(cfg.giaTu) : null;
+        var den = hasDen ? Number(cfg.giaDen) : null;
+        // Map 3 mức Giỏ trái cây theo URL cũ
+        if (tu === 0 && den === 500000) {
+          params.append('MUC_GIA[' + index + '][MAX_VALUE]', '500000');
+          params.append('MUC_GIA[' + index + '][MAX_INCLUSIVE]', '0');
+        } else if (tu === 500000 && den === 700000) {
+          params.append('MUC_GIA[' + index + '][MIN_VALUE]', '500000');
+          params.append('MUC_GIA[' + index + '][MAX_VALUE]', '700000');
+          params.append('MUC_GIA[' + index + '][MIN_INCLUSIVE]', '1');
+          params.append('MUC_GIA[' + index + '][MAX_INCLUSIVE]', '1');
+        } else if (tu === 700000 && !hasDen) {
+          params.append('MUC_GIA[' + index + '][MIN_VALUE]', '700000');
+          params.append('MUC_GIA[' + index + '][MIN_INCLUSIVE]', '0');
+        } else {
+          if (hasTu) {
+            params.append('MUC_GIA[' + index + '][MIN_VALUE]', String(cfg.giaTu));
+            params.append('MUC_GIA[' + index + '][MIN_INCLUSIVE]', '1');
+          }
+          if (hasDen) {
+            params.append('MUC_GIA[' + index + '][MAX_VALUE]', String(cfg.giaDen));
+            params.append('MUC_GIA[' + index + '][MAX_INCLUSIVE]', '1');
+          }
+        }
       }
     }
   }
@@ -330,12 +374,11 @@
   function buildSearchPageUrl(page) {
     var basePath = (cfg.pageBasePath || '/tat-ca-san-pham').replace(/\/+$/, '');
     var parts = [];
-    if (cfg.giaTu != null && cfg.giaTu !== '') {
-      var maxPart = cfg.giaDen != null && cfg.giaDen !== '' ? String(cfg.giaDen) : 'up';
-      parts.push('gia/' + String(cfg.giaTu) + '-' + maxPart);
-    }
     if (cfg.selectedGia && cfg.selectedGia.length) {
       parts.push('muc-gia/' + encodeURIComponent(cfg.selectedGia.join('--')));
+    } else if (cfg.giaTu != null && cfg.giaTu !== '') {
+      var maxPart = cfg.giaDen != null && cfg.giaDen !== '' ? String(cfg.giaDen) : 'up';
+      parts.push('gia/' + String(cfg.giaTu) + '-' + maxPart);
     }
     if (cfg.boLoc && cfg.boLoc !== 'default') {
       parts.push('sap-xep/' + encodeURIComponent(String(cfg.boLoc)));

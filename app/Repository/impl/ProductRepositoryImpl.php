@@ -234,16 +234,28 @@ class ProductRepositoryImpl extends BaseRepository implements ProductRepository
                     foreach ($arrMucGia as $index => $mucGia) {
                         $minValue = $mucGia['MIN_VALUE'] ?? null;
                         $maxValue = $mucGia['MAX_VALUE'] ?? null;
+                        // Mặc định bao gồm biên (>= / <=). Có thể tắt bằng MIN_INCLUSIVE / MAX_INCLUSIVE = false
+                        $minInclusive = !array_key_exists('MIN_INCLUSIVE', $mucGia)
+                            || filter_var($mucGia['MIN_INCLUSIVE'], FILTER_VALIDATE_BOOLEAN);
+                        $maxInclusive = !array_key_exists('MAX_INCLUSIVE', $mucGia)
+                            || filter_var($mucGia['MAX_INCLUSIVE'], FILTER_VALIDATE_BOOLEAN);
 
                         $q->orWhere(
-                            function($subquery) use ($minValue, $maxValue) {
-                                 // Khoảng giá bao gồm hai đầu: PRICE >= min và PRICE <= max
+                            function($subquery) use ($minValue, $maxValue, $minInclusive, $maxInclusive) {
                                  if (!is_null($minValue) && $minValue !== '') {
-                                    $subquery->where('p.PRICE', '>=', (float) $minValue);
+                                    $subquery->where(
+                                        'p.PRICE',
+                                        $minInclusive ? '>=' : '>',
+                                        (float) $minValue
+                                    );
                                 }
 
                                 if (!is_null($maxValue) && $maxValue !== '') {
-                                    $subquery->where('p.PRICE', '<=', (float) $maxValue);
+                                    $subquery->where(
+                                        'p.PRICE',
+                                        $maxInclusive ? '<=' : '<',
+                                        (float) $maxValue
+                                    );
                                 }
                             }
                         );

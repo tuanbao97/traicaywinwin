@@ -506,11 +506,14 @@
     return Number(cat && cat.ID) === 1004 || name.indexOf('giỏ quà trái cây') !== -1;
   }
 
-  /** Khoảng giá hardcode — >= min và <= max (max null = không giới hạn) */
+  /** Khoảng giá Giỏ trái cây — dưới: <500k | giữa: >=500k & <=700k | trên: >700k */
   var gioQuaPriceRanges = @json(storefrontGioQuaPriceRanges());
 
   function buildGioQuaPriceSearchUrl(range) {
-    var path = '/danh-muc/gio-qua-trai-cay-1004/gia/' + encodeURIComponent(String(range.min)) + '-' + (range.max != null ? encodeURIComponent(String(range.max)) : 'up');
+    var chipId = range && range.id ? String(range.id) : '';
+    var path = chipId
+      ? '/danh-muc/gio-qua-trai-cay-1004/muc-gia/' + encodeURIComponent(chipId)
+      : '/danh-muc/gio-qua-trai-cay-1004';
     return cfg.appUrl + path;
   }
 

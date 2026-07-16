@@ -426,14 +426,9 @@ class ThemeStorefrontController extends Controller
         $giaDenVal = array_key_exists('giaDen', $params) && $params['giaDen'] !== null && $params['giaDen'] !== ''
             ? (int) $params['giaDen']
             : null;
-        if ($giaTuVal !== null || $giaDenVal !== null) {
-            $range = [];
-            if ($giaTuVal !== null && $giaTuVal >= 0) {
-                $range['MIN_VALUE'] = $giaTuVal;
-            }
-            if ($giaDenVal !== null && $giaDenVal > 0) {
-                $range['MAX_VALUE'] = $giaDenVal;
-            }
+        // Chỉ dùng giaTu/giaDen khi không có chip mức giá (chip đã mang đúng < / >=<= / >)
+        if ($selectedPriceFilterIds === [] && ($giaTuVal !== null || $giaDenVal !== null)) {
+            $range = $this->buildMucGiaRangeFromGiaTuDen($giaTuVal, $giaDenVal);
             if ($range !== []) {
                 $mucGia[] = $range;
             }
@@ -905,14 +900,17 @@ class ThemeStorefrontController extends Controller
     }
 
     /**
-     * @return array<int, array{id: string, label: string, min: int|null, max: int|null}>
+     * @return array<int, array{id: string, label: string, min: int|null, max: int|null, minInclusive: bool, maxInclusive: bool}>
      */
     private function productPriceFilterOptions(): array
     {
         return [
-            ['id' => 'duoi-500k', 'label' => 'Dưới 500k', 'min' => 0, 'max' => 500000],
-            ['id' => '500-700k', 'label' => 'Từ 500k đến 700k', 'min' => 500000, 'max' => 700000],
-            ['id' => 'tren-700k', 'label' => 'Trên 700k', 'min' => 700000, 'max' => null],
+            // dưới 500k → PRICE < 500000
+            ['id' => 'duoi-500k', 'label' => 'Dưới 500k', 'min' => null, 'max' => 500000, 'minInclusive' => true, 'maxInclusive' => false],
+            // từ 500k đến 700k → PRICE >= 500000 và <= 700000
+            ['id' => '500-700k', 'label' => 'Từ 500k đến 700k', 'min' => 500000, 'max' => 700000, 'minInclusive' => true, 'maxInclusive' => true],
+            // trên 700k → PRICE > 700000
+            ['id' => 'tren-700k', 'label' => 'Trên 700k', 'min' => 700000, 'max' => null, 'minInclusive' => false, 'maxInclusive' => true],
         ];
     }
 
@@ -936,8 +934,8 @@ class ThemeStorefrontController extends Controller
 
     /**
      * @param  array<int, string>  $selectedIds
-     * @param  array<int, array{id: string, label: string, min: int|null, max: int|null}>  $options
-     * @return array<int, array{MIN_VALUE?: int, MAX_VALUE?: int}>
+     * @param  array<int, array{id: string, label: string, min: int|null, max: int|null, minInclusive?: bool, maxInclusive?: bool}>  $options
+     * @return array<int, array{MIN_VALUE?: int, MAX_VALUE?: int, MIN_INCLUSIVE?: bool, MAX_INCLUSIVE?: bool}>
      */
     private function buildMucGiaFromFilterIds(array $selectedIds, array $options): array
     {
@@ -960,9 +958,15 @@ class ThemeStorefrontController extends Controller
             $range = [];
             if ($option['min'] !== null) {
                 $range['MIN_VALUE'] = (int) $option['min'];
+                $range['MIN_INCLUSIVE'] = array_key_exists('minInclusive', $option)
+                    ? (bool) $option['minInclusive']
+                    : true;
             }
             if ($option['max'] !== null) {
                 $range['MAX_VALUE'] = (int) $option['max'];
+                $range['MAX_INCLUSIVE'] = array_key_exists('maxInclusive', $option)
+                    ? (bool) $option['maxInclusive']
+                    : true;
             }
             if ($range !== []) {
                 $mucGia[] = $range;
@@ -970,6 +974,53 @@ class ThemeStorefrontController extends Controller
         }
 
         return $mucGia;
+    }
+
+    /**
+     * Map URL gia/{tu}-{den} sang khoảng giá.
+     * Nhận diện 3 mức Giỏ trái cây để áp đúng toán tử; còn lại mặc định >= và <=.
+     *
+     * @return array{MIN_VALUE?: int, MAX_VALUE?: int, MIN_INCLUSIVE?: bool, MAX_INCLUSIVE?: bool}
+     */
+    private function buildMucGiaRangeFromGiaTuDen(?int $giaTuVal, ?int $giaDenVal): array
+    {
+        // dưới 500k: gia/0-500000 → PRICE < 500000
+        if ($giaTuVal === 0 && $giaDenVal === 500000) {
+            return [
+                'MAX_VALUE' => 500000,
+                'MAX_INCLUSIVE' => false,
+            ];
+        }
+
+        // từ 500k đến 700k: gia/500000-700000 → >= và <=
+        if ($giaTuVal === 500000 && $giaDenVal === 700000) {
+            return [
+                'MIN_VALUE' => 500000,
+                'MAX_VALUE' => 700000,
+                'MIN_INCLUSIVE' => true,
+                'MAX_INCLUSIVE' => true,
+            ];
+        }
+
+        // trên 700k: gia/700000-up → PRICE > 700000
+        if ($giaTuVal === 700000 && $giaDenVal === null) {
+            return [
+                'MIN_VALUE' => 700000,
+                'MIN_INCLUSIVE' => false,
+            ];
+        }
+
+        $range = [];
+        if ($giaTuVal !== null && $giaTuVal >= 0) {
+            $range['MIN_VALUE'] = $giaTuVal;
+            $range['MIN_INCLUSIVE'] = true;
+        }
+        if ($giaDenVal !== null && $giaDenVal > 0) {
+            $range['MAX_VALUE'] = $giaDenVal;
+            $range['MAX_INCLUSIVE'] = true;
+        }
+
+        return $range;
     }
 
     private function buildProductCategoryKey(int $categoryId): string

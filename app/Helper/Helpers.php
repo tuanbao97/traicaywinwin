@@ -470,29 +470,51 @@ use Illuminate\Support\Facades\DB;
 
     if (!function_exists('storefrontGioQuaPriceRanges')) {
         /**
-         * Khoảng giá cho tab/menu Giỏ trái cây (hardcode UI).
-         * Mỗi khoảng luôn bao gồm biên: PRICE >= min và PRICE <= max (max = null → không giới hạn trên).
+         * Khoảng giá Giỏ trái cây:
+         * - dưới 500k: PRICE < 500000
+         * - từ 500k đến 700k: PRICE >= 500000 và PRICE <= 700000
+         * - trên 700k: PRICE > 700000
          *
-         * @return array<int, array{label: string, min: int, max: int|null}>
+         * @return array<int, array{id: string, label: string, min: int|null, max: int|null, minInclusive: bool, maxInclusive: bool}>
          */
         function storefrontGioQuaPriceRanges(): array
         {
             return [
-                ['label' => 'Giỏ trái cây dưới 500k', 'min' => 0, 'max' => 500000],
-                ['label' => 'Giỏ trái cây từ 500k đến 700k', 'min' => 500000, 'max' => 700000],
-                ['label' => 'Giỏ trái cây trên 700k', 'min' => 700000, 'max' => null],
+                [
+                    'id' => 'duoi-500k',
+                    'label' => 'Giỏ trái cây dưới 500k',
+                    'min' => null,
+                    'max' => 500000,
+                    'minInclusive' => true,
+                    'maxInclusive' => false,
+                ],
+                [
+                    'id' => '500-700k',
+                    'label' => 'Giỏ trái cây từ 500k đến 700k',
+                    'min' => 500000,
+                    'max' => 700000,
+                    'minInclusive' => true,
+                    'maxInclusive' => true,
+                ],
+                [
+                    'id' => 'tren-700k',
+                    'label' => 'Giỏ trái cây trên 700k',
+                    'min' => 700000,
+                    'max' => null,
+                    'minInclusive' => false,
+                    'maxInclusive' => true,
+                ],
             ];
         }
     }
 
     if (!function_exists('storefrontGioQuaPriceSearchUrl')) {
-        function storefrontGioQuaPriceSearchUrl(int $min, ?int $max = null): string
+        function storefrontGioQuaPriceSearchUrl(string $chipId): string
         {
             return storefrontListingUrl([
                 'mode' => 'category',
                 'categoryKey' => 'gio-qua-trai-cay-1004',
-                'giaTu' => $min,
-                'giaDen' => $max,
+                'giaChips' => [$chipId],
             ]);
         }
     }
@@ -505,10 +527,7 @@ use Illuminate\Support\Facades\DB;
         {
             $map = [];
             foreach (storefrontGioQuaPriceRanges() as $range) {
-                $map[$range['label']] = storefrontGioQuaPriceSearchUrl(
-                    (int) $range['min'],
-                    $range['max'] !== null ? (int) $range['max'] : null
-                );
+                $map[$range['label']] = storefrontGioQuaPriceSearchUrl((string) $range['id']);
             }
 
             return $map;

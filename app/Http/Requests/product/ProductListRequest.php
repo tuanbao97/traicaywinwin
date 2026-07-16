@@ -137,6 +137,16 @@ class ProductListRequest extends FormRequest
                 , 'nullable'
                 , 'numeric'
             ]
+            , 'MUC_GIA.*.MIN_INCLUSIVE' => [
+                'bail'
+                , 'nullable'
+                , 'boolean'
+            ]
+            , 'MUC_GIA.*.MAX_INCLUSIVE' => [
+                'bail'
+                , 'nullable'
+                , 'boolean'
+            ]
             , 'TINH_THANH_PHO' => [
                 'bail'
                 , 'nullable'
