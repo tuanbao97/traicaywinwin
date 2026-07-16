@@ -178,7 +178,7 @@
               data-src="{{ $ww['mapUrl'] }}"
               width="600"
               height="300"
-              style="border:0;"
+              style="border:0;display:block;min-height:200px;background:#f1f5f9;"
               allowfullscreen=""
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"

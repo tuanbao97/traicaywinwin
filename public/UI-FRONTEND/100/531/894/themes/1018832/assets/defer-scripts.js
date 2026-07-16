@@ -122,6 +122,7 @@ function horizontalNav () {
 	}	
 }
 let lastScrollTop = 0
+let stickyHeaderTicking = false
 function initStickyHeader(){
 		const stickyHeader = $('.header')
 		const isInputFocus = $('.header input:focus').length > 0
@@ -145,6 +146,14 @@ function initStickyHeader(){
 		lastScrollTop = scrollTop;
 	
 	}
+function initStickyHeaderOnScroll() {
+	if (stickyHeaderTicking) return;
+	stickyHeaderTicking = true;
+	requestAnimationFrame(function () {
+		initStickyHeader();
+		stickyHeaderTicking = false;
+	});
+}
 function lazyloadSrc(){
 	const elements = document.querySelectorAll('[data-lazyload]');
 	const observer = new IntersectionObserver((entries) => {
@@ -175,6 +184,8 @@ subscribe(window.themeConfigs.firstInteraction, (e)=>{
 	 function awe_backtotop() { 
 		if ($('.back-to-top').length) {
 			var scrollTrigger = 100, // px
+				backToTopTicking = false,
+				docHeightMinus700 = 0,
 				backToTop = function () {
 					var scrollTop = $(window).scrollTop();
 					if (scrollTop > scrollTrigger) {
@@ -183,7 +194,10 @@ subscribe(window.themeConfigs.firstInteraction, (e)=>{
 						$('.back-to-top').removeClass('show');
 					}
 
-					if (scrollTop > ($(document).height() - 700) ) {
+					if (!docHeightMinus700 || scrollTop > docHeightMinus700 - 400) {
+						docHeightMinus700 = $(document).height() - 700;
+					}
+					if (scrollTop > docHeightMinus700 ) {
 						$('.back-to-top').addClass('end');
 					} else {
 						$('.back-to-top').removeClass('end');
@@ -191,7 +205,12 @@ subscribe(window.themeConfigs.firstInteraction, (e)=>{
 				};
 			backToTop();
 			$(window).on('scroll', function () {
-				backToTop();
+				if (backToTopTicking) return;
+				backToTopTicking = true;
+				requestAnimationFrame(function () {
+					backToTop();
+					backToTopTicking = false;
+				});
 			});
 			$('.back-to-top').on('click', function (e) {
 				e.preventDefault();
@@ -205,7 +224,7 @@ subscribe(window.themeConfigs.firstInteraction, (e)=>{
 	
 	function initNavigation(){
 
-	$(window).scroll(initStickyHeader)
+	$(window).scroll(initStickyHeaderOnScroll)
 	$('.floating_banner .btn').click((e)=>{
 		$('.floating_banner').remove()
 

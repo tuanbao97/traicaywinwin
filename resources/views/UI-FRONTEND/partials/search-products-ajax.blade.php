@@ -36,13 +36,45 @@
     batchSize: window.matchMedia && window.matchMedia('(max-width: 767px)').matches ? 12 : 20,
     io: null,
     sentinel: null,
+    appending: false,
+    pendingBatches: 0,
+    container: null,
   };
+
+  function getGridCols() {
+    if (window.matchMedia && window.matchMedia('(min-width: 976px)').matches) return 4;
+    if (window.matchMedia && window.matchMedia('(min-width: 480px)').matches) return 3;
+    return 2;
+  }
+
+  function updateSentinelReserve() {
+    if (!listStream.sentinel) return;
+    var remaining = listStream.rows.length - listStream.rendered;
+    if (remaining <= 0) {
+      listStream.sentinel.style.minHeight = '1px';
+      return;
+    }
+    var cols = getGridCols();
+    var rowsLeft = Math.ceil(remaining / cols);
+    // Giữ chiều cao phía dưới → scroll không nhảy khi batch chèn thêm
+    listStream.sentinel.style.minHeight = rowsLeft * 340 + 'px';
+  }
 
   var cardImgIo = null;
 
   function activateLazyCardImages(root) {
     var scope = root || document;
-    var imgs = scope.querySelectorAll('img.ww-card-img-lazy[data-src]:not([data-img-loaded])');
+    if (root && root.nodeType === 1 && root.matches && root.matches('card-product')) {
+      activateLazyCardImagesInScope(root);
+      return;
+    }
+    activateLazyCardImagesInScope(scope);
+  }
+
+  function activateLazyCardImagesInScope(scope) {
+    var imgs = scope.querySelectorAll
+      ? scope.querySelectorAll('img.ww-card-img-lazy[data-src]:not([data-img-loaded])')
+      : [];
     if (!imgs.length) return;
 
     if (!('IntersectionObserver' in window)) {
@@ -66,11 +98,13 @@
             cardImgIo.unobserve(img);
           });
         },
-        { rootMargin: '280px 0px', threshold: 0.01 }
+        { rootMargin: '400px 0px', threshold: 0.01 }
       );
     }
 
     imgs.forEach(function (img) {
+      if (img.getAttribute('data-img-watching') === '1') return;
+      img.setAttribute('data-img-watching', '1');
       cardImgIo.observe(img);
     });
   }
@@ -91,27 +125,36 @@
       s.id = 'ww-search-grid-sentinel';
       s.className = 'ww-search-grid-sentinel';
       s.setAttribute('aria-hidden', 'true');
-      s.style.cssText = 'height:1px;width:100%;grid-column:1/-1;pointer-events:none;';
+      s.style.cssText =
+        'width:100%;grid-column:1/-1;pointer-events:none;min-height:1px;overflow-anchor:none;';
       container.appendChild(s);
     }
     listStream.sentinel = s;
     return s;
   }
 
-  function appendProductBatch(container) {
+  function appendProductBatch(container, maxBatches) {
     if (listStream.rendered >= listStream.rows.length) return false;
-
-    var end = Math.min(listStream.rendered + listStream.batchSize, listStream.rows.length);
+    maxBatches = maxBatches || 1;
+    var batches = 0;
     var html = '';
-    for (var i = listStream.rendered; i < end; i++) {
-      html += buildCardHtml(listStream.rows[i]);
+
+    while (batches < maxBatches && listStream.rendered < listStream.rows.length) {
+      var end = Math.min(listStream.rendered + listStream.batchSize, listStream.rows.length);
+      for (var i = listStream.rendered; i < end; i++) {
+        html += buildCardHtml(listStream.rows[i]);
+      }
+      listStream.rendered = end;
+      batches++;
     }
+
+    if (!html) return false;
 
     var sentinel = ensureListSentinel(container);
     sentinel.insertAdjacentHTML('beforebegin', html);
     activateLazyCardImages(container);
 
-    listStream.rendered = end;
+    updateSentinelReserve();
 
     if (listStream.rendered >= listStream.rows.length && listStream.io && listStream.sentinel) {
       listStream.io.unobserve(listStream.sentinel);
@@ -122,20 +165,64 @@
     return true;
   }
 
+  function scheduleAppendBatches(container, maxBatches) {
+    if (listStream.rendered >= listStream.rows.length) return;
+    listStream.container = container;
+    listStream.pendingBatches = Math.max(listStream.pendingBatches || 0, maxBatches || 1);
+    if (listStream.appending) return;
+
+    function drain() {
+      if (listStream.rendered >= listStream.rows.length) {
+        listStream.appending = false;
+        listStream.pendingBatches = 0;
+        return;
+      }
+
+      var batches = listStream.pendingBatches || 1;
+      listStream.pendingBatches = 0;
+      listStream.appending = true;
+
+      requestAnimationFrame(function () {
+        appendProductBatch(container, batches);
+        listStream.appending = false;
+
+        if (listStream.pendingBatches > 0) {
+          drain();
+          return;
+        }
+
+        if (
+          listStream.rendered < listStream.rows.length &&
+          listStream.sentinel
+        ) {
+          var rect = listStream.sentinel.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 2.2) {
+            scheduleAppendBatches(container, 1);
+          }
+        }
+      });
+    }
+
+    drain();
+  }
+
   function setupListStreamObserver(container) {
     if (listStream.rendered >= listStream.rows.length) return;
 
     var sentinel = ensureListSentinel(container);
+    updateSentinelReserve();
 
     if (!listStream.io) {
+      var preloadPx = Math.max(900, Math.round(window.innerHeight * 1.8));
       listStream.io = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (entry) {
             if (!entry.isIntersecting) return;
-            appendProductBatch(container);
+            // Preload sớm + nạp 2 batch/lần khi kéo nhanh
+            scheduleAppendBatches(container, 2);
           });
         },
-        { rootMargin: '500px 0px', threshold: 0 }
+        { rootMargin: preloadPx + 'px 0px ' + preloadPx + 'px 0px', threshold: 0 }
       );
     }
 
@@ -146,9 +233,27 @@
     resetListStream();
     listStream.rows = rows;
     container.innerHTML = '';
-    appendProductBatch(container);
+    // Mở đầu 2 batch để kéo nhanh không đụng “tường” cuối list
+    appendProductBatch(container, 2);
     if (listStream.rendered < listStream.rows.length) {
       setupListStreamObserver(container);
+      // Nền: nạp thêm batch khi trình duyệt rảnh
+      var preloadMore = function () {
+        if (listStream.rendered >= listStream.rows.length) return;
+        scheduleAppendBatches(container, 1);
+        if (listStream.rendered < listStream.rows.length) {
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(preloadMore, { timeout: 1200 });
+          } else {
+            setTimeout(preloadMore, 400);
+          }
+        }
+      };
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(preloadMore, { timeout: 800 });
+      } else {
+        setTimeout(function () { scheduleAppendBatches(container, 1); }, 300);
+      }
     }
   }
 

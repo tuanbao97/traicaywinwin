@@ -246,8 +246,10 @@
       /* giữ bootstrap từ server */
     });
 
-  // Google Maps: chỉ gắn src khi iframe gần viewport (giảm giật scroll trên iPhone)
+  // Google Maps: chỉ gắn src khi iframe gần viewport và người dùng ngừng kéo (tránh giật cuối trang)
   var mapIo = null;
+  var mapScrollTimer = null;
+  var mapPending = [];
 
   function activateMapIframe(iframe) {
     if (!iframe || iframe.getAttribute('data-map-loaded') === '1') return;
@@ -255,6 +257,17 @@
     if (!url) return;
     iframe.setAttribute('src', url);
     iframe.setAttribute('data-map-loaded', '1');
+  }
+
+  function activateMapIframeWhenScrollSettles(iframe) {
+    if (!iframe || iframe.getAttribute('data-map-loaded') === '1') return;
+    if (mapPending.indexOf(iframe) === -1) mapPending.push(iframe);
+    clearTimeout(mapScrollTimer);
+    mapScrollTimer = setTimeout(function () {
+      var list = mapPending.slice();
+      mapPending = [];
+      list.forEach(activateMapIframe);
+    }, 420);
   }
 
   function observeLazyMaps() {
@@ -267,15 +280,16 @@
     }
 
     if (!mapIo) {
+      var mapPreload = Math.max(120, Math.round(window.innerHeight * 0.15));
       mapIo = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (entry) {
             if (!entry.isIntersecting) return;
-            activateMapIframe(entry.target);
+            activateMapIframeWhenScrollSettles(entry.target);
             mapIo.unobserve(entry.target);
           });
         },
-        { rootMargin: '200px 0px', threshold: 0.01 }
+        { rootMargin: mapPreload + 'px 0px', threshold: 0.01 }
       );
     }
 
