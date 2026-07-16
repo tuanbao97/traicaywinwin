@@ -29,6 +29,129 @@
   var canHover =
     window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
+  /** Render dần khi scroll — không phân trang nhưng không nhồi hết DOM một lần */
+  var listStream = {
+    rows: [],
+    rendered: 0,
+    batchSize: window.matchMedia && window.matchMedia('(max-width: 767px)').matches ? 12 : 20,
+    io: null,
+    sentinel: null,
+  };
+
+  var cardImgIo = null;
+
+  function activateLazyCardImages(root) {
+    var scope = root || document;
+    var imgs = scope.querySelectorAll('img.ww-card-img-lazy[data-src]:not([data-img-loaded])');
+    if (!imgs.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      imgs.forEach(function (img) {
+        var url = img.getAttribute('data-src');
+        if (url) img.src = url;
+        img.setAttribute('data-img-loaded', '1');
+      });
+      return;
+    }
+
+    if (!cardImgIo) {
+      cardImgIo = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var img = entry.target;
+            var url = img.getAttribute('data-src');
+            if (url) img.src = url;
+            img.setAttribute('data-img-loaded', '1');
+            cardImgIo.unobserve(img);
+          });
+        },
+        { rootMargin: '280px 0px', threshold: 0.01 }
+      );
+    }
+
+    imgs.forEach(function (img) {
+      cardImgIo.observe(img);
+    });
+  }
+
+  function resetListStream() {
+    if (listStream.io && listStream.sentinel) {
+      listStream.io.unobserve(listStream.sentinel);
+    }
+    listStream.rows = [];
+    listStream.rendered = 0;
+    listStream.sentinel = null;
+  }
+
+  function ensureListSentinel(container) {
+    var s = document.getElementById('ww-search-grid-sentinel');
+    if (!s) {
+      s = document.createElement('div');
+      s.id = 'ww-search-grid-sentinel';
+      s.className = 'ww-search-grid-sentinel';
+      s.setAttribute('aria-hidden', 'true');
+      s.style.cssText = 'height:1px;width:100%;grid-column:1/-1;pointer-events:none;';
+      container.appendChild(s);
+    }
+    listStream.sentinel = s;
+    return s;
+  }
+
+  function appendProductBatch(container) {
+    if (listStream.rendered >= listStream.rows.length) return false;
+
+    var end = Math.min(listStream.rendered + listStream.batchSize, listStream.rows.length);
+    var html = '';
+    for (var i = listStream.rendered; i < end; i++) {
+      html += buildCardHtml(listStream.rows[i]);
+    }
+
+    var sentinel = ensureListSentinel(container);
+    sentinel.insertAdjacentHTML('beforebegin', html);
+    activateLazyCardImages(container);
+
+    listStream.rendered = end;
+
+    if (listStream.rendered >= listStream.rows.length && listStream.io && listStream.sentinel) {
+      listStream.io.unobserve(listStream.sentinel);
+      listStream.sentinel.remove();
+      listStream.sentinel = null;
+    }
+
+    return true;
+  }
+
+  function setupListStreamObserver(container) {
+    if (listStream.rendered >= listStream.rows.length) return;
+
+    var sentinel = ensureListSentinel(container);
+
+    if (!listStream.io) {
+      listStream.io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            appendProductBatch(container);
+          });
+        },
+        { rootMargin: '500px 0px', threshold: 0 }
+      );
+    }
+
+    listStream.io.observe(sentinel);
+  }
+
+  function renderProductList(container, rows) {
+    resetListStream();
+    listStream.rows = rows;
+    container.innerHTML = '';
+    appendProductBatch(container);
+    if (listStream.rendered < listStream.rows.length) {
+      setupListStreamObserver(container);
+    }
+  }
+
   if (!cfg.query && !cfg.categoryId && !cfg.listAll && !cfg.productHot && !cfg.productVip) return;
 
   function joinAppUrl(pathRel, updDt) {
@@ -207,15 +330,15 @@
       escapeHtml(title) +
       '">' +
       '<div class="card-product__badges absolute top-2 left-2 z-10 flex items-center gap-2"></div>' +
-      '<img class="product-frame w-full object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10" src="' +
+      '<img class="product-frame ww-card-img-lazy w-full object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10" data-src="' +
       escapeHtml(cfg.frameSrc) +
-      '" alt="" loading="lazy" width="480" height="480">' +
-      '<picture><source media="(max-width: 600px)" srcset="' +
+      '" alt="" width="480" height="480" decoding="async">' +
+      '<picture><source media="(max-width: 600px)" data-srcset="' +
       escapeHtml(avatarUrl(p)) +
       '">' +
       '<img class="' +
       imgMainClass +
-      '" width="480" height="480" decoding="async" loading="lazy" style="--image-scale:0.9" src="' +
+      ' ww-card-img-lazy" width="480" height="480" decoding="async" style="--image-scale:0.9" data-src="' +
       escapeHtml(avatarUrl(p)) +
       '" alt="' +
       escapeHtml(title) +
@@ -494,14 +617,20 @@
 
         if (!rows.length) {
           el.innerHTML = '<p class="col-span-full text-center text-sm text-slate-600 py-8">Không tìm thấy sản phẩm phù hợp.</p>';
+          resetListStream();
           return;
         }
 
-        var html = '';
-        for (var i = 0; i < rows.length; i++) {
-          html += buildCardHtml(rows[i]);
+        if (cfg.noPagination) {
+          renderProductList(el, rows);
+        } else {
+          var html = '';
+          for (var i = 0; i < rows.length; i++) {
+            html += buildCardHtml(rows[i]);
+          }
+          el.innerHTML = html;
+          activateLazyCardImages(el);
         }
-        el.innerHTML = html;
       })
       .catch(function () {
         if (el) {
