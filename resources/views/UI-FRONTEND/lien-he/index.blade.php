@@ -6,27 +6,17 @@
     ? 'https://maps.google.com/?q=' . rawurlencode($ww['address'])
     : ($ww['mapUrl'] ?: '#');
   $wwHotlineMeta = collect($ww['hotlines'])->pluck('display')->implode(' - ');
+  $seoTitle = 'Liên hệ — ' . ($ww['storeName'] ?: 'Win Win');
+  $seoDescription = 'Liên hệ ' . ($ww['storeName'] ?: 'Win Win')
+    . ($ww['address'] !== '' ? '. Địa chỉ ' . $ww['address'] : '')
+    . ($wwHotlineMeta !== '' ? '. Hotline ' . $wwHotlineMeta : '')
+    . '.';
 @endphp
 @include('UI-FRONTEND.san-pham.partials.product-detail-head')
 
 <body class="ega-theme page">
   <link rel="stylesheet" href="100/531/894/themes/1018832/assets/contact-page.css?ww-contact-2" media="all">
   @include('UI-FRONTEND.common.header')
-  <script>
-    (function () {
-      var title = @json('Liên hệ — ' . ($ww['storeName'] ?: 'Win Win'));
-      var desc = @json(
-        'Liên hệ ' . ($ww['storeName'] ?: 'Win Win')
-        . ($ww['address'] !== '' ? '. Địa chỉ ' . $ww['address'] : '')
-        . ($wwHotlineMeta !== '' ? '. Hotline ' . $wwHotlineMeta : '')
-        . '.'
-      );
-      var t = document.getElementById('ww-page-title');
-      if (t) t.textContent = title;
-      var meta = document.getElementById('ww-meta-description');
-      if (meta) meta.setAttribute('content', desc);
-    })();
-  </script>
 
   <main>
     <div class="breadcrumbs">

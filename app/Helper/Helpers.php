@@ -725,4 +725,121 @@ use Illuminate\Support\Facades\DB;
         }
     }
 
+    /**
+     * Đảm bảo URL tuyệt đối (Facebook / crawler cần absolute https).
+     */
+    if (!function_exists('storefrontAbsoluteUrl')) {
+        function storefrontAbsoluteUrl(?string $url): string
+        {
+            if ($url === null || $url === '') {
+                return '';
+            }
+
+            if (preg_match('#^https?://#i', $url)) {
+                return $url;
+            }
+
+            if (str_starts_with($url, '//')) {
+                return 'https:' . $url;
+            }
+
+            return url('/' . ltrim($url, '/'));
+        }
+    }
+
+    /**
+     * Ảnh mặc định khi share Facebook / OG (asset thuộc domain Win Win).
+     */
+    if (!function_exists('storefrontDefaultShareImageUrl')) {
+        function storefrontDefaultShareImageUrl(): string
+        {
+            return storefrontAbsoluteUrl(asset('UI-FRONTEND/images/win-win-cua-hang.png'));
+        }
+    }
+
+    /**
+     * Favicon / icon site (logo Win Win).
+     */
+    if (!function_exists('storefrontFaviconUrl')) {
+        function storefrontFaviconUrl(): string
+        {
+            return storefrontAbsoluteUrl(asset('UI-FRONTEND/images/logo-win-win-tron.png'));
+        }
+    }
+
+    /**
+     * URL ảnh từ 1 item document storage (PATH hoặc DIRECTORY/NAME).
+     *
+     * @param  array<string, mixed>|null  $media
+     */
+    if (!function_exists('storefrontMediaImageUrl')) {
+        function storefrontMediaImageUrl(?array $media, mixed $parentUpd = null, bool $preferOriginal = true): string
+        {
+            if ($media === null || $media === []) {
+                return '';
+            }
+
+            $bust = $parentUpd ?? ($media['UPD_DT'] ?? null);
+
+            if (! empty($media['PATH'])) {
+                return storefrontAbsoluteUrl(storefrontImageUrl((string) $media['PATH'], $bust));
+            }
+
+            $name = (string) ($media['IMAGE_THUMNAIL'] ?? $media['NAME'] ?? '');
+            $dir = trim((string) ($media['DIRECTORY'] ?? ''), '/');
+            if ($dir === '' || $name === '') {
+                return '';
+            }
+
+            $rel = $preferOriginal
+                ? ($dir . '/' . $name)
+                : ($dir . '/' . ((string) ($media['ASPECT_RATIO'] ?? '1x1')) . '_' . $name);
+
+            return storefrontAbsoluteUrl(storefrontImageUrl($rel, $bust));
+        }
+    }
+
+    /**
+     * Meta SEO/OG mặc định + override từng trang.
+     *
+     * @param  array{
+     *   title?: string,
+     *   description?: string,
+     *   image?: string,
+     *   type?: string,
+     *   url?: string
+     * }  $overrides
+     * @return array{title: string, description: string, image: string, type: string, url: string, siteName: string}
+     */
+    if (!function_exists('storefrontSeo')) {
+        function storefrontSeo(array $overrides = []): array
+        {
+            $ww = wwWebContact();
+            $siteName = $ww['storeName'] !== '' ? $ww['storeName'] : 'Win Win Trái Cây Nhập Khẩu';
+            $defaultDesc = $ww['description'] !== ''
+                ? $ww['description']
+                : 'Win Win Trái Cây Nhập Khẩu — trái cây tươi, giỏ quà và quà tặng: giao nhanh, nhiều set combo, phù hợp biếu tặng và tiệc.';
+
+            $title = trim((string) ($overrides['title'] ?? ''));
+            $description = trim((string) ($overrides['description'] ?? ''));
+            $image = trim((string) ($overrides['image'] ?? ''));
+            $type = trim((string) ($overrides['type'] ?? ''));
+            $url = trim((string) ($overrides['url'] ?? ''));
+
+            if ($description !== '') {
+                $description = preg_replace('/\s+/u', ' ', strip_tags($description)) ?? $description;
+                $description = mb_substr($description, 0, 300);
+            }
+
+            return [
+                'title' => $title !== '' ? $title : $siteName,
+                'description' => $description !== '' ? $description : $defaultDesc,
+                'image' => $image !== '' ? storefrontAbsoluteUrl($image) : storefrontDefaultShareImageUrl(),
+                'type' => $type !== '' ? $type : 'website',
+                'url' => $url !== '' ? storefrontAbsoluteUrl($url) : url()->current(),
+                'siteName' => $siteName,
+            ];
+        }
+    }
+
 ?>

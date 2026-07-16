@@ -724,10 +724,17 @@ class ThemeStorefrontController extends Controller
             return $this->productQuickViewFragment($productId, $slug);
         }
 
+        $seo = $this->resolveProductShareSeo($productId);
+
         return view('UI-FRONTEND.san-pham.chi-tiet', [
             'productId' => $productId,
             'productSlug' => $slug,
             'productKey' => $productKey,
+            'seoTitle' => $seo['title'],
+            'seoDescription' => $seo['description'],
+            'seoImage' => $seo['image'],
+            'seoType' => 'product',
+            'seoUrl' => url()->current(),
         ]);
     }
 
@@ -827,6 +834,71 @@ class ThemeStorefrontController extends Controller
             'hotNews' => $this->fetchNewsList(1, 5, null, true)['items'],
             'appUrl' => rtrim(url('/'), '/'),
         ]);
+    }
+
+    /**
+     * Meta share Facebook cho chi tiết sản phẩm (server-side — crawler không chạy JS).
+     *
+     * @return array{title: string, description: string, image: string}
+     */
+    private function resolveProductShareSeo(int $productId): array
+    {
+        $fallback = storefrontSeo(['type' => 'product']);
+
+        try {
+            $response = $this->productService->getDetailSanPham($productId, Request::create('/', 'GET'));
+            $body = json_decode($response->getContent(), true);
+            $product = $body['DATAS']['PRODUCT'] ?? null;
+        } catch (Throwable) {
+            return [
+                'title' => $fallback['title'],
+                'description' => $fallback['description'],
+                'image' => $fallback['image'],
+            ];
+        }
+
+        if (! is_array($product) || empty($product['ID'])) {
+            return [
+                'title' => $fallback['title'],
+                'description' => $fallback['description'],
+                'image' => $fallback['image'],
+            ];
+        }
+
+        $name = trim((string) ($product['TEN_SAN_PHAM'] ?? ''));
+        $title = ($name !== '' ? $name : 'Sản phẩm') . ' — Win Win';
+
+        $description = trim((string) ($product['MO_TA_CHI_TIET_ONLY_TEXT'] ?? ''));
+        if ($description === '') {
+            $description = trim(strip_tags((string) ($product['MO_TA_CHI_TIET'] ?? '')));
+        }
+        if ($description === '') {
+            $description = $name !== ''
+                ? ($name . ' tại ' . $fallback['siteName'])
+                : $fallback['description'];
+        }
+
+        $image = '';
+        $upd = $product['UPD_DT'] ?? null;
+        foreach (['DANH_SACH_HINH_ANH_DAI_DIEN', 'DANH_SACH_HINH_ANH'] as $key) {
+            $list = $product[$key] ?? [];
+            if (! is_array($list) || $list === []) {
+                continue;
+            }
+            $first = $list[0] ?? null;
+            if (is_array($first)) {
+                $image = storefrontMediaImageUrl($first, $upd, true);
+            }
+            if ($image !== '') {
+                break;
+            }
+        }
+
+        return [
+            'title' => $title,
+            'description' => $description,
+            'image' => $image !== '' ? $image : $fallback['image'],
+        ];
     }
 
     private function productQuickViewFragment(int $productId, string $slug): Response

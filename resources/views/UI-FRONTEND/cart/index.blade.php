@@ -1,12 +1,10 @@
+@php
+  $seoTitle = 'Giỏ hàng — Win Win';
+  $seoDescription = 'Giỏ hàng mua sắm tại Win Win Trái Cây Nhập Khẩu.';
+@endphp
 @include('UI-FRONTEND.san-pham.partials.product-detail-head')
 
 <body class="ega-theme cart">@include('UI-FRONTEND.common.header')
-  <script>
-    (function () {
-      var t = document.getElementById('ww-page-title');
-      if (t) t.textContent = 'Giỏ hàng — Win Win';
-    })();
-  </script>
 
   <main>
     <style>

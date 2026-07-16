@@ -13,8 +13,7 @@
       name="viewport"
       content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
     >
-    <meta name="description" content="" id="ww-meta-description">
-    <title id="ww-page-title">Chi tiết sản phẩm — Win Win</title>
+    @include('UI-FRONTEND.common.og-meta')
 
     <script>
       var Bizweb = Bizweb || {};
@@ -77,16 +76,6 @@
     >
     <link rel="preconnect" href="https://bizweb.dktcdn.net">
     <link rel="preconnect" href="https://egany.com" crossorigin="">
-    <meta property="og:type" content="product">
-    <meta property="og:title" content="Chi tiết sản phẩm — Win Win">
-    <meta
-      property="og:image"
-      content="https://bizweb.dktcdn.net/100/531/894/themes/1018832/assets/share_fb_home.jpg?1768901692132"
-    >
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:site_name" content="Win Win Trái Cây Nhập Khẩu">
-    <link rel="icon" href="{{ asset('UI-FRONTEND/images/logo-win-win-tron.png') }}" type="image/png">
-
     <link rel="preload" as="script" href="100/531/894/themes/1018832/assets/vendors.js?1768901692132">
     <script src="100/531/894/themes/1018832/assets/vendors.js?1768901692132"></script>
     <script src="100/531/894/themes/1018832/assets/jquery.js?1768901692132"></script>

@@ -1,19 +1,12 @@
+@php
+  $seoTitle = 'Chính sách bảo hành — Win Win';
+  $seoDescription = 'Chính sách bảo hành và hỗ trợ sau mua tại Win Win Trái Cây Nhập Khẩu & Quà tặng. Hotline 0905 454 775 - 0905 09 09 10.';
+@endphp
 @include('UI-FRONTEND.san-pham.partials.product-detail-head')
 
 <body class="ega-theme page">
   <link rel="stylesheet" href="100/531/894/themes/1018832/assets/policy-page.css?ww-policy-2" media="all">
   @include('UI-FRONTEND.common.header')
-  <script>
-    (function () {
-      var title = 'Chính sách bảo hành — Win Win';
-      var desc =
-        'Chính sách bảo hành và hỗ trợ sau mua tại Win Win Trái Cây Nhập Khẩu & Quà tặng. Hotline 0905 454 775 - 0905 09 09 10.';
-      var t = document.getElementById('ww-page-title');
-      if (t) t.textContent = title;
-      var meta = document.getElementById('ww-meta-description');
-      if (meta) meta.setAttribute('content', desc);
-    })();
-  </script>
 
   <main>
     <div class="breadcrumbs">

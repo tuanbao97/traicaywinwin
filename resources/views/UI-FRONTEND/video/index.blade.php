@@ -1,17 +1,11 @@
+@php
+  $seoTitle = 'Video — Win Win';
+  $seoDescription = 'Video giới thiệu sản phẩm, giỏ quà và hoạt động tại Win Win Trái Cây Nhập Khẩu & Quà tặng.';
+@endphp
 @include('UI-FRONTEND.san-pham.partials.product-detail-head')
 
 <body class="ega-theme page">
   @include('UI-FRONTEND.common.header')
-  <script>
-    (function () {
-      var title = 'Video — Win Win';
-      var desc = 'Video giới thiệu sản phẩm, giỏ quà và hoạt động tại Win Win Trái Cây Nhập Khẩu & Quà tặng.';
-      var t = document.getElementById('ww-page-title');
-      if (t) t.textContent = title;
-      var meta = document.getElementById('ww-meta-description');
-      if (meta) meta.setAttribute('content', desc);
-    })();
-  </script>
 
   <main>
     <div class="breadcrumbs">

@@ -1,19 +1,12 @@
+@php
+  $seoTitle = 'Giới thiệu — Win Win';
+  $seoDescription = 'Win Win Trái Cây Nhập Khẩu & Quà tặng — trái cây nhập khẩu chất lượng, giỏ quà và quà biếu. Hotline 0905 454 775 - 0905 09 09 10.';
+@endphp
 @include('UI-FRONTEND.san-pham.partials.product-detail-head')
 
 <body class="ega-theme page">
   <link rel="stylesheet" href="100/531/894/themes/1018832/assets/about-page.css?ww-about-4" media="all">
   @include('UI-FRONTEND.common.header')
-  <script>
-    (function () {
-      var title = 'Giới thiệu — Win Win';
-      var desc =
-        'Win Win Trái Cây Nhập Khẩu & Quà tặng — trái cây nhập khẩu chất lượng, giỏ quà và quà biếu. Hotline 0905 454 775 - 0905 09 09 10.';
-      var t = document.getElementById('ww-page-title');
-      if (t) t.textContent = title;
-      var meta = document.getElementById('ww-meta-description');
-      if (meta) meta.setAttribute('content', desc);
-    })();
-  </script>
 
   <main>
     <div class="breadcrumbs">

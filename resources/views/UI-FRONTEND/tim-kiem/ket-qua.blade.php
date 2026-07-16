@@ -1,15 +1,14 @@
+@php
+  $seoTitle = ($categoryName !== '' ? $categoryName : ($query !== '' ? 'Tìm kiếm: ' . $query : 'Tìm kiếm')) . ' — Win Win';
+  $seoDescription = $categoryName !== ''
+    ? ('Sản phẩm ' . $categoryName . ' tại Win Win Trái Cây Nhập Khẩu.')
+    : ($query !== ''
+      ? ('Kết quả tìm kiếm “' . $query . '” tại Win Win Trái Cây Nhập Khẩu.')
+      : 'Tìm kiếm sản phẩm tại Win Win Trái Cây Nhập Khẩu.');
+@endphp
 @include('UI-FRONTEND.san-pham.partials.product-detail-head')
 
 <body class="ega-theme search">@include('UI-FRONTEND.common.header')
-  <script>
-    (function () {
-      var t = document.getElementById('ww-page-title');
-      var title = @json(
-        ($categoryName !== '' ? $categoryName : ($query !== '' ? 'Tìm kiếm: ' . $query : 'Tìm kiếm')) . ' — Win Win'
-      );
-      if (t) t.textContent = title;
-    })();
-  </script>
 
   <main>
     <div class="breadcrumbs">

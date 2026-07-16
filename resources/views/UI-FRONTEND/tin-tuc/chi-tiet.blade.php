@@ -1,5 +1,3 @@
-@include('UI-FRONTEND.san-pham.partials.product-detail-head')
-
 @php
   $newsTitle = $news['TIEU_DE_TIN_TUC'] ?? 'Chi tiết tin tức';
   $newsSummary = $news['TOM_TAT_TIN_TUC'] ?? '';
@@ -27,21 +25,23 @@
   }
 
   $attachments = $news['DANH_SACH_FILE_DINH_KEM'] ?? [];
+
+  $seoTitle = $newsTitle . ' — Win Win';
+  $seoDescription = $newsSummary !== ''
+    ? $newsSummary
+    : 'Tin tức Win Win Trái Cây Nhập Khẩu & Quà tặng';
+  $seoImage = $heroImg
+    ? storefrontAbsoluteUrl($heroImg)
+    : (is_array($avatars) && isset($avatars[0]) && is_array($avatars[0])
+      ? storefrontMediaImageUrl($avatars[0], $updTime, true)
+      : null);
+  $seoType = 'article';
 @endphp
+@include('UI-FRONTEND.san-pham.partials.product-detail-head')
 
 <body class="ega-theme blog">
   <link rel="stylesheet" href="100/531/894/themes/1018832/assets/article-style.css?ww-news-3" media="all">
   @include('UI-FRONTEND.common.header')
-  <script>
-    (function () {
-      var title = @json($newsTitle . ' — Win Win');
-      var desc = @json($newsSummary !== '' ? $newsSummary : 'Tin tức Win Win Trái Cây Nhập Khẩu & Quà tặng');
-      var t = document.getElementById('ww-page-title');
-      if (t) t.textContent = title;
-      var meta = document.getElementById('ww-meta-description');
-      if (meta) meta.setAttribute('content', desc);
-    })();
-  </script>
 
   <main>
     <div class="breadcrumbs">

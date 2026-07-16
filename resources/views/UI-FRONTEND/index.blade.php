@@ -10,11 +10,16 @@
 
     <meta name="robots" content="noodp,index,follow">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta
-      name="description"
-      content="Win Win Trái Cây Nhập Khẩu — trái cây tươi, giỏ quà và quà tặng: giao nhanh, nhiều set combo, phù hợp biếu tặng và tiệc. Mua trực tuyến tiện lợi, chất lượng rõ nguồn gốc."
-    >
-    <title>Win Win Trái Cây Nhập Khẩu</title>
+    @php
+      $wwHome = wwWebContact();
+      $seoTitle = $wwHome['storeName'] ?: 'Win Win Trái Cây Nhập Khẩu';
+      $seoDescription = $wwHome['description'] !== ''
+        ? $wwHome['description']
+        : 'Win Win Trái Cây Nhập Khẩu — trái cây tươi, giỏ quà và quà tặng: giao nhanh, nhiều set combo, phù hợp biếu tặng và tiệc. Mua trực tuyến tiện lợi, chất lượng rõ nguồn gốc.';
+      $seoType = 'website';
+      $seoUrl = url('/');
+    @endphp
+    @include('UI-FRONTEND.common.og-meta')
 
     <script>
       var Bizweb = Bizweb || {};
@@ -76,24 +81,7 @@
     <link rel="preconnect" href="https://bizweb.dktcdn.net">
     <link rel="preconnect" href="https://egany.com">
     <link rel="preconnect" href="https://egany.com" crossorigin="">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Win Win Trái Cây Nhập Khẩu">
-    <meta
-      property="og:image"
-      content="https://bizweb.dktcdn.net/100/531/894/themes/1018832/assets/share_fb_home.jpg?1768901692132"
-    >
-    <meta
-      property="og:image:secure_url"
-      content="https://bizweb.dktcdn.net/100/531/894/themes/1018832/assets/share_fb_home.jpg?1768901692132"
-    >
-    <meta
-      property="og:description"
-      content="Trái cây tươi, giỏ quà và quà tặng — giao nhanh, combo hợp lý, phù hợp biếu tặng và tiệc."
-    >
-    <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:site_name" content="Win Win Trái Cây Nhập Khẩu">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="{{ asset('UI-FRONTEND/images/logo-win-win-tron.png') }}" type="image/png">
 
     <link rel="preload" as="script" media="all" href="100/531/894/themes/1018832/assets/vendors.js?1768901692132">
 

@@ -1,18 +1,12 @@
+@php
+  $seoTitle = 'Tin tức — Win Win';
+  $seoDescription = 'Tin tức, mẹo hay và chia sẻ về trái cây nhập khẩu, giỏ quà và quà tặng từ Win Win.';
+@endphp
 @include('UI-FRONTEND.san-pham.partials.product-detail-head')
 
 <body class="ega-theme blog">
   <link rel="stylesheet" href="100/531/894/themes/1018832/assets/article-style.css?ww-news-2" media="all">
   @include('UI-FRONTEND.common.header')
-  <script>
-    (function () {
-      var title = 'Tin tức — Win Win';
-      var desc = 'Tin tức, mẹo hay và chia sẻ về trái cây nhập khẩu, giỏ quà và quà tặng từ Win Win.';
-      var t = document.getElementById('ww-page-title');
-      if (t) t.textContent = title;
-      var meta = document.getElementById('ww-meta-description');
-      if (meta) meta.setAttribute('content', desc);
-    })();
-  </script>
 
   <main>
     <div class="breadcrumbs">

@@ -1,12 +1,10 @@
+@php
+  $seoTitle = 'Tất cả sản phẩm — Win Win';
+  $seoDescription = 'Danh sách sản phẩm trái cây, giỏ quà và quà tặng tại Win Win Trái Cây Nhập Khẩu.';
+@endphp
 @include('UI-FRONTEND.san-pham.partials.product-detail-head')
 
 <body class="ega-theme search ww-all-products">@include('UI-FRONTEND.common.header')
-  <script>
-    (function () {
-      var t = document.getElementById('ww-page-title');
-      if (t) t.textContent = 'Tất cả sản phẩm — Win Win';
-    })();
-  </script>
 
   <main>
     <div class="breadcrumbs">
