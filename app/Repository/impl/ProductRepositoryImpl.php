@@ -237,16 +237,13 @@ class ProductRepositoryImpl extends BaseRepository implements ProductRepository
 
                         $q->orWhere(
                             function($subquery) use ($minValue, $maxValue) {
-                                 if (!is_null($minValue)) {
-                                    $subquery->where([
-                                        ['p.PRICE', '>=', $minValue]
-                                    ]);
+                                 // Khoảng giá bao gồm hai đầu: PRICE >= min và PRICE <= max
+                                 if (!is_null($minValue) && $minValue !== '') {
+                                    $subquery->where('p.PRICE', '>=', (float) $minValue);
                                 }
 
-                                if (!is_null($maxValue)) {
-                                    $subquery->where([
-                                        ['p.PRICE', '<=', $maxValue]
-                                    ]);
+                                if (!is_null($maxValue) && $maxValue !== '') {
+                                    $subquery->where('p.PRICE', '<=', (float) $maxValue);
                                 }
                             }
                         );

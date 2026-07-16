@@ -315,11 +315,15 @@
       index++;
     });
 
-    if (cfg.giaTu != null && cfg.giaTu !== '') {
-      params.append('MUC_GIA[' + index + '][MIN_VALUE]', String(cfg.giaTu));
-    }
-    if (cfg.giaDen != null && cfg.giaDen !== '') {
-      params.append('MUC_GIA[' + index + '][MAX_VALUE]', String(cfg.giaDen));
+    var hasTu = cfg.giaTu != null && cfg.giaTu !== '';
+    var hasDen = cfg.giaDen != null && cfg.giaDen !== '';
+    if (hasTu || hasDen) {
+      if (hasTu) {
+        params.append('MUC_GIA[' + index + '][MIN_VALUE]', String(cfg.giaTu));
+      }
+      if (hasDen) {
+        params.append('MUC_GIA[' + index + '][MAX_VALUE]', String(cfg.giaDen));
+      }
     }
   }
 

@@ -471,7 +471,7 @@ use Illuminate\Support\Facades\DB;
     if (!function_exists('storefrontGioQuaPriceRanges')) {
         /**
          * Khoảng giá cho tab/menu Giỏ trái cây (hardcode UI).
-         * Mỗi khoảng: >= min và <= max (max = null → không giới hạn trên).
+         * Mỗi khoảng luôn bao gồm biên: PRICE >= min và PRICE <= max (max = null → không giới hạn trên).
          *
          * @return array<int, array{label: string, min: int, max: int|null}>
          */
