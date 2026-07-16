@@ -59,6 +59,7 @@
 
           @if ($query !== '' || $categoryId || !empty($productHot) || !empty($productVip) || !empty($listAll))
           <div class="ww-search-layout">
+            {{-- Filter giá danh sách sản phẩm (tạm ẩn)
             <div class="ww-search-filter-card ww-search-filter-card--inline mb-4 md:mb-5">
               <div class="ww-search-filter-card__row">
                 <div class="ww-search-filter-card__head">
@@ -98,6 +99,7 @@
                 </button>
               </div>
             </div>
+            --}}
 
             <ul class="heading-tabs heading-tabs--scroll mb-4 md:mb-6 w-full max-w-full overflow-x-auto list-none flex md:gap-3 gap-2 font-semibold whitespace-nowrap" id="search-sort-tabs">
               <li
