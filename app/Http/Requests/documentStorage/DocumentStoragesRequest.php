@@ -84,7 +84,7 @@ class DocumentStoragesRequest extends FormRequest
         
         /* Attributes for this request */
         $attributesForThisRequest = [
-            'other' => $this->ID,
+            'other' => $this->route('ID') ?? $this->input('ID'),
         ];
         
         /* Merge message from locale and for this request */

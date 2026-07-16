@@ -121,15 +121,20 @@ class ProductServiceImpl implements ProductService
         $arrProduct = $product->toArray();
         $product = $this->productRepository->save($arrProduct); // Lưu product vào database
 
+        if ($product === null) {
+            DB::rollBack();
+            throw new \RuntimeException('Không lưu được sản phẩm.');
+        }
+
         // Mặc định mã sản phẩm = ID nếu chưa nhập
         if (empty($product->MA_SAN_PHAM)) {
             $product->MA_SAN_PHAM = (string) $product->ID;
-            $this->productRepository->save($product->toArray());
+            $product = $this->productRepository->save($product->toArray());
         }
         
         // Nếu là update (có ID), fetch lại thông tin product
         if (!is_null($id)) {
-            $product = $this->productRepository->getDetailSanPham($id);
+            $product = $this->productRepository->getDetailSanPham((int) $id);
         }
 
         // Xử lý lưu thể loại danh mục sản phẩm

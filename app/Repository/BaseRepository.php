@@ -42,24 +42,31 @@ abstract class BaseRepository implements RepositoryInterface
 
     public function find($id, $primaryKey = 'ID')
     {
-        $result = $this->model->whereIn('STATUS', [
+        return $this->model->whereIn('STATUS', [
                 AppConstant::STATUS_USING,
                 AppConstant::STATUS_SOLD
-            ])->where($primaryKey, '=', $id);
-        return $result;
+            ])->where($primaryKey, '=', $id)
+            ->first();
     }
 
     public function save(array $attributes, $primaryKey = 'ID')
     {
-        $model = null;
-        
-        if (is_null($attributes[$primaryKey])) {
-            $model = $this->create($attributes);
-        } else {
-            $model = $this->update($attributes[$primaryKey], $attributes, $primaryKey);
+        if (! array_key_exists($primaryKey, $attributes) || is_null($attributes[$primaryKey])) {
+            return $this->create($attributes);
         }
-        return $model;
-        
+
+        $id = $attributes[$primaryKey];
+        $result = $this->update($id, $attributes, $primaryKey);
+        if ($result === null) {
+            return null;
+        }
+
+        // update() có thể trả về model; đảm bảo luôn trả entity sau khi lưu
+        if ($result instanceof \Illuminate\Database\Eloquent\Model) {
+            return $result;
+        }
+
+        return $this->find($id, $primaryKey);
     }
 
 
