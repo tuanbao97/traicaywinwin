@@ -13,6 +13,7 @@
     selectedGia: @json($selectedPriceFilterIds ?? []),
     giaTu: @json($giaTu ?? null),
     giaDen: @json($giaDen ?? null),
+    priceRangeMax: @json((int) ($priceRangeMax ?? 5000000)),
     page: @json($page ?? 1),
     perPage: @json($perPage ?? 20),
     skeletonCount: 20,
@@ -278,43 +279,106 @@
     return html;
   }
 
+  function parseMoneyInput(raw) {
+    if (raw == null) return null;
+    var digits = String(raw).replace(/[^\d]/g, '');
+    if (!digits) return null;
+    var n = parseInt(digits, 10);
+    return isFinite(n) ? n : null;
+  }
+
+  function formatMoneyInput(n) {
+    if (n == null || n === '') return '';
+    return formatIntViDots(n);
+  }
+
+  function snapPrice(n, step) {
+    step = step || 50000;
+    if (n == null) return null;
+    return Math.round(n / step) * step;
+  }
+
+  function readPriceRangeFromDom() {
+    var fromEl = document.getElementById('ww-price-from');
+    var toEl = document.getElementById('ww-price-to');
+    var from = fromEl ? parseMoneyInput(fromEl.value) : null;
+    var to = toEl ? parseMoneyInput(toEl.value) : null;
+    var maxCap = cfg.priceRangeMax || 5000000;
+    if (from != null && from < 0) from = 0;
+    if (from != null && from > maxCap) from = maxCap;
+    if (to != null && to > maxCap) to = maxCap;
+    if (from != null && to != null && from > to) {
+      var tmp = from;
+      from = to;
+      to = tmp;
+    }
+    // Cả 0 → 5tr (full range) thì không cần filter
+    if ((from == null || from <= 0) && (to == null || to >= maxCap)) {
+      return { from: null, to: null };
+    }
+    if (from != null && from <= 0) from = null;
+    return { from: from, to: to };
+  }
+
+  function writePriceInputs(from, to) {
+    var fromEl = document.getElementById('ww-price-from');
+    var toEl = document.getElementById('ww-price-to');
+    if (fromEl) fromEl.value = formatMoneyInput(from);
+    if (toEl) toEl.value = formatMoneyInput(to);
+  }
+
+  function syncPriceSliders(from, to) {
+    var minSlider = document.getElementById('ww-price-min-slider');
+    var maxSlider = document.getElementById('ww-price-max-slider');
+    var fill = document.getElementById('ww-price-fill');
+    var maxCap = cfg.priceRangeMax || 5000000;
+    var lo = from != null ? from : 0;
+    var hi = to != null ? to : maxCap;
+    if (minSlider) minSlider.value = String(lo);
+    if (maxSlider) maxSlider.value = String(hi);
+    if (fill) {
+      var left = (lo / maxCap) * 100;
+      var right = 100 - (hi / maxCap) * 100;
+      fill.style.left = left + '%';
+      fill.style.right = right + '%';
+    }
+  }
+
   function updateClearPriceButton() {
     var btn = document.getElementById('ww-search-price-clear');
     if (!btn) return;
-    var hasChecked = document.querySelectorAll('.ww-search-price-checkbox:checked').length > 0;
-    btn.hidden = !hasChecked;
+    var hasRange =
+      (cfg.giaTu != null && cfg.giaTu !== '') ||
+      (cfg.giaDen != null && cfg.giaDen !== '');
+    btn.hidden = !hasRange;
+  }
+
+  function applyPriceRange(options) {
+    options = options || {};
+    var range = readPriceRangeFromDom();
+    cfg.giaTu = range.from;
+    cfg.giaDen = range.to;
+    cfg.selectedGia = [];
+    writePriceInputs(range.from, range.to);
+    syncPriceSliders(range.from, range.to);
+    updateClearPriceButton();
+    if (!options.silent) {
+      loadSearchResults(1);
+    }
   }
 
   function clearPriceFilters() {
-    document.querySelectorAll('.ww-search-price-checkbox:checked').forEach(function (el) {
-      el.checked = false;
-    });
+    cfg.giaTu = null;
+    cfg.giaDen = null;
+    cfg.selectedGia = [];
+    writePriceInputs(null, null);
+    syncPriceSliders(null, null);
     updateClearPriceButton();
     loadSearchResults(1);
   }
 
-  function getSelectedGiaFromDom() {
-    var ids = [];
-    document.querySelectorAll('.ww-search-price-checkbox:checked').forEach(function (el) {
-      if (el.value) ids.push(el.value);
-    });
-    return ids;
-  }
-
   function buildMucGiaParams(params) {
     var index = 0;
-    document.querySelectorAll('.ww-search-price-checkbox:checked').forEach(function (el) {
-      var min = el.getAttribute('data-min');
-      var max = el.getAttribute('data-max');
-      if (min !== null && min !== '') {
-        params.append('MUC_GIA[' + index + '][MIN_VALUE]', min);
-      }
-      if (max !== null && max !== '') {
-        params.append('MUC_GIA[' + index + '][MAX_VALUE]', max);
-      }
-      index++;
-    });
-
     if (cfg.giaTu != null && cfg.giaTu !== '') {
       params.append('MUC_GIA[' + index + '][MIN_VALUE]', String(cfg.giaTu));
     }
@@ -326,12 +390,13 @@
   function buildSearchPageUrl(page) {
     var basePath = (cfg.pageBasePath || '/tat-ca-san-pham').replace(/\/+$/, '');
     var parts = [];
-    if (cfg.giaTu != null && cfg.giaTu !== '') {
+    if (
+      (cfg.giaTu != null && cfg.giaTu !== '') ||
+      (cfg.giaDen != null && cfg.giaDen !== '')
+    ) {
+      var min = cfg.giaTu != null && cfg.giaTu !== '' ? String(cfg.giaTu) : '0';
       var maxPart = cfg.giaDen != null && cfg.giaDen !== '' ? String(cfg.giaDen) : 'up';
-      parts.push('gia/' + String(cfg.giaTu) + '-' + maxPart);
-    }
-    if (cfg.selectedGia && cfg.selectedGia.length) {
-      parts.push('muc-gia/' + encodeURIComponent(cfg.selectedGia.join('--')));
+      parts.push('gia/' + min + '-' + maxPart);
     }
     if (cfg.boLoc && cfg.boLoc !== 'default') {
       parts.push('sap-xep/' + encodeURIComponent(String(cfg.boLoc)));
@@ -398,7 +463,6 @@
 
   function loadSearchResults(page) {
     cfg.page = cfg.noPagination ? 1 : page || 1;
-    cfg.selectedGia = getSelectedGiaFromDom();
 
     var el = document.getElementById(cfg.containerId);
     if (el) el.innerHTML = buildSkeletonHtml(cfg.skeletonCount || cfg.perPage || 20);
@@ -515,33 +579,92 @@
     setTimeout(lockPageHorizontal, 200);
   }
 
-  document.querySelectorAll('.ww-search-price-checkbox').forEach(function (checkbox) {
-    checkbox.addEventListener('change', function () {
-      updateClearPriceButton();
-      cfg.selectedGia = getSelectedGiaFromDom();
-      var strip = checkbox.closest('.ww-search-price-filters--inline');
-      var chip = checkbox.closest('li') || checkbox.closest('label');
-      keepChipInHorizontalStrip(strip, chip);
-      try {
-        checkbox.blur();
-      } catch (err) {
-        /* ignore */
+  function bindPriceRangeUi() {
+    var root = document.getElementById('ww-price-range');
+    if (!root) return;
+
+    var fromEl = document.getElementById('ww-price-from');
+    var toEl = document.getElementById('ww-price-to');
+    var minSlider = document.getElementById('ww-price-min-slider');
+    var maxSlider = document.getElementById('ww-price-max-slider');
+    var applyBtn = document.getElementById('ww-price-apply');
+    var maxCap = cfg.priceRangeMax || 5000000;
+    var step = parseInt(root.getAttribute('data-step'), 10) || 50000;
+
+    function onInputFormat(el) {
+      if (!el) return;
+      el.addEventListener('input', function () {
+        var n = parseMoneyInput(el.value);
+        var caretAtEnd = el.selectionStart === el.value.length;
+        el.value = formatMoneyInput(n);
+        if (caretAtEnd) {
+          try {
+            el.setSelectionRange(el.value.length, el.value.length);
+          } catch (err) {
+            /* ignore */
+          }
+        }
+      });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          applyPriceRange();
+        }
+      });
+      el.addEventListener('blur', function () {
+        var range = readPriceRangeFromDom();
+        writePriceInputs(range.from, range.to);
+        syncPriceSliders(range.from, range.to);
+      });
+    }
+
+    onInputFormat(fromEl);
+    onInputFormat(toEl);
+
+    function onSliderChange(e) {
+      var active = e && e.target ? e.target : null;
+      var lo = parseInt(minSlider.value, 10) || 0;
+      var hi = parseInt(maxSlider.value, 10) || maxCap;
+      if (lo > hi) {
+        if (active === minSlider) hi = lo;
+        else lo = hi;
       }
-      lockPageHorizontal();
-      loadSearchResults(1);
-      lockPageHorizontal();
-    });
-    checkbox.addEventListener('focus', function () {
-      var strip = checkbox.closest('.ww-search-price-filters--inline');
-      var chip = checkbox.closest('li') || checkbox.closest('label');
-      keepChipInHorizontalStrip(strip, chip);
-    });
-    checkbox.addEventListener('click', function () {
-      var strip = checkbox.closest('.ww-search-price-filters--inline');
-      var chip = checkbox.closest('li') || checkbox.closest('label');
-      keepChipInHorizontalStrip(strip, chip);
-    });
-  });
+      lo = snapPrice(lo, step);
+      hi = snapPrice(hi, step);
+      minSlider.value = String(lo);
+      maxSlider.value = String(hi);
+      var from = lo > 0 ? lo : null;
+      var to = hi;
+      if (lo <= 0 && hi >= maxCap) {
+        from = null;
+        to = null;
+      }
+      writePriceInputs(from, to);
+      syncPriceSliders(from, to);
+    }
+
+    if (minSlider) {
+      minSlider.addEventListener('input', onSliderChange);
+      minSlider.addEventListener('change', function () {
+        applyPriceRange();
+      });
+    }
+    if (maxSlider) {
+      maxSlider.addEventListener('input', onSliderChange);
+      maxSlider.addEventListener('change', function () {
+        applyPriceRange();
+      });
+    }
+    if (applyBtn) {
+      applyBtn.addEventListener('click', function () {
+        applyPriceRange();
+      });
+    }
+
+    // Init from cfg / old chip envelope already mapped server-side
+    syncPriceSliders(cfg.giaTu, cfg.giaDen);
+    writePriceInputs(cfg.giaTu, cfg.giaDen);
+  }
 
   document.querySelectorAll('#search-sort-tabs .tab-btn').forEach(function (tab) {
     tab.addEventListener('focus', function () {
@@ -559,7 +682,7 @@
   document.addEventListener(
     'touchend',
     function (e) {
-      if (e.target && e.target.closest && e.target.closest('.ww-search-price-filters--inline, #search-sort-tabs')) {
+      if (e.target && e.target.closest && e.target.closest('#search-sort-tabs')) {
         lockPageHorizontal();
         setTimeout(lockPageHorizontal, 30);
       }
@@ -572,6 +695,7 @@
     clearBtn.addEventListener('click', clearPriceFilters);
   }
 
+  bindPriceRangeUi();
   updateClearPriceButton();
   loadSearchResults(cfg.page);
 })();

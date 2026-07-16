@@ -418,7 +418,6 @@ class ThemeStorefrontController extends Controller
             $selectedPriceFilterIds,
             static fn (string $id): bool => in_array($id, $validIds, true)
         ));
-        $mucGia = $this->buildMucGiaFromFilterIds($selectedPriceFilterIds, $priceFilterOptions);
 
         $giaTuVal = array_key_exists('giaTu', $params) && $params['giaTu'] !== null && $params['giaTu'] !== ''
             ? (int) $params['giaTu']
@@ -426,6 +425,39 @@ class ThemeStorefrontController extends Controller
         $giaDenVal = array_key_exists('giaDen', $params) && $params['giaDen'] !== null && $params['giaDen'] !== ''
             ? (int) $params['giaDen']
             : null;
+
+        // URL cũ dạng muc-gia/chip → chuyển thành khoảng Từ–Đến liên tục cho UI mới
+        if ($giaTuVal === null && $giaDenVal === null && $selectedPriceFilterIds !== []) {
+            $mins = [];
+            $maxs = [];
+            $hasOpenMax = false;
+            $optionMap = [];
+            foreach ($priceFilterOptions as $option) {
+                $optionMap[$option['id']] = $option;
+            }
+            foreach ($selectedPriceFilterIds as $chipId) {
+                $option = $optionMap[$chipId] ?? null;
+                if (! $option) {
+                    continue;
+                }
+                if ($option['min'] !== null) {
+                    $mins[] = (int) $option['min'];
+                }
+                if ($option['max'] !== null) {
+                    $maxs[] = (int) $option['max'];
+                } else {
+                    $hasOpenMax = true;
+                }
+            }
+            if ($mins !== []) {
+                $giaTuVal = min($mins);
+            }
+            if (! $hasOpenMax && $maxs !== []) {
+                $giaDenVal = max($maxs);
+            }
+        }
+
+        $mucGia = [];
         if ($giaTuVal !== null || $giaDenVal !== null) {
             $range = [];
             if ($giaTuVal !== null && $giaTuVal >= 0) {
@@ -437,7 +469,11 @@ class ThemeStorefrontController extends Controller
             if ($range !== []) {
                 $mucGia[] = $range;
             }
+        } else {
+            $mucGia = $this->buildMucGiaFromFilterIds($selectedPriceFilterIds, $priceFilterOptions);
         }
+
+        $priceRangeMax = $this->resolveProductPriceRangeMax();
 
         $productHot = ! empty($params['productHot']);
         $productVip = ! empty($params['productVip']);
@@ -512,6 +548,7 @@ class ThemeStorefrontController extends Controller
             'selectedPriceFilterIds' => $selectedPriceFilterIds,
             'giaTu' => $giaTuVal,
             'giaDen' => $giaDenVal,
+            'priceRangeMax' => $priceRangeMax,
             'page' => $page,
             'products' => $result['products'],
             'total' => $result['total'],
@@ -916,6 +953,11 @@ class ThemeStorefrontController extends Controller
             ['id' => '800-1tr', 'label' => '800.000 - 1.000.000đ', 'min' => 800000, 'max' => 1000000],
             ['id' => 'tren-1tr', 'label' => 'Trên 1.000.000đ', 'min' => 1000000, 'max' => null],
         ];
+    }
+
+    private function resolveProductPriceRangeMax(): int
+    {
+        return 5_000_000;
     }
 
     /**

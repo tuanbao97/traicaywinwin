@@ -59,45 +59,7 @@
 
           @if ($query !== '' || $categoryId || !empty($productHot) || !empty($productVip) || !empty($listAll))
           <div class="ww-search-layout">
-            <div class="ww-search-filter-card ww-search-filter-card--inline mb-4 md:mb-5">
-              <div class="ww-search-filter-card__row">
-                <div class="ww-search-filter-card__head">
-                  <span class="ww-search-filter-card__icon" aria-hidden="true">
-                    <i class="icon icon-dollar-circle"></i>
-                  </span>
-                  <h2 class="ww-search-filter-card__title">Chọn mức giá</h2>
-                </div>
-
-                <ul class="ww-search-price-filters ww-search-price-filters--inline">
-                  @foreach ($priceFilterOptions as $option)
-                    <li>
-                      <label class="ww-search-price-chip">
-                        <input
-                          type="checkbox"
-                          class="ww-search-price-checkbox"
-                          name="gia"
-                          value="{{ $option['id'] }}"
-                          data-min="{{ $option['min'] ?? '' }}"
-                          data-max="{{ $option['max'] ?? '' }}"
-                          @checked(in_array($option['id'], $selectedPriceFilterIds, true))
-                        >
-                        <span class="ww-search-price-chip__inner">
-                          <span class="ww-search-price-chip__label">{{ $option['label'] }}</span>
-                          <span class="ww-search-price-chip__tick" aria-hidden="true">
-                            <i class="icon icon-tick"></i>
-                          </span>
-                        </span>
-                      </label>
-                    </li>
-                  @endforeach
-                </ul>
-
-                <button type="button" class="ww-search-price-clear" id="ww-search-price-clear" hidden>
-                  <i class="icon icon-refresh" aria-hidden="true"></i>
-                  <span class="ww-search-price-clear__text">Xóa</span>
-                </button>
-              </div>
-            </div>
+            @include('UI-FRONTEND.partials.price-range-filter')
 
             <ul class="heading-tabs heading-tabs--scroll mb-4 md:mb-6 w-full max-w-full overflow-x-auto list-none flex md:gap-3 gap-2 font-semibold whitespace-nowrap" id="search-sort-tabs">
               <li
