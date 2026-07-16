@@ -506,7 +506,7 @@
     return Number(cat && cat.ID) === 1004 || name.indexOf('giỏ quà trái cây') !== -1;
   }
 
-  /** Khoảng giá hardcode — liên tục: >= min và < max (max null = không giới hạn) */
+  /** Khoảng giá hardcode — >= min và <= max (max null = không giới hạn) */
   var gioQuaPriceRanges = @json(storefrontGioQuaPriceRanges());
 
   function buildGioQuaPriceSearchUrl(range) {

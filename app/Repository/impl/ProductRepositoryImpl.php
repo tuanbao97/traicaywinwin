@@ -245,7 +245,7 @@ class ProductRepositoryImpl extends BaseRepository implements ProductRepository
 
                                 if (!is_null($maxValue)) {
                                     $subquery->where([
-                                        ['p.PRICE', '<', $maxValue]
+                                        ['p.PRICE', '<=', $maxValue]
                                     ]);
                                 }
                             }
