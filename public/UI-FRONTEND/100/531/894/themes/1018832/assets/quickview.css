@@ -317,13 +317,23 @@
 #quick-view-product .gallery-thumbnails {
 	display: block;
 	margin-top: 0.8rem !important;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+}
+
+#quick-view-product .gallery-thumbnails .embla__viewport {
+	width: 100%;
+	overflow: hidden;
 }
 
 #quick-view-product .embla-thumbs .embla__slide {
 	border: 2px solid var(--color-neutral-50);
 	border-radius: var(--rounded);
 	overflow: hidden;
-	width: 4.8rem !important;
+	flex: 0 0 6.1rem;
+	width: 6.1rem !important;
+	min-width: 0;
 	background: var(--color-background);
 	transition: border-color 0.15s ease;
 }
@@ -335,12 +345,26 @@
 
 #quick-view-product .embla-thumbs .embla__container {
 	display: flex;
-	justify-content: center;
-	gap: 0.6rem !important;
+	justify-content: flex-start;
+	gap: 1.2rem !important;
+	min-width: 0;
 }
 
 #quick-view-product .embla-thumbs .embla__slide img {
-	max-height: 44px;
+	display: block;
+	width: auto;
+	max-width: 100%;
+	height: auto;
+	max-height: 100%;
+	margin: auto;
+	object-fit: contain;
+}
+
+@media (min-width: 768px) {
+	#quick-view-product .embla-thumbs .embla__slide {
+		flex-basis: 9rem;
+		width: 9rem !important;
+	}
 }
 
 /* Info column */
