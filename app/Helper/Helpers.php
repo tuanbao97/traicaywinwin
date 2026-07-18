@@ -748,14 +748,14 @@ use Illuminate\Support\Facades\DB;
     }
 
     /**
-     * Ảnh mặc định khi share Facebook / OG.
-     * Dùng bản 1200×630 từ logo-win-win-tron.png (URL mới để phá cache Baby Mart trên FB).
+     * Ảnh mặc định khi share Facebook / Zalo / OG.
+     * Ảnh lưới sản phẩm (giỏ trái cây) — dùng cho trang chủ & danh sách.
      */
     if (!function_exists('storefrontDefaultShareImageUrl')) {
         function storefrontDefaultShareImageUrl(): string
         {
-            $url = storefrontAbsoluteUrl(asset('UI-FRONTEND/images/og-share-logo.png'));
-            $version = '20260716';
+            $url = storefrontAbsoluteUrl(asset('UI-FRONTEND/images/og-share-listing.png'));
+            $version = '20260718';
 
             return $url . (str_contains($url, '?') ? '&' : '?') . 'v=' . $version;
         }

@@ -17,8 +17,8 @@
 <meta property="og:image" content="{{ $seo['image'] }}">
 <meta property="og:image:secure_url" content="{{ $seo['image'] }}">
 <meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="{{ $seoImageWidth ?? 664 }}">
+<meta property="og:image:height" content="{{ $seoImageHeight ?? 1024 }}">
 <meta property="og:image:alt" content="{{ $seo['siteName'] }}">
 <meta property="og:url" content="{{ $seo['url'] }}">
 <meta property="og:site_name" content="{{ $seo['siteName'] }}">

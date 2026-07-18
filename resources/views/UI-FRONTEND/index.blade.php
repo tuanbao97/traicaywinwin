@@ -18,6 +18,9 @@
         : 'Win Win Trái Cây Nhập Khẩu — trái cây tươi, giỏ quà và quà tặng: giao nhanh, nhiều set combo, phù hợp biếu tặng và tiệc. Mua trực tuyến tiện lợi, chất lượng rõ nguồn gốc.';
       $seoType = 'website';
       $seoUrl = url('/');
+      $seoImage = storefrontDefaultShareImageUrl();
+      $seoImageWidth = 664;
+      $seoImageHeight = 1024;
     @endphp
     @include('UI-FRONTEND.common.og-meta')
 
