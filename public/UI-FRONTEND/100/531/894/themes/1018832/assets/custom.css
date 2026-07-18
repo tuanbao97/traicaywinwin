@@ -2736,3 +2736,29 @@ body.checkout .checkout-order-item {
 		grid-template-columns: 1fr;
 	}
 }
+
+/* Spotlight lightbox ? nút ?óng ?? ??m, d? nhìn */
+#spotlight .spl-close {
+	opacity: 1 !important;
+	width: 4.4rem !important;
+	height: 4.4rem !important;
+	margin: 0.3rem 0.4rem 0 0;
+	border-radius: 50%;
+	background-color: #b91c1c;
+	background-size: 2.2rem;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+	transition: background-color 0.15s ease, transform 0.15s ease;
+}
+#spotlight .spl-close:hover,
+#spotlight .spl-close:active {
+	opacity: 1 !important;
+	background-color: #991b1b;
+	transform: scale(1.06);
+}
+@media (max-width: 500px) {
+	#spotlight .spl-close {
+		width: 4rem !important;
+		height: 4rem !important;
+		background-size: 2rem;
+	}
+}
