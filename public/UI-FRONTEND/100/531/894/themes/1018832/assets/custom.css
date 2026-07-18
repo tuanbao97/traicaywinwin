@@ -1456,13 +1456,102 @@ card-product {
 	animation-delay: 0.22s;
 }
 
-/* Header bones (section skeleton) */
+/* Header bones (section skeleton) ? kích th??c explicit, không ph? thu?c Tailwind utilities */
 .section-home-products-skeleton .ww-skel-bone {
 	display: block;
 	border-radius: 0.4rem;
 	background: linear-gradient(110deg, #e4eaef 0%, #f3f6f8 42%, #e4eaef 78%);
 	background-size: 220% 100%;
 	animation: ww-skel-shimmer 1.55s ease-in-out infinite;
+}
+
+.ww-skel-section-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem 1rem;
+	margin-bottom: 1rem;
+}
+
+.ww-skel-section-title {
+	flex: 1 1 auto;
+	min-width: 0;
+	max-width: 18rem;
+	margin: 0;
+}
+
+.ww-skel-section-title__text {
+	width: min(14rem, 72vw);
+	height: 1.75rem;
+	border-radius: 0.45rem;
+}
+
+@media (min-width: 768px) {
+	.ww-skel-section-title__text {
+		height: 2rem;
+		width: 15rem;
+	}
+}
+
+.ww-skel-section-tabs {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 0.5rem;
+	overflow: hidden;
+	width: 100%;
+	max-width: 100%;
+}
+
+@media (min-width: 768px) {
+	.ww-skel-section-tabs {
+		width: auto;
+		flex: 0 1 auto;
+	}
+}
+
+.ww-skel-section-tab {
+	flex: 0 0 auto;
+	width: 5rem;
+	height: 2.25rem;
+	border-radius: 999px !important;
+	animation-delay: 0.08s;
+}
+
+.ww-skel-section-tab--md {
+	width: 6rem;
+	animation-delay: 0.14s;
+}
+
+.ww-skel-section-tab--lg {
+	width: 7rem;
+	animation-delay: 0.2s;
+	display: none !important;
+}
+
+@media (min-width: 768px) {
+	.ww-skel-section-tab--lg {
+		display: block !important;
+	}
+}
+
+.ww-skel-section-more {
+	display: flex;
+	justify-content: center;
+	margin-top: 1.25rem;
+}
+
+.ww-skel-section-more__btn {
+	width: 9rem;
+	height: 2.5rem;
+	border-radius: 0.45rem;
+	animation-delay: 0.12s;
+}
+
+@media (min-width: 768px) {
+	.ww-skel-section-more {
+		margin-top: 1.5rem;
+	}
 }
 
 /* iOS: content-visibility ch? desktop; intrinsic th?p l?m card ?nh? r?i to? tr?n mobile */

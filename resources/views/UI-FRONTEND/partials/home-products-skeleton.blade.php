@@ -8,15 +8,15 @@
 >
   <div class="container">
     <div class="section-card">
-      <div class="flex justify-between items-center md:gap-3 flex-wrap mb-3 md:mb-4">
-        <div class="heading-bar w-full max-w-[18rem]">
-          <div class="ww-skel-bone h-7 md:h-8 w-3/4"></div>
+      <div class="ww-skel-section-head">
+        <div class="heading-bar ww-skel-section-title">
+          <span class="ww-skel-bone ww-skel-section-title__text" aria-hidden="true"></span>
         </div>
-        <div class="flex gap-2 w-full md:w-auto mt-2 md:mt-0 overflow-hidden">
-          <div class="ww-skel-bone h-9 w-20 shrink-0 rounded-pill"></div>
-          <div class="ww-skel-bone h-9 w-24 shrink-0 rounded-pill"></div>
-          <div class="ww-skel-bone h-9 w-20 shrink-0 rounded-pill"></div>
-          <div class="ww-skel-bone h-9 w-28 shrink-0 rounded-pill hidden md:block"></div>
+        <div class="ww-skel-section-tabs" aria-hidden="true">
+          <span class="ww-skel-bone ww-skel-section-tab"></span>
+          <span class="ww-skel-bone ww-skel-section-tab ww-skel-section-tab--md"></span>
+          <span class="ww-skel-bone ww-skel-section-tab"></span>
+          <span class="ww-skel-bone ww-skel-section-tab ww-skel-section-tab--lg"></span>
         </div>
       </div>
 
@@ -26,8 +26,8 @@
         @endfor
       </div>
 
-      <div class="mt-2 md:mt-6 flex justify-center">
-        <div class="ww-skel-bone h-10 w-36 rounded-sm"></div>
+      <div class="ww-skel-section-more" aria-hidden="true">
+        <span class="ww-skel-bone ww-skel-section-more__btn"></span>
       </div>
     </div>
   </div>
