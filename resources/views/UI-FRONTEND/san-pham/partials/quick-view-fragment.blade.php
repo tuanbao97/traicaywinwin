@@ -141,9 +141,9 @@
                   <div class="embla__viewport">
                     <div class="embla__container gap-3" id="ww-qv-gallery-thumbs">
                       @foreach ($imageUrls as $i => $imgUrl)
-                        <div class="embla__slide aspect-square cursor-pointer grow-0 shrink-0 w-[6.1rem] md:w-[9rem]{{ $i === 0 ? ' embla-thumbs__slide--selected' : '' }}">
+                        <div class="embla__slide aspect-square cursor-pointer grow-0 shrink-0{{ $i === 0 ? ' embla-thumbs__slide--selected' : '' }}">
                           <div class="flex items-center justify-center w-full h-full">
-                            <img class="object-contain w-auto" src="{{ $imgUrl }}" width="64" height="64" loading="lazy" alt="{{ $title }}">
+                            <img class="object-contain" src="{{ $imgUrl }}" width="120" height="120" loading="lazy" alt="{{ $title }}">
                           </div>
                         </div>
                       @endforeach
