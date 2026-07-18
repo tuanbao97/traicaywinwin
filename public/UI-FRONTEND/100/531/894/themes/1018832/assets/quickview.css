@@ -360,7 +360,7 @@
 	left: auto !important;
 }
 
-/* Ảnh chính: đảm bảo prev/next nằm trong khung ảnh */
+/* Ảnh chính: prev/next trong khung ảnh — ẩn mặc định, hiện khi hover */
 #quick-view-product .gallery-main {
 	position: relative;
 }
@@ -374,7 +374,24 @@
 
 #quick-view-product .gallery-main .embla__button {
 	pointer-events: auto;
-	opacity: 1 !important;
+	opacity: 0;
+	transition: opacity 0.2s ease-out;
+}
+
+#quick-view-product .gallery-main:hover .embla__button:not(:disabled) {
+	opacity: 1;
+}
+
+#quick-view-product .gallery-main:hover .embla__button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* Touch / không hover: vẫn hiện nhẹ khi focus trong gallery */
+@media (hover: none) {
+	#quick-view-product .gallery-main .embla__button:not(:disabled) {
+		opacity: 0.85;
+	}
 }
 
 #quick-view-product .embla-thumbs .embla__slide {
