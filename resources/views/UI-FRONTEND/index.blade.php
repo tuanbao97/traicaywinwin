@@ -658,16 +658,7 @@
       <div class="embla__container flex h-inherit md:flex-nowrap -ml-2" id="home-flashsale-products">
         @for ($i = 0; $i < 12; $i++)
         <div class="relative h-inherit flashsale__item embla__slide w-[65.5%] md:w-1/3 lg:w-1/5 flex-shrink-0 flex-grow-0 pl-2">
-          <div class="skeleton__product-grid__item bg-background border border-neutral-50 rounded relative z-10 m-0   h-full ">
-            <div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse "></div>
-            <div class="skeleton__product-grid__item__body p-2 space-y-2">
-              <div class="skeleton__product-grid__item__title w-full rounded bg-neutral-50 animate-pulse" style="min-height:calc(var(--font-size-body, 1.5rem) * 1.5 * 3)"></div>
-              <div class="flex justify-between items-center gap-3">
-                <div class="skeleton__product-grid__item__price w-1/3 h-5 rounded bg-neutral-50 animate-pulse"></div>
-                <div class="w-9 h-9 shrink-0 rounded bg-neutral-50 animate-pulse"></div>
-              </div>
-            </div>
-          </div>
+          @include('UI-FRONTEND.partials.product-card-skeleton')
         </div>
         @endfor
       </div>

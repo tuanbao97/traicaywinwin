@@ -202,15 +202,25 @@
   }
 
   function skeletonHtml() {
+    var item =
+      '<div class="skeleton__product-grid__item" aria-hidden="true">' +
+      '<div class="skeleton__product-grid__item__image">' +
+      '<span class="ww-skel-badge"></span>' +
+      '<span class="ww-skel-img-glow"></span>' +
+      '</div>' +
+      '<div class="skeleton__product-grid__item__body">' +
+      '<div class="ww-skel-title">' +
+      '<span class="ww-skel-bone ww-skel-line ww-skel-line--full"></span>' +
+      '<span class="ww-skel-bone ww-skel-line ww-skel-line--mid"></span>' +
+      '<span class="ww-skel-bone ww-skel-line ww-skel-line--short"></span>' +
+      '</div>' +
+      '<div class="ww-skel-footer">' +
+      '<span class="ww-skel-bone ww-skel-price"></span>' +
+      '<span class="ww-skel-bone ww-skel-btn"></span>' +
+      '</div></div></div>';
     var html = '';
     for (var i = 0; i < 5; i++) {
-      html +=
-        '<div class="embla__slide h-inherit"><div class="skeleton__product-grid__item bg-background border border-neutral-50 rounded relative z-10 m-0 h-full">' +
-        '<div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse"></div>' +
-        '<div class="skeleton__product-grid__item__body p-2 md:p-4 space-y-2">' +
-        '<div class="skeleton__product-grid__item__title w-full h-4 bg-neutral-50 animate-pulse"></div>' +
-        '<div class="skeleton__product-grid__item__price w-1/3 h-4 bg-neutral-50 animate-pulse"></div>' +
-        '</div></div></div>';
+      html += '<div class="embla__slide h-inherit">' + item + '</div>';
     }
     return html;
   }

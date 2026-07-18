@@ -287,13 +287,20 @@
 
   function buildProductGridSkeletonItemHtml() {
     return (
-      '<div class="skeleton__product-grid__item bg-background border border-neutral-50 relative z-10 m-0   h-full ">' +
-      '<div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse "></div>' +
-      '<div class="skeleton__product-grid__item__body p-2 space-y-2">' +
-      '<div class="skeleton__product-grid__item__title w-full rounded bg-neutral-50 animate-pulse" style="min-height:calc(var(--font-size-body, 1.5rem) * 1.5 * 3)"></div>' +
-      '<div class="flex justify-between items-center gap-3">' +
-      '<div class="skeleton__product-grid__item__price w-1/3 h-5 rounded bg-neutral-50 animate-pulse"></div>' +
-      '<div class="w-9 h-9 shrink-0 rounded bg-neutral-50 animate-pulse"></div>' +
+      '<div class="skeleton__product-grid__item" aria-hidden="true">' +
+      '<div class="skeleton__product-grid__item__image">' +
+      '<span class="ww-skel-badge"></span>' +
+      '<span class="ww-skel-img-glow"></span>' +
+      '</div>' +
+      '<div class="skeleton__product-grid__item__body">' +
+      '<div class="ww-skel-title">' +
+      '<span class="ww-skel-bone ww-skel-line ww-skel-line--full"></span>' +
+      '<span class="ww-skel-bone ww-skel-line ww-skel-line--mid"></span>' +
+      '<span class="ww-skel-bone ww-skel-line ww-skel-line--short"></span>' +
+      '</div>' +
+      '<div class="ww-skel-footer">' +
+      '<span class="ww-skel-bone ww-skel-price"></span>' +
+      '<span class="ww-skel-bone ww-skel-btn"></span>' +
       '</div></div></div>'
     );
   }

@@ -925,47 +925,9 @@
             <div class="embla__viewport">
               <div class="embla__container  product-list h-inherit  [&>div:first-of-type]:-ml-2 [&>div]:pl-2 
 						  [&>div]:w-[61.3%] md:[&>div]:w-[27%]   xl:[&>div]:w-1/5 [&>div]:flex_0 [&>div]:shrink-0 ">
-
-<div class="skeleton__product-grid__item bg-background border border-neutral-50 rounded relative z-10 m-0   h-full ">
-  <div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse "></div>
-  <div class="skeleton__product-grid__item__body p-2 md:p-4 space-y-2">
-    <div class="skeleton__product-grid__item__title w-full h-4 bg-neutral-50 animate-pulse "></div>
-    <div class="skeleton__product-grid__item__price w-1/3 h-4 bg-neutral-50 animate-pulse "></div>
-  </div>
-</div>
-
-<div class="skeleton__product-grid__item bg-background border border-neutral-50 rounded relative z-10 m-0   h-full ">
-  <div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse "></div>
-  <div class="skeleton__product-grid__item__body p-2 md:p-4 space-y-2">
-    <div class="skeleton__product-grid__item__title w-full h-4 bg-neutral-50 animate-pulse "></div>
-    <div class="skeleton__product-grid__item__price w-1/3 h-4 bg-neutral-50 animate-pulse "></div>
-  </div>
-</div>
-
-<div class="skeleton__product-grid__item bg-background border border-neutral-50 rounded relative z-10 m-0   h-full ">
-  <div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse "></div>
-  <div class="skeleton__product-grid__item__body p-2 md:p-4 space-y-2">
-    <div class="skeleton__product-grid__item__title w-full h-4 bg-neutral-50 animate-pulse "></div>
-    <div class="skeleton__product-grid__item__price w-1/3 h-4 bg-neutral-50 animate-pulse "></div>
-  </div>
-</div>
-
-<div class="skeleton__product-grid__item bg-background border border-neutral-50 rounded relative z-10 m-0   h-full ">
-  <div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse "></div>
-  <div class="skeleton__product-grid__item__body p-2 md:p-4 space-y-2">
-    <div class="skeleton__product-grid__item__title w-full h-4 bg-neutral-50 animate-pulse "></div>
-    <div class="skeleton__product-grid__item__price w-1/3 h-4 bg-neutral-50 animate-pulse "></div>
-  </div>
-</div>
-
-<div class="skeleton__product-grid__item bg-background border border-neutral-50 rounded relative z-10 m-0   h-full ">
-  <div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse "></div>
-  <div class="skeleton__product-grid__item__body p-2 md:p-4 space-y-2">
-    <div class="skeleton__product-grid__item__title w-full h-4 bg-neutral-50 animate-pulse "></div>
-    <div class="skeleton__product-grid__item__price w-1/3 h-4 bg-neutral-50 animate-pulse "></div>
-  </div>
-</div>
-
+                @for ($i = 0; $i < 5; $i++)
+                  @include('UI-FRONTEND.partials.product-card-skeleton')
+                @endfor
 			</div>
             </div>
             <div class="embla__buttons">
@@ -1003,47 +965,9 @@
             <div class="embla__viewport">
               <div class="embla__container  product-list h-inherit  [&>div:first-of-type]:-ml-2 [&>div]:pl-2 
 						  [&>div]:w-[61.3%] md:[&>div]:w-[27%]   xl:[&>div]:w-1/5 [&>div]:flex_0 [&>div]:shrink-0 ">
-
-<div class="skeleton__product-grid__item bg-background border border-neutral-50 rounded relative z-10 m-0   h-full ">
-  <div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse "></div>
-  <div class="skeleton__product-grid__item__body p-2 md:p-4 space-y-2">
-    <div class="skeleton__product-grid__item__title w-full h-4 bg-neutral-50 animate-pulse "></div>
-    <div class="skeleton__product-grid__item__price w-1/3 h-4 bg-neutral-50 animate-pulse "></div>
-  </div>
-</div>
-
-<div class="skeleton__product-grid__item bg-background border border-neutral-50 rounded relative z-10 m-0   h-full ">
-  <div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse "></div>
-  <div class="skeleton__product-grid__item__body p-2 md:p-4 space-y-2">
-    <div class="skeleton__product-grid__item__title w-full h-4 bg-neutral-50 animate-pulse "></div>
-    <div class="skeleton__product-grid__item__price w-1/3 h-4 bg-neutral-50 animate-pulse "></div>
-  </div>
-</div>
-
-<div class="skeleton__product-grid__item bg-background border border-neutral-50 rounded relative z-10 m-0   h-full ">
-  <div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse "></div>
-  <div class="skeleton__product-grid__item__body p-2 md:p-4 space-y-2">
-    <div class="skeleton__product-grid__item__title w-full h-4 bg-neutral-50 animate-pulse "></div>
-    <div class="skeleton__product-grid__item__price w-1/3 h-4 bg-neutral-50 animate-pulse "></div>
-  </div>
-</div>
-
-<div class="skeleton__product-grid__item bg-background border border-neutral-50 rounded relative z-10 m-0   h-full ">
-  <div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse "></div>
-  <div class="skeleton__product-grid__item__body p-2 md:p-4 space-y-2">
-    <div class="skeleton__product-grid__item__title w-full h-4 bg-neutral-50 animate-pulse "></div>
-    <div class="skeleton__product-grid__item__price w-1/3 h-4 bg-neutral-50 animate-pulse "></div>
-  </div>
-</div>
-
-<div class="skeleton__product-grid__item bg-background border border-neutral-50 rounded relative z-10 m-0   h-full ">
-  <div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse "></div>
-  <div class="skeleton__product-grid__item__body p-2 md:p-4 space-y-2">
-    <div class="skeleton__product-grid__item__title w-full h-4 bg-neutral-50 animate-pulse "></div>
-    <div class="skeleton__product-grid__item__price w-1/3 h-4 bg-neutral-50 animate-pulse "></div>
-  </div>
-</div>
-
+                @for ($i = 0; $i < 5; $i++)
+                  @include('UI-FRONTEND.partials.product-card-skeleton')
+                @endfor
 			</div>
             </div>
             <div class="embla__buttons">

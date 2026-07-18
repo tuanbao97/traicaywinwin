@@ -1,7 +1,7 @@
 /*
  * Scrollbar custom ch? desktop.
- * Trên mobile: style *::-webkit-scrollbar { width/height: 10px } chi?m ch?
- * ? lúc carousel ch?a init có scroll ngang, load xong ?n scroll ? card gi?t to.
+ * Tr?n mobile: style *::-webkit-scrollbar { width/height: 10px } chi?m ch?
+ * ? l?c carousel ch?a init c? scroll ngang, load xong ?n scroll ? card gi?t to.
  */
 @media (min-width: 976px) {
 	body.ega-theme {
@@ -51,7 +51,7 @@
 	}
 }
 
-/* Mobile: không chi?m ch? scrollbar; ch?n overflow-x gây hi?n r?i ?n thanh scroll */
+/* Mobile: kh?ng chi?m ch? scrollbar; ch?n overflow-x g?y hi?n r?i ?n thanh scroll */
 @media (max-width: 975px) {
 	html,
 	body.ega-theme {
@@ -81,7 +81,7 @@
 	}
 }
 
-/* Ch? ?n khi class no-scrollbar (menu / carousel c? ý) */
+/* Ch? ?n khi class no-scrollbar (menu / carousel c? ?) */
 body.ega-theme .no-scrollbar {
 	scrollbar-width: none !important;
 	-ms-overflow-style: none;
@@ -1039,7 +1039,7 @@ product-form.loading .product-cta .btn .loading-icon {
 @media (max-width: 767px) {
   .cro-btns:has(.cro-btn-item) {
     display: block;
-    /* fixed: sticky b? h?ng khi body/html có overflow-x (trang danh sách SP / tìm ki?m) */
+    /* fixed: sticky b? h?ng khi body/html c? overflow-x (trang danh s?ch SP / t?m ki?m) */
     position: fixed !important;
     left: 0;
     right: 0;
@@ -1050,7 +1050,7 @@ product-form.loading .product-cta .btn .loading-icon {
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
-  /* Ch?a ch? cu?i trang ?? n?i dung không b? menu che */
+  /* Ch?a ch? cu?i trang ?? n?i dung kh?ng b? menu che */
   body.ega-theme:has(.cro-btns .cro-btn-item) {
     padding-bottom: calc(5.6rem + env(safe-area-inset-bottom, 0px));
   }
@@ -1305,7 +1305,7 @@ product-form.loading .product-cta .btn .loading-icon {
 	}
 }
 
-/* Custom element: tránh FOUC/CLS khi ch?a upgrade (m?c ??nh inline ? card nh? r?i to) */
+/* Custom element: tr?nh FOUC/CLS khi ch?a upgrade (m?c ??nh inline ? card nh? r?i to) */
 card-product {
 	display: block;
 	width: 100%;
@@ -1313,12 +1313,159 @@ card-product {
 	min-width: 0;
 }
 
-/* Skeleton body ? title 3 dòng + hàng giá/nút gi? ? tránh nh?y khi thay b?ng card th?t */
-.skeleton__product-grid__item__body {
-	min-height: calc(var(--font-size-body, 1.5rem) * 1.5 * 3 + 4.8rem);
+/* Product card skeleton ? shimmer, match real card layout */
+@keyframes ww-skel-shimmer {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
 }
 
-/* iOS: content-visibility ch? desktop; intrinsic th?p làm card ?nh? r?i to? trên mobile */
+.skeleton__product-grid__item {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-width: 0;
+	overflow: hidden;
+	margin: 0;
+	background: var(--color-background, #fff);
+	border: 1px solid color-mix(in srgb, var(--color-neutral-50, #e8ecf0) 85%, #c5cdd6);
+	border-radius: var(--rounded-sm, 0.6rem);
+	box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+	position: relative;
+	z-index: 10;
+}
+
+.skeleton__product-grid__item__image {
+	position: relative;
+	aspect-ratio: 1;
+	margin: 0.5rem;
+	border-radius: calc(var(--rounded-sm, 0.6rem) - 2px);
+	overflow: hidden;
+	background:
+		radial-gradient(ellipse 55% 45% at 50% 58%, rgba(255, 255, 255, 0.75) 0%, transparent 68%),
+		linear-gradient(
+			110deg,
+			#e8eef3 0%,
+			#f4f7fa 35%,
+			#e8eef3 70%
+		);
+	background-size: 100% 100%, 220% 100%;
+	animation: ww-skel-shimmer 1.55s ease-in-out infinite;
+}
+
+.skeleton__product-grid__item__image .ww-skel-badge {
+	position: absolute;
+	top: 0.55rem;
+	left: 0.55rem;
+	width: 2.4rem;
+	height: 1.15rem;
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--color-primary, #16a34a) 18%, #fff);
+	opacity: 0.85;
+}
+
+.skeleton__product-grid__item__image .ww-skel-img-glow {
+	position: absolute;
+	inset: 18% 16%;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(255, 255, 255, 0.55) 0%, transparent 72%);
+	pointer-events: none;
+}
+
+.skeleton__product-grid__item__body {
+	display: flex;
+	flex-direction: column;
+	gap: 0.65rem;
+	padding: 0.15rem 0.65rem 0.75rem;
+	min-height: calc(var(--font-size-body, 1.5rem) * 1.5 * 3 + 3.6rem);
+	flex: 1;
+}
+
+.skeleton__product-grid__item .ww-skel-title {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+	flex: 1;
+}
+
+.skeleton__product-grid__item .ww-skel-bone {
+	display: block;
+	border-radius: 0.35rem;
+	background: linear-gradient(
+		110deg,
+		#e4eaef 0%,
+		#f3f6f8 42%,
+		#e4eaef 78%
+	);
+	background-size: 220% 100%;
+	animation: ww-skel-shimmer 1.55s ease-in-out infinite;
+}
+
+.skeleton__product-grid__item .ww-skel-line {
+	height: 0.72rem;
+}
+
+.skeleton__product-grid__item .ww-skel-line--full {
+	width: 94%;
+}
+
+.skeleton__product-grid__item .ww-skel-line--mid {
+	width: 78%;
+	animation-delay: 0.08s;
+}
+
+.skeleton__product-grid__item .ww-skel-line--short {
+	width: 56%;
+	animation-delay: 0.16s;
+}
+
+.skeleton__product-grid__item .ww-skel-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	margin-top: auto;
+	padding-top: 0.15rem;
+}
+
+.skeleton__product-grid__item .ww-skel-price {
+	width: 42%;
+	height: 1.05rem;
+	border-radius: 0.35rem;
+	animation-delay: 0.1s;
+}
+
+.skeleton__product-grid__item .ww-skel-btn {
+	width: 2.25rem;
+	height: 2.25rem;
+	flex-shrink: 0;
+	border-radius: 0.45rem;
+	animation-delay: 0.18s;
+}
+
+.product-list .skeleton__product-grid__item:nth-child(2n) .skeleton__product-grid__item__image,
+.product-list .skeleton__product-grid__item:nth-child(2n) .ww-skel-bone {
+	animation-delay: 0.12s;
+}
+
+.product-list .skeleton__product-grid__item:nth-child(3n) .skeleton__product-grid__item__image,
+.product-list .skeleton__product-grid__item:nth-child(3n) .ww-skel-bone {
+	animation-delay: 0.22s;
+}
+
+/* Header bones (section skeleton) */
+.section-home-products-skeleton .ww-skel-bone {
+	display: block;
+	border-radius: 0.4rem;
+	background: linear-gradient(110deg, #e4eaef 0%, #f3f6f8 42%, #e4eaef 78%);
+	background-size: 220% 100%;
+	animation: ww-skel-shimmer 1.55s ease-in-out infinite;
+}
+
+/* iOS: content-visibility ch? desktop; intrinsic th?p l?m card ?nh? r?i to? tr?n mobile */
 @supports (content-visibility: auto) {
 	@media (min-width: 976px) {
 		body.ega-theme .product-list.grid > card-product {
@@ -2802,7 +2949,7 @@ body.checkout .checkout-order-item {
 	}
 }
 
-/* Spotlight lightbox ? nút ?óng ?? ??m, d? nhìn */
+/* Spotlight lightbox ? n?t ??ng ?? ??m, d? nh?n */
 #spotlight .spl-close {
 	opacity: 1 !important;
 	width: 4.4rem !important;
