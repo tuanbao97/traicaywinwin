@@ -755,7 +755,7 @@ use Illuminate\Support\Facades\DB;
         function storefrontDefaultShareImageUrl(): string
         {
             $url = storefrontAbsoluteUrl(asset('UI-FRONTEND/images/og-share-listing.png'));
-            $version = '20260718c';
+            $version = '20260718d';
 
             return $url . (str_contains($url, '?') ? '&' : '?') . 'v=' . $version;
         }

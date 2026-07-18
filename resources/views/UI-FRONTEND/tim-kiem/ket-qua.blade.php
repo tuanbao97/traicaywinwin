@@ -6,8 +6,8 @@
       ? ('Kết quả tìm kiếm “' . $query . '” tại Win Win Trái Cây Nhập Khẩu.')
       : 'Tìm kiếm sản phẩm tại Win Win Trái Cây Nhập Khẩu.');
   $seoImage = storefrontDefaultShareImageUrl();
-  $seoImageWidth = 975;
-  $seoImageHeight = 1024;
+  $seoImageWidth = 1024;
+  $seoImageHeight = 618;
 @endphp
 @include('UI-FRONTEND.san-pham.partials.product-detail-head')
 
