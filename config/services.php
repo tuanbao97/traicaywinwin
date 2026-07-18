@@ -31,4 +31,9 @@ return [
         ],
     ],
 
+    'facebook' => [
+        // App ID từ https://developers.facebook.com/apps — bắt buộc để hết cảnh báo fb:app_id
+        'app_id' => env('FACEBOOK_APP_ID', ''),
+    ],
+
 ];

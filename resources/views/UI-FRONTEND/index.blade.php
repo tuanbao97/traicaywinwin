@@ -19,8 +19,8 @@
       $seoType = 'website';
       $seoUrl = url('/');
       $seoImage = storefrontDefaultShareImageUrl();
-      $seoImageWidth = 664;
-      $seoImageHeight = 1024;
+      $seoImageWidth = 1024;
+      $seoImageHeight = 960;
     @endphp
     @include('UI-FRONTEND.common.og-meta')
 

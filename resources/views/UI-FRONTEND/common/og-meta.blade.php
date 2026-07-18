@@ -17,12 +17,16 @@
 <meta property="og:image" content="{{ $seo['image'] }}">
 <meta property="og:image:secure_url" content="{{ $seo['image'] }}">
 <meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="{{ $seoImageWidth ?? 664 }}">
-<meta property="og:image:height" content="{{ $seoImageHeight ?? 1024 }}">
+<meta property="og:image:width" content="{{ $seoImageWidth ?? 1024 }}">
+<meta property="og:image:height" content="{{ $seoImageHeight ?? 960 }}">
 <meta property="og:image:alt" content="{{ $seo['siteName'] }}">
 <meta property="og:url" content="{{ $seo['url'] }}">
 <meta property="og:site_name" content="{{ $seo['siteName'] }}">
 <meta property="og:locale" content="vi_VN">
+@php($fbAppId = storefrontFacebookAppId())
+@if($fbAppId !== '')
+<meta property="fb:app_id" content="{{ $fbAppId }}">
+@endif
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ $seo['title'] }}">

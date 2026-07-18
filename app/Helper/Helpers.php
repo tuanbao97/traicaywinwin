@@ -755,9 +755,19 @@ use Illuminate\Support\Facades\DB;
         function storefrontDefaultShareImageUrl(): string
         {
             $url = storefrontAbsoluteUrl(asset('UI-FRONTEND/images/og-share-listing.png'));
-            $version = '20260718';
+            $version = '20260718b';
 
             return $url . (str_contains($url, '?') ? '&' : '?') . 'v=' . $version;
+        }
+    }
+
+    /**
+     * Facebook App ID cho meta fb:app_id (Sharing Debugger / Insights).
+     */
+    if (!function_exists('storefrontFacebookAppId')) {
+        function storefrontFacebookAppId(): string
+        {
+            return trim((string) config('services.facebook.app_id', ''));
         }
     }
 
