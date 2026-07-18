@@ -1,51 +1,87 @@
-/* Scrollbar to?n site: k?ch th??c v?a (10px), ??ng nh?t m?i m?n h?nh */
-body.ega-theme {
-	--ww-scrollbar-size: 10px;
-	--ww-scrollbar-thumb: rgba(2, 132, 199, 0.55);
-	--ww-scrollbar-thumb-hover: rgba(2, 132, 199, 0.85);
-	--ww-scrollbar-track: rgba(148, 163, 184, 0.22);
-	scrollbar-width: thin;
-	scrollbar-color: var(--ww-scrollbar-thumb) var(--ww-scrollbar-track);
+/*
+ * Scrollbar custom ch? desktop.
+ * Trên mobile: style *::-webkit-scrollbar { width/height: 10px } chi?m ch?
+ * ? lúc carousel ch?a init có scroll ngang, load xong ?n scroll ? card gi?t to.
+ */
+@media (min-width: 976px) {
+	body.ega-theme {
+		--ww-scrollbar-size: 10px;
+		--ww-scrollbar-thumb: rgba(2, 132, 199, 0.55);
+		--ww-scrollbar-thumb-hover: rgba(2, 132, 199, 0.85);
+		--ww-scrollbar-track: rgba(148, 163, 184, 0.22);
+		scrollbar-width: thin;
+		scrollbar-color: var(--ww-scrollbar-thumb) var(--ww-scrollbar-track);
+	}
+
+	body.ega-theme *,
+	body.ega-theme *::before,
+	body.ega-theme *::after {
+		scrollbar-width: thin;
+		scrollbar-color: var(--ww-scrollbar-thumb) var(--ww-scrollbar-track);
+	}
+
+	body.ega-theme::-webkit-scrollbar,
+	body.ega-theme *::-webkit-scrollbar {
+		width: var(--ww-scrollbar-size);
+		height: var(--ww-scrollbar-size);
+	}
+
+	body.ega-theme::-webkit-scrollbar-track,
+	body.ega-theme *::-webkit-scrollbar-track {
+		background: var(--ww-scrollbar-track);
+		border-radius: 999px;
+	}
+
+	body.ega-theme::-webkit-scrollbar-thumb,
+	body.ega-theme *::-webkit-scrollbar-thumb {
+		background-color: var(--ww-scrollbar-thumb);
+		border-radius: 999px;
+		border: 2px solid transparent;
+		background-clip: padding-box;
+	}
+
+	body.ega-theme::-webkit-scrollbar-thumb:hover,
+	body.ega-theme *::-webkit-scrollbar-thumb:hover {
+		background-color: var(--ww-scrollbar-thumb-hover);
+	}
+
+	body.ega-theme::-webkit-scrollbar-corner,
+	body.ega-theme *::-webkit-scrollbar-corner {
+		background: transparent;
+	}
 }
 
-body.ega-theme *,
-body.ega-theme *::before,
-body.ega-theme *::after {
-	scrollbar-width: thin;
-	scrollbar-color: var(--ww-scrollbar-thumb) var(--ww-scrollbar-track);
+/* Mobile: không chi?m ch? scrollbar; ch?n overflow-x gây hi?n r?i ?n thanh scroll */
+@media (max-width: 975px) {
+	html,
+	body.ega-theme {
+		overflow-x: clip;
+		max-width: 100%;
+	}
+	@supports not (overflow: clip) {
+		html,
+		body.ega-theme {
+			overflow-x: hidden;
+		}
+	}
+	body.ega-theme,
+	body.ega-theme * {
+		scrollbar-width: none;
+	}
+	body.ega-theme::-webkit-scrollbar,
+	body.ega-theme *::-webkit-scrollbar {
+		width: 0 !important;
+		height: 0 !important;
+		display: none !important;
+	}
+	body.ega-theme .embla,
+	body.ega-theme .embla__viewport {
+		max-width: 100%;
+		overflow: hidden;
+	}
 }
 
-body.ega-theme::-webkit-scrollbar,
-body.ega-theme *::-webkit-scrollbar {
-	width: var(--ww-scrollbar-size);
-	height: var(--ww-scrollbar-size);
-}
-
-body.ega-theme::-webkit-scrollbar-track,
-body.ega-theme *::-webkit-scrollbar-track {
-	background: var(--ww-scrollbar-track);
-	border-radius: 999px;
-}
-
-body.ega-theme::-webkit-scrollbar-thumb,
-body.ega-theme *::-webkit-scrollbar-thumb {
-	background-color: var(--ww-scrollbar-thumb);
-	border-radius: 999px;
-	border: 2px solid transparent;
-	background-clip: padding-box;
-}
-
-body.ega-theme::-webkit-scrollbar-thumb:hover,
-body.ega-theme *::-webkit-scrollbar-thumb:hover {
-	background-color: var(--ww-scrollbar-thumb-hover);
-}
-
-body.ega-theme::-webkit-scrollbar-corner,
-body.ega-theme *::-webkit-scrollbar-corner {
-	background: transparent;
-}
-
-/* Ch? ?n khi class no-scrollbar (menu / carousel c? ?) */
+/* Ch? ?n khi class no-scrollbar (menu / carousel c? ý) */
 body.ega-theme .no-scrollbar {
 	scrollbar-width: none !important;
 	-ms-overflow-style: none;

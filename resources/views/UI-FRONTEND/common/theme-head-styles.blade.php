@@ -36,8 +36,8 @@
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/icon.css?1768901692132" media="all">
     <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1">
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1" media="all">
-    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-card-cls-1">
-    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-card-cls-1" media="all">
+    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-scroll-cls-3">
+    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-scroll-cls-3" media="all">
     <link
       rel="stylesheet"
       href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-thumbs-arrows-3"
@@ -346,11 +346,34 @@
     <style id="ww-top-banner-fix">
       html {
         background: #f0f9ff !important;
+        /* Chặn thanh scroll ngang lúc Embla/carousel chưa init → tránh layout “nhỏ rồi to” trên mobile */
+        overflow-x: clip;
+      }
+      @supports not (overflow: clip) {
+        html {
+          overflow-x: hidden;
+        }
       }
       html,
       body.ega-theme {
         margin: 0 !important;
         padding: 0 !important;
+        max-width: 100%;
+      }
+      body.ega-theme {
+        overflow-x: clip;
+        width: 100%;
+      }
+      @supports not (overflow: clip) {
+        body.ega-theme {
+          overflow-x: hidden;
+        }
+      }
+      /* Carousel: luôn cắt ngang trước khi JS Embla chạy */
+      body.ega-theme .embla,
+      body.ega-theme .embla__viewport {
+        max-width: 100%;
+        overflow: hidden;
       }
       /* top-banner tạm ẩn
       body.ega-theme > .top-banner:first-child {
