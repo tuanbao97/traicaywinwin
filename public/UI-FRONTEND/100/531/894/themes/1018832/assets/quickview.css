@@ -340,29 +340,42 @@
 #quick-view-product .gallery-thumbnails .embla__button {
 	position: absolute !important;
 	top: 50% !important;
+	left: auto;
 	margin: 0 !important;
 	transform: translateY(-50%) !important;
 	pointer-events: auto;
 	opacity: 1 !important;
-	width: 2.8rem;
-	height: 2.8rem;
-	border-radius: 50% !important;
+	width: 2.8rem !important;
+	height: 2.8rem !important;
+	min-width: 2.8rem !important;
+	min-height: 2.8rem !important;
+	max-width: 2.8rem !important;
+	max-height: 2.8rem !important;
+	padding: 0 !important;
+	border-radius: 9999px !important;
 	background: rgba(255, 255, 255, 0.5) !important;
 	box-shadow: none;
 	overflow: hidden;
+	outline: none !important;
+	-webkit-tap-highlight-color: transparent;
+	flex-shrink: 0;
+}
+
+#quick-view-product .gallery-thumbnails .embla__button .icon,
+#quick-view-product .gallery-thumbnails .embla__button .icon::before {
+	font-weight: 700 !important;
+	-webkit-text-stroke: 0.4px currentColor;
 }
 
 #quick-view-product .gallery-thumbnails .embla__button:hover,
-#quick-view-product .gallery-thumbnails .embla__button:focus-visible {
-	background: #fff !important;
-	box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
-}
-
+#quick-view-product .gallery-thumbnails .embla__button:focus,
+#quick-view-product .gallery-thumbnails .embla__button:focus-visible,
 #quick-view-product .gallery-thumbnails .embla__button:active {
 	background: #fff !important;
-	border-radius: 50% !important;
-	/* Giữ translateY để không bị "vuông" / nhảy lệch khi scale */
-	transform: translateY(-50%) scale(0.94) !important;
+	border-radius: 9999px !important;
+	box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+	/* Không scale — scale làm mất hình tròn khi click */
+	transform: translateY(-50%) !important;
 }
 
 #quick-view-product .gallery-thumbnails .embla__button--prev {
@@ -390,14 +403,28 @@
 #quick-view-product .gallery-main .embla__button {
 	pointer-events: auto;
 	opacity: 0;
-	width: 3.6rem;
-	height: 3.6rem;
-	border-radius: 50% !important;
+	width: 3.6rem !important;
+	height: 3.6rem !important;
+	min-width: 3.6rem !important;
+	min-height: 3.6rem !important;
+	max-width: 3.6rem !important;
+	max-height: 3.6rem !important;
+	padding: 0 !important;
+	border-radius: 9999px !important;
 	background: rgba(255, 255, 255, 0.5) !important;
 	box-shadow: none;
 	overflow: hidden;
-	transition: opacity 0.2s ease-out, background-color 0.15s ease, transform 0.15s ease;
-	transform: translateY(-50%);
+	outline: none !important;
+	-webkit-tap-highlight-color: transparent;
+	flex-shrink: 0;
+	transition: opacity 0.2s ease-out, background-color 0.15s ease;
+	transform: translateY(-50%) !important;
+}
+
+#quick-view-product .gallery-main .embla__button .icon,
+#quick-view-product .gallery-main .embla__button .icon::before {
+	font-weight: 700 !important;
+	-webkit-text-stroke: 0.45px currentColor;
 }
 
 #quick-view-product .gallery-main:hover .embla__button:not(:disabled) {
@@ -410,15 +437,13 @@
 }
 
 #quick-view-product .gallery-main .embla__button:hover,
-#quick-view-product .gallery-main .embla__button:focus-visible {
-	background: #fff !important;
-	box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
-}
-
+#quick-view-product .gallery-main .embla__button:focus,
+#quick-view-product .gallery-main .embla__button:focus-visible,
 #quick-view-product .gallery-main .embla__button:active {
 	background: #fff !important;
-	border-radius: 50% !important;
-	transform: translateY(-50%) scale(0.94);
+	border-radius: 9999px !important;
+	box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
+	transform: translateY(-50%) !important;
 }
 
 /* Touch / không hover: vẫn hiện nhẹ khi focus trong gallery */
