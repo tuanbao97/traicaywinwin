@@ -53,8 +53,8 @@
 
 #quick-view-product .portal-inner {
 	position: relative;
-	max-height: 92vh;
-	height: 92vh;
+	max-height: 80vh;
+	height: 80vh;
 	width: min(1040px, calc(100% - 2.4rem));
 	display: flex;
 	align-items: center;
@@ -95,8 +95,13 @@
 	padding-bottom: 0.5rem;
 }
 
-/* Desktop: giới hạn ảnh chính theo chiều cao còn lại để còn chỗ cho thumbnail */
+/* Desktop: modal cao hơn; mobile giữ 80vh */
 @media (min-width: 768px) {
+	#quick-view-product .portal-inner {
+		height: 92vh;
+		max-height: 92vh;
+	}
+
 	#quick-view-product .gallery-main .embla__viewport {
 		aspect-ratio: 1;
 		max-height: min(100%, calc(92vh - 18rem));
@@ -502,8 +507,8 @@
 		align-self: center !important;
 		width: min(100%, calc(100% - 2rem)) !important;
 		max-width: 100% !important;
-		height: 92vh !important;
-		max-height: 92vh !important;
+		height: 80vh !important;
+		max-height: 80vh !important;
 		margin: 0 auto !important;
 		padding: 0 !important;
 		left: auto !important;
