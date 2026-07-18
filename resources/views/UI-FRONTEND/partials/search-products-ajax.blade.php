@@ -57,7 +57,7 @@
     var cols = getGridCols();
     var rowsLeft = Math.ceil(remaining / cols);
     // Giữ chiều cao phía dưới → scroll không nhảy khi batch chèn thêm
-    listStream.sentinel.style.minHeight = rowsLeft * 340 + 'px';
+    listStream.sentinel.style.minHeight = rowsLeft * 440 + 'px';
   }
 
   var cardImgIo = null;
@@ -502,10 +502,12 @@
       html +=
         '<div class="skeleton__product-grid__item bg-background border border-neutral-50 relative z-10 m-0 h-full">' +
         '<div class="skeleton__product-grid__item__image aspect-square bg-neutral-50 animate-pulse"></div>' +
-        '<div class="skeleton__product-grid__item__body p-2 md:p-4 space-y-2">' +
-        '<div class="skeleton__product-grid__item__title w-full h-4 bg-neutral-50 animate-pulse"></div>' +
-        '<div class="skeleton__product-grid__item__price w-1/3 h-4 bg-neutral-50 animate-pulse"></div>' +
-        '</div></div>';
+        '<div class="skeleton__product-grid__item__body p-2 space-y-2">' +
+        '<div class="skeleton__product-grid__item__title w-full rounded bg-neutral-50 animate-pulse" style="min-height:calc(var(--font-size-body, 1.5rem) * 1.5 * 3)"></div>' +
+        '<div class="flex justify-between items-center gap-3">' +
+        '<div class="skeleton__product-grid__item__price w-1/3 h-5 rounded bg-neutral-50 animate-pulse"></div>' +
+        '<div class="w-9 h-9 shrink-0 rounded bg-neutral-50 animate-pulse"></div>' +
+        '</div></div></div>';
     }
     return html;
   }

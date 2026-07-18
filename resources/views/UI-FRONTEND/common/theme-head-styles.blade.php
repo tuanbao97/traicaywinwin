@@ -36,8 +36,8 @@
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/icon.css?1768901692132" media="all">
     <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1">
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1" media="all">
-    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-spl-close-red-1">
-    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-spl-close-red-1" media="all">
+    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-card-cls-1">
+    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-card-cls-1" media="all">
     <link
       rel="stylesheet"
       href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-thumbs-arrows-3"
@@ -402,6 +402,13 @@
     </style>
 
     <style id="ww-quick-view-styles">
+      /* Tránh card custom element bị inline → nhỏ rồi to khi JS/CSS kịp */
+      card-product {
+        display: block;
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+      }
       /* Click cả card (ảnh + chữ) mở xem nhanh; ẩn icon mắt */
       .ww-quick-view-btn,
       .ww-quick-view-tooltip {
