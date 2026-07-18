@@ -28,6 +28,12 @@
       : url;
   }
 
+  /** Bỏ prefix 1x1_ / 3x2_ ... khỏi tên file trong path/URL */
+  function stripAspectRatioPrefix(path) {
+    if (!path) return '';
+    return String(path).replace(/\/(\d+x\d+)_([^\/?#]+)(\?[^#]*)?(#.*)?$/i, '/$2$3$4');
+  }
+
   function relativeDisplayImagePathFromImg(img) {
     if (!img) return '';
     var fname = img.IMAGE_THUMNAIL || img.NAME || '';
@@ -40,13 +46,16 @@
     return '';
   }
 
-  /** Ảnh gốc (không prefix aspect ratio) — chỉ dùng khi mở modal / download */
+  /** Ảnh gốc (không prefix aspect ratio) — lightbox + download */
   function relativeOriginalImagePathFromImg(img) {
     if (!img) return '';
-    if (img.PATH) return String(img.PATH).replace(/\\/g, '/');
     var fname = img.IMAGE_THUMNAIL || img.NAME || '';
-    if (!img.DIRECTORY || !fname) return '';
-    return String(img.DIRECTORY).replace(/^\/+|\/+$/g, '') + '/' + fname;
+    // Ưu tiên DIRECTORY/NAME — đúng file gốc lúc upload
+    if (img.DIRECTORY && fname) {
+      return String(img.DIRECTORY).replace(/^\/+|\/+$/g, '') + '/' + fname;
+    }
+    if (img.PATH) return stripAspectRatioPrefix(String(img.PATH).replace(/\\/g, '/'));
+    return '';
   }
 
   function formatIntViDots(num) {
@@ -113,7 +122,7 @@
       var displayUrl = item.display || item;
       var originalUrl = item.original || displayUrl;
       mainHtml +=
-        '<div class="embla__slide w-full grow-0 shrink-0 aspect-square flex items-center justify-center relative swiper-spotlight cursor-zoom-in" data-src="' + originalUrl + '" data-display-src="' + displayUrl + '" data-index="' + i + '">' +
+        '<div class="embla__slide w-full grow-0 shrink-0 aspect-square flex items-center justify-center relative swiper-spotlight cursor-zoom-in" data-src="' + originalUrl + '" data-original-src="' + originalUrl + '" data-display-src="' + displayUrl + '" data-index="' + i + '">' +
         '<img class="object-contain rounded-lg scale-[var(--image-scale)] gallery-main-img" src="' + displayUrl + '" alt="' + title + '" style="--image-scale:1" loading="' + (i === 0 ? 'eager' : 'lazy') + '"></div>';
       thumbHtml +=
         '<div class="embla__slide aspect-square cursor-pointer grow-0 shrink-0 w-[6.1rem] md:w-[9rem]' + (i === 0 ? ' embla-thumbs__slide--selected' : '') + '">' +
@@ -186,10 +195,17 @@
         return;
       }
       var list = slides.map(function (s) {
-        return { src: s.dataset.src };
+        var display = s.dataset.src || '';
+        var original = s.dataset.originalSrc || stripAspectRatioPrefix(display) || display;
+        return { src: original };
       });
-      // Giống gallery: show rồi goto (1-based)
       window.Spotlight.show(list, { download: true });
+      if (
+        window.wwStorefrontImage &&
+        typeof window.wwStorefrontImage.patchSpotlightDownload === 'function'
+      ) {
+        window.wwStorefrontImage.patchSpotlightDownload();
+      }
       window.Spotlight.goto(activeIndex + 1);
     });
   }
@@ -233,6 +249,7 @@
         }
       }
       wrap.dataset.src = src;
+      wrap.dataset.originalSrc = stripAspectRatioPrefix(src) || src;
       slides.push(wrap);
     });
 

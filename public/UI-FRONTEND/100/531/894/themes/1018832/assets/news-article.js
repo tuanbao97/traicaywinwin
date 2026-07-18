@@ -20,6 +20,11 @@
     return false;
   }
 
+  function toOriginalImageUrl(url) {
+    if (!url) return "";
+    return String(url).replace(/\/(\d+x\d+)_([^\/?#]+)(\?[^#]*)?(#.*)?$/i, "/$2$3$4");
+  }
+
   function wrapImageToSpotlight(img) {
     if (!img || img.closest(".swiper-spotlight")) return;
     // Không bọc emoji / icon nhỏ — tránh xuống dòng và lightbox
@@ -31,6 +36,7 @@
     var wrap = document.createElement("span");
     wrap.className = "swiper-spotlight cursor-zoom-in";
     wrap.dataset.src = src;
+    wrap.dataset.originalSrc = toOriginalImageUrl(src) || src;
     wrap.style.display = "block";
     wrap.style.cursor = "zoom-in";
     wrap.style.width = "100%";
@@ -94,9 +100,17 @@
       }
 
       var list = slides.map(function (el) {
-        return { src: el.dataset.src };
+        var display = el.dataset.src || "";
+        var original = el.dataset.originalSrc || toOriginalImageUrl(display) || display;
+        return { src: original };
       });
       window.Spotlight.show(list, { download: true });
+      if (
+        window.wwStorefrontImage &&
+        typeof window.wwStorefrontImage.patchSpotlightDownload === "function"
+      ) {
+        window.wwStorefrontImage.patchSpotlightDownload();
+      }
       window.Spotlight.goto(activeIndex + 1);
     });
   }

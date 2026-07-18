@@ -204,12 +204,25 @@ subscribe(window.themeConfigs.firstInteraction, () => {
     lightBox(el) {
       let index = parseInt(el.dataset.index) + 1;
       if (!Spotlight) return;
+
+      const toOriginalImageUrl = (url) => {
+        if (!url) return "";
+        return String(url).replace(
+          /\/(\d+x\d+)_([^\/?#]+)(\?[^#]*)?(#.*)?$/i,
+          "/$2$3$4"
+        );
+      };
+
       let imageList = Array.from(
         this.querySelectorAll(".swiper-spotlight")
-      ).map((el) => {
-        let src = el.dataset.src;
-        if (el.dataset.video) {
-          let src = el.dataset.video;
+      ).map((slideEl) => {
+        let src =
+          slideEl.dataset.originalSrc ||
+          toOriginalImageUrl(slideEl.dataset.src) ||
+          slideEl.dataset.src ||
+          "";
+        if (slideEl.dataset.video) {
+          let src = slideEl.dataset.video;
           return {
             media: "node",
             src: (function () {
@@ -226,7 +239,7 @@ subscribe(window.themeConfigs.firstInteraction, () => {
             })(),
           };
         }
-        if (src.includes("youtube")) {
+        if (src && src.includes("youtube")) {
           return {
             media: "node",
             src: (function () {
@@ -245,8 +258,9 @@ subscribe(window.themeConfigs.firstInteraction, () => {
             })(),
           };
         }
+        // Lightbox + nút download luôn dùng ảnh gốc (không prefix aspect ratio)
         return {
-          src: el.dataset.src,
+          src: src,
         };
       });
       Spotlight.show(imageList, {
@@ -261,6 +275,12 @@ subscribe(window.themeConfigs.firstInteraction, () => {
           }
         },
       });
+      if (
+        window.wwStorefrontImage &&
+        typeof window.wwStorefrontImage.patchSpotlightDownload === "function"
+      ) {
+        window.wwStorefrontImage.patchSpotlightDownload();
+      }
       Spotlight.goto(index);
     }
     init() {

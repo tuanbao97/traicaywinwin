@@ -9,7 +9,7 @@
   $categoryName = $category['TEN_DANH_MUC_SAN_PHAM'] ?? '';
   $detailUrl = url('san-pham/chi-tiet/' . $slug . '-' . $id);
 
-  $imageRelFromImg = function ($img) {
+  $imageDisplayRelFromImg = function ($img) {
       if (!$img || !is_array($img)) {
           return '';
       }
@@ -27,23 +27,46 @@
       return '';
   };
 
+  $imageOriginalRelFromImg = function ($img) {
+      if (!$img || !is_array($img)) {
+          return '';
+      }
+      $fname = $img['IMAGE_THUMNAIL'] ?? $img['NAME'] ?? '';
+      if ($fname !== '' && !empty($img['DIRECTORY'])) {
+          $dir = trim(str_replace('\\', '/', (string) $img['DIRECTORY']), '/');
+
+          return $dir . '/' . $fname;
+      }
+      if (!empty($img['PATH'])) {
+          $path = str_replace('\\', '/', (string) $img['PATH']);
+
+          return preg_replace('#/(\d+x\d+)_([^/]+)$#i', '/$2', $path) ?: $path;
+      }
+
+      return '';
+  };
+
   $imageUrls = [];
+  $imageOriginalUrls = [];
   $imageRels = [];
   $productUpd = $p['UPD_DT'] ?? null;
-  $pushImages = function ($list) use (&$imageUrls, &$imageRels, $imageRelFromImg, $productUpd) {
+  $pushImages = function ($list) use (&$imageUrls, &$imageOriginalUrls, &$imageRels, $imageDisplayRelFromImg, $imageOriginalRelFromImg, $productUpd) {
       if (!$list || !is_array($list)) {
           return;
       }
       foreach ($list as $img) {
-          $rel = $imageRelFromImg($img);
-          if ($rel === '') {
+          $displayRel = $imageDisplayRelFromImg($img);
+          $originalRel = $imageOriginalRelFromImg($img) ?: $displayRel;
+          if ($displayRel === '' && $originalRel === '') {
               continue;
           }
           $bust = $productUpd ?? ($img['UPD_DT'] ?? null);
-          $url = storefrontImageUrl($rel, $bust);
-          if (!in_array($url, $imageUrls, true)) {
-              $imageUrls[] = $url;
-              $imageRels[] = $rel;
+          $displayUrl = storefrontImageUrl($displayRel ?: $originalRel, $bust);
+          $originalUrl = storefrontImageUrl($originalRel ?: $displayRel, $bust);
+          if (!in_array($displayUrl, $imageUrls, true)) {
+              $imageUrls[] = $displayUrl;
+              $imageOriginalUrls[] = $originalUrl;
+              $imageRels[] = $displayRel ?: $originalRel;
           }
       }
   };
@@ -51,6 +74,7 @@
   $pushImages($p['DANH_SACH_HINH_ANH'] ?? null);
   if ($imageUrls === []) {
       $imageUrls[] = asset('image/UI-BACKEND/default-image.png');
+      $imageOriginalUrls[] = asset('image/UI-BACKEND/default-image.png');
       $imageRels[] = '';
   }
 
@@ -81,9 +105,12 @@
                   <div class="embla__viewport">
                     <div class="embla__container" id="ww-qv-gallery-main">
                       @foreach ($imageUrls as $i => $imgUrl)
+                        @php $originalUrl = $imageOriginalUrls[$i] ?? $imgUrl; @endphp
                         <div
                           class="embla__slide w-full grow-0 shrink-0 aspect-square flex items-center justify-center relative swiper-spotlight cursor-zoom-in"
-                          data-src="{{ $imgUrl }}"
+                          data-src="{{ $originalUrl }}"
+                          data-original-src="{{ $originalUrl }}"
+                          data-display-src="{{ $imgUrl }}"
                           data-index="{{ $i }}"
                         >
                           <img

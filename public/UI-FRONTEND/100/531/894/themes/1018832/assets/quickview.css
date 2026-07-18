@@ -323,8 +323,34 @@
 }
 
 #quick-view-product .gallery-thumbnails .embla__viewport {
-	width: 100%;
+	width: calc(100% - 7.2rem);
+	margin-inline: 3.6rem;
 	overflow: hidden;
+}
+
+#quick-view-product .gallery-thumbnails .embla__buttons {
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	pointer-events: none;
+}
+
+#quick-view-product .gallery-thumbnails .embla__button {
+	position: absolute !important;
+	top: 50% !important;
+	margin: 0 !important;
+	transform: translateY(-50%) !important;
+	pointer-events: auto;
+}
+
+#quick-view-product .gallery-thumbnails .embla__button--prev {
+	left: 0 !important;
+	right: auto !important;
+}
+
+#quick-view-product .gallery-thumbnails .embla__button--next {
+	right: 0 !important;
+	left: auto !important;
 }
 
 #quick-view-product .embla-thumbs .embla__slide {

@@ -27,10 +27,136 @@
     return '';
   }
 
+  /** Tên file tải xuống: bỏ ?upd_time=... (tránh tên kiểu .jpg_upd_time=123) */
+  function basenameFromUrl(url) {
+    if (!url) return 'image.jpg';
+    var path = String(url).split('#')[0].split('?')[0];
+    try {
+      path = decodeURIComponent(path);
+    } catch (e) {}
+    var name = path.substring(path.lastIndexOf('/') + 1);
+    // Phòng trường hợp tên đã bị dính query kiểu .jpg_upd_time=123
+    name = name.replace(/[?&]?upd_time=\d+/gi, '').replace(/_upd_time=\d+$/i, '');
+    return name || 'image.jpg';
+  }
+
+  function downloadImageFile(url) {
+    if (!url) return;
+    var filename = basenameFromUrl(url);
+
+    // Blob URL → browser luôn dùng đúng attribute download (không dính ?upd_time)
+    if (typeof w.fetch === 'function') {
+      w.fetch(url, { credentials: 'same-origin' })
+        .then(function (res) {
+          if (!res.ok) throw new Error('fetch failed');
+          return res.blob();
+        })
+        .then(function (blob) {
+          var objUrl = URL.createObjectURL(blob);
+          var link = document.createElement('a');
+          link.href = objUrl;
+          link.download = filename;
+          link.rel = 'noopener';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          setTimeout(function () {
+            URL.revokeObjectURL(objUrl);
+          }, 1500);
+        })
+        .catch(function () {
+          var link = document.createElement('a');
+          link.href = url;
+          link.download = filename;
+          link.rel = 'noopener';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
+      return;
+    }
+
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.rel = 'noopener';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  function currentSpotlightImageSrc() {
+    var root = document.getElementById('spotlight');
+    if (!root) return '';
+    var img = root.querySelector('img');
+    return (img && (img.currentSrc || img.src)) || '';
+  }
+
+  /**
+   * Nút .spl-download gọi hàm nội bộ Spotlight (không qua Spotlight.download).
+   * Chặn click capture → tự tải với tên file sạch.
+   */
+  function bindSpotlightDownloadClick() {
+    if (w.__wwSplDlClickBound) return;
+    w.__wwSplDlClickBound = true;
+    document.addEventListener(
+      'click',
+      function (e) {
+        var btn = e.target && e.target.closest ? e.target.closest('.spl-download') : null;
+        if (!btn) return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+        var src = currentSpotlightImageSrc();
+        if (src) downloadImageFile(src);
+      },
+      true
+    );
+  }
+
+  /** Spotlight.download API (nếu có chỗ gọi trực tiếp) */
+  function patchSpotlightDownload() {
+    if (!w.Spotlight || typeof w.Spotlight.download !== 'function') return;
+    if (w.Spotlight.__wwDlNamePatched) return;
+    w.Spotlight.__wwDlNamePatched = true;
+    w.Spotlight.download = function () {
+      var src = currentSpotlightImageSrc();
+      if (src) downloadImageFile(src);
+    };
+  }
+
+  function ensureSpotlightDownloadPatched() {
+    bindSpotlightDownloadClick();
+    patchSpotlightDownload();
+    if (w.Spotlight && w.Spotlight.__wwDlNamePatched) return;
+    var tries = 0;
+    var timer = w.setInterval(function () {
+      tries += 1;
+      bindSpotlightDownloadClick();
+      patchSpotlightDownload();
+      if ((w.Spotlight && w.Spotlight.__wwDlNamePatched) || tries > 80) {
+        w.clearInterval(timer);
+      }
+    }, 250);
+  }
+
   w.wwStorefrontImage = {
     toUpdTime: toUpdTime,
     appendUpdTime: appendUpdTime,
     pickUpdTime: pickUpdTime,
+    basenameFromUrl: basenameFromUrl,
+    downloadImageFile: downloadImageFile,
+    patchSpotlightDownload: patchSpotlightDownload,
   };
+
+  ensureSpotlightDownloadPatched();
+  if (typeof w.loadDefer === 'function') {
+    var _loadDefer = w.loadDefer;
+    w.loadDefer = function () {
+      var r = _loadDefer.apply(this, arguments);
+      ensureSpotlightDownloadPatched();
+      return r;
+    };
+  }
 })(window);
 </script>
