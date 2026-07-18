@@ -93,11 +93,9 @@
       }
       if (wrap) wrap.hidden = false;
       if (el.tagName === 'IFRAME') {
-        // Chỉ ghi data-src; src gắn khi gần viewport (tránh Maps load sớm → giật scroll iOS)
-        el.setAttribute('data-src', url);
-        if (el.getAttribute('data-map-loaded') !== '1') {
-          el.removeAttribute('src');
-        }
+        el.setAttribute('src', url);
+        el.removeAttribute('data-src');
+        el.removeAttribute('data-map-loaded');
         return;
       }
       el.href = url;
@@ -245,66 +243,5 @@
     .catch(function () {
       /* giữ bootstrap từ server */
     });
-
-  // Google Maps: chỉ gắn src khi iframe gần viewport và người dùng ngừng kéo (tránh giật cuối trang)
-  var mapIo = null;
-  var mapScrollTimer = null;
-  var mapPending = [];
-
-  function activateMapIframe(iframe) {
-    if (!iframe || iframe.getAttribute('data-map-loaded') === '1') return;
-    var url = iframe.getAttribute('data-src') || '';
-    if (!url) return;
-    iframe.setAttribute('src', url);
-    iframe.setAttribute('data-map-loaded', '1');
-  }
-
-  function activateMapIframeWhenScrollSettles(iframe) {
-    if (!iframe || iframe.getAttribute('data-map-loaded') === '1') return;
-    if (mapPending.indexOf(iframe) === -1) mapPending.push(iframe);
-    clearTimeout(mapScrollTimer);
-    mapScrollTimer = setTimeout(function () {
-      var list = mapPending.slice();
-      mapPending = [];
-      list.forEach(activateMapIframe);
-    }, 420);
-  }
-
-  function observeLazyMaps() {
-    var maps = document.querySelectorAll('iframe[data-ww-contact="map"][data-src]:not([data-map-loaded="1"])');
-    if (!maps.length) return;
-
-    if (!('IntersectionObserver' in window)) {
-      maps.forEach(activateMapIframe);
-      return;
-    }
-
-    if (!mapIo) {
-      var mapPreload = Math.max(120, Math.round(window.innerHeight * 0.15));
-      mapIo = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            activateMapIframeWhenScrollSettles(entry.target);
-            mapIo.unobserve(entry.target);
-          });
-        },
-        { rootMargin: mapPreload + 'px 0px', threshold: 0.01 }
-      );
-    }
-
-    maps.forEach(function (iframe) {
-      mapIo.observe(iframe);
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', observeLazyMaps);
-  } else {
-    observeLazyMaps();
-  }
-  document.addEventListener('ww:contact-ready', function () {
-    setTimeout(observeLazyMaps, 0);
-  });
 })();
 </script>
