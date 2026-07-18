@@ -40,7 +40,7 @@
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-skel-title-6" media="all">
     <link
       rel="stylesheet"
-      href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-thumbs-arrows-3"
+      href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-arrows-in-1"
       media="print"
       onload="this.media='all'"
     >
@@ -52,7 +52,7 @@
     >
     <noscript>
       <link
-        href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-thumbs-arrows-3"
+        href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-arrows-in-1"
         rel="stylesheet"
         type="text/css"
         media="all"
@@ -462,6 +462,8 @@
         margin-right: 0;
       }
       #quick-view-product .gallery-thumbnails .embla__viewport {
+        width: 100%;
+        margin-inline: 0;
         overflow: hidden;
       }
       #quick-view-product .gallery-thumbnails .embla__buttons {
@@ -471,6 +473,7 @@
         pointer-events: auto;
         width: 2.8rem;
         height: 2.8rem;
+        opacity: 1;
       }
       #quick-view-product .gallery-thumbnails .embla__button[disabled] {
         opacity: 0.35;

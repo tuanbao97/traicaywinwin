@@ -316,15 +316,17 @@
 
 #quick-view-product .gallery-thumbnails {
 	display: block;
+	position: relative;
 	margin-top: 0.8rem !important;
 	width: 100%;
 	max-width: 100%;
 	min-width: 0;
 }
 
+/* Viewport full width — nút prev/next nằm trong ảnh (overlay), giống gallery chính */
 #quick-view-product .gallery-thumbnails .embla__viewport {
-	width: calc(100% - 7.2rem);
-	margin-inline: 3.6rem;
+	width: 100%;
+	margin-inline: 0;
 	overflow: hidden;
 }
 
@@ -341,16 +343,38 @@
 	margin: 0 !important;
 	transform: translateY(-50%) !important;
 	pointer-events: auto;
+	opacity: 1 !important;
+	width: 2.8rem;
+	height: 2.8rem;
+	background: rgba(255, 255, 255, 0.92);
+	box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12);
 }
 
 #quick-view-product .gallery-thumbnails .embla__button--prev {
-	left: 0 !important;
+	left: 0.35rem !important;
 	right: auto !important;
 }
 
 #quick-view-product .gallery-thumbnails .embla__button--next {
-	right: 0 !important;
+	right: 0.35rem !important;
 	left: auto !important;
+}
+
+/* Ảnh chính: đảm bảo prev/next nằm trong khung ảnh */
+#quick-view-product .gallery-main {
+	position: relative;
+}
+
+#quick-view-product .gallery-main .embla__buttons {
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	pointer-events: none;
+}
+
+#quick-view-product .gallery-main .embla__button {
+	pointer-events: auto;
+	opacity: 1 !important;
 }
 
 #quick-view-product .embla-thumbs .embla__slide {
