@@ -2,8 +2,8 @@
   $seoTitle = 'Tất cả sản phẩm — Win Win';
   $seoDescription = 'Danh sách sản phẩm trái cây, giỏ quà và quà tặng tại Win Win Trái Cây Nhập Khẩu.';
   $seoImage = storefrontDefaultShareImageUrl();
-  $seoImageWidth = 1024;
-  $seoImageHeight = 960;
+  $seoImageWidth = 975;
+  $seoImageHeight = 1024;
 @endphp
 @include('UI-FRONTEND.san-pham.partials.product-detail-head')
 
