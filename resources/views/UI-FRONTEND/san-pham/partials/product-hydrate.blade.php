@@ -322,6 +322,14 @@
   function renderProduct(p) {
     var title = p.TEN_SAN_PHAM || 'Sản phẩm';
     var priceInt = Math.round(Number(p.GIA_CA) || 0);
+    var displayText = p.GIA_HIEN_THI != null ? String(p.GIA_HIEN_THI).trim() : '';
+    var isContactPrice =
+      p.IS_GIA_CA_LIEN_HE === true ||
+      p.IS_GIA_CA_LIEN_HE === 1 ||
+      p.IS_GIA_CA_LIEN_HE === '1';
+    var priceLabel = isContactPrice
+      ? 'Liên hệ'
+      : displayText || (priceInt > 0 ? formatPriceShortVnd(priceInt) : 'Liên hệ');
     var slug = (p.TEN_SAN_PHAM_SLUG && String(p.TEN_SAN_PHAM_SLUG).trim()) || 'sp';
     var imgs = collectImages(p);
 
@@ -336,7 +344,7 @@
     setText('ww-page-title', title + ' — Win Win');
     setText('ww-pd-breadcrumb-title', title);
     setText('ww-pd-title', title);
-    setText('ww-pd-price', formatPriceShortVnd(priceInt));
+    setText('ww-pd-price', priceLabel);
 
     var isSold = String(p.TRANG_THAI || '').toUpperCase() === 'SOLD';
     var metaWrap = document.getElementById('ww-pd-meta');
@@ -380,7 +388,7 @@
     }
 
     var compareInt = Math.round(Number(p.GIA_GOC) || 0);
-    if (priceInt > 0 && compareInt > priceInt) {
+    if (!isContactPrice && !displayText && priceInt > 0 && compareInt > priceInt) {
       if (compareEl) {
         compareEl.textContent = formatPriceShortVnd(compareInt);
         compareEl.hidden = false;

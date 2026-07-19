@@ -4,6 +4,8 @@
   $title = $p['TEN_SAN_PHAM'] ?? 'Sản phẩm';
   $slug = ($p['TEN_SAN_PHAM_SLUG'] ?? null) ? trim((string) $p['TEN_SAN_PHAM_SLUG']) : 'sp';
   $priceInt = (int) round((float) ($p['GIA_CA'] ?? 0));
+  $displayText = trim((string) ($p['GIA_HIEN_THI'] ?? ''));
+  $isContactPrice = !empty($p['IS_GIA_CA_LIEN_HE']);
   $category = $p['DANH_MUC_SAN_PHAM'] ?? [];
   $categoryId = (int) ($category['ID'] ?? 0);
   $categoryName = $category['TEN_DANH_MUC_SAN_PHAM'] ?? '';
@@ -88,10 +90,16 @@
 
   $compareInt = (int) round((float) ($p['GIA_GOC'] ?? 0));
   $discountPct = 0;
-  $showCompare = $priceInt > 0 && $compareInt > $priceInt;
+  $showCompare = !$isContactPrice && $displayText === '' && $priceInt > 0 && $compareInt > $priceInt;
   if ($showCompare) {
       $discountPct = min(99, max(1, (int) round((1 - $priceInt / $compareInt) * 100)));
   }
+  $priceLabel = $isContactPrice
+      ? 'Liên hệ'
+      : ($displayText !== ''
+          ? $displayText
+          : ($priceInt > 0 ? $formatPrice($priceInt) : 'Liên hệ'));
+  $showVndSuffix = !$isContactPrice && $displayText === '' && $priceInt > 0;
 @endphp
 <div class="ww-qv-shell">
   <div class="ww-qv-scroll">
@@ -175,10 +183,12 @@
               <div class="price-box flex items-center flex-wrap gap-2">
                 <div class="flex flex-wrap gap-1 items-baseline">
                   <span class="price text-h4">
-                    @if ($priceInt <= 0)
+                    @if ($isContactPrice || ($displayText === '' && $priceInt <= 0))
                       Liên hệ
+                    @elseif ($displayText !== '')
+                      {{ $priceLabel }}
                     @else
-                      {{ $formatPrice($priceInt) }}<span class="ww-vnd">&#8363;</span>
+                      {{ $priceLabel }}@if ($showVndSuffix)<span class="ww-vnd">&#8363;</span>@endif
                     @endif
                   </span>
                   @if ($showCompare)

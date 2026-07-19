@@ -353,9 +353,16 @@
     var pref = prefetchPath(href);
     var imgRel = relativeImagePath(p);
     var priceInt = Math.round(Number(p.GIA_CA) || 0);
-    var priceLabel = formatPriceShortVnd(priceInt);
+    var displayText = p.GIA_HIEN_THI != null ? String(p.GIA_HIEN_THI).trim() : '';
+    var isContactPrice =
+      p.IS_GIA_CA_LIEN_HE === true ||
+      p.IS_GIA_CA_LIEN_HE === 1 ||
+      p.IS_GIA_CA_LIEN_HE === '1';
+    var priceLabel = isContactPrice
+      ? 'Liên hệ'
+      : displayText || (priceInt > 0 ? formatPriceShortVnd(priceInt) : 'Liên hệ');
     var compareInt = Math.round(Number(p.GIA_GOC) || 0);
-    var showCompare = priceInt > 0 && compareInt > priceInt;
+    var showCompare = !isContactPrice && !displayText && priceInt > 0 && compareInt > priceInt;
     var compareLabel = showCompare ? formatPriceShortVnd(compareInt) : '';
     var hov = canHover ? hoverUrl(p) : '';
     var hasHover = hov !== '';
@@ -364,7 +371,7 @@
       (hasHover ? ' transition duration-300 ease-out group-hover/card:opacity-0' : '');
 
     var priceBlock = '';
-    if (priceInt <= 0) {
+    if (isContactPrice || (!displayText && priceInt <= 0)) {
       priceBlock =
         '<div class="flex flex-col gap-0.5">' +
         '<span class="price text-h6 font-semibold leading-tight text-neutral-500">Liên hệ</span>' +
