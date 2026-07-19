@@ -161,7 +161,7 @@
     @include('UI-FRONTEND.common.theme-head-styles')
     <link
       rel="stylesheet"
-      href="100/531/894/themes/1018832/assets/product-detail.css?ww-pd-gallery-nav-2"
+      href="100/531/894/themes/1018832/assets/product-detail.css?ww-pd-gallery-nav-3"
       media="all"
     >
   </head>
