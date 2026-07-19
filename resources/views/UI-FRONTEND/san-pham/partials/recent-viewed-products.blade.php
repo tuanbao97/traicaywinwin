@@ -328,6 +328,9 @@
           var carousel = document.querySelector('#ww-recent-viewed-wrap carousel-slider');
           if (carousel && typeof carousel.init === 'function') {
             carousel.init();
+            if (typeof window.wwBindThumbLikeCarouselNav === 'function') {
+              window.wwBindThumbLikeCarouselNav(carousel);
+            }
             return true;
           }
           return false;

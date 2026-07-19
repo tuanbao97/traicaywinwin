@@ -33,6 +33,66 @@
 </section>
 
 <script>
+{{-- Prev/next giống strip thumbnail chi tiết: luôn hiện, disabled theo canScroll, cuộn từng snap --}}
+(function () {
+  if (window.wwBindThumbLikeCarouselNav) return;
+  window.wwBindThumbLikeCarouselNav = function (carousel) {
+    if (!carousel || !carousel.emblaApi) return;
+    var emblaApi = carousel.emblaApi;
+    var prevBtn = carousel.querySelector('.embla__button--prev');
+    var nextBtn = carousel.querySelector('.embla__button--next');
+    if (!prevBtn || !nextBtn) return;
+
+    var newPrev = prevBtn.cloneNode(true);
+    var newNext = nextBtn.cloneNode(true);
+    prevBtn.replaceWith(newPrev);
+    nextBtn.replaceWith(newNext);
+    prevBtn = newPrev;
+    nextBtn = newNext;
+
+    prevBtn.style.display = '';
+    nextBtn.style.display = '';
+    var wrap = prevBtn.closest('.embla__buttons');
+    if (wrap) {
+      wrap.style.display = '';
+      wrap.hidden = false;
+    }
+
+    var updateButtons = function () {
+      if (emblaApi.canScrollPrev()) prevBtn.removeAttribute('disabled');
+      else prevBtn.setAttribute('disabled', 'disabled');
+      if (emblaApi.canScrollNext()) nextBtn.removeAttribute('disabled');
+      else nextBtn.setAttribute('disabled', 'disabled');
+    };
+    var scrollPrev = function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var idx = emblaApi.selectedScrollSnap();
+      if (idx > 0) emblaApi.scrollTo(idx - 1);
+      else if (emblaApi.canScrollPrev()) emblaApi.scrollPrev();
+    };
+    var scrollNext = function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var snaps = emblaApi.scrollSnapList();
+      var idx = emblaApi.selectedScrollSnap();
+      if (idx < snaps.length - 1) emblaApi.scrollTo(idx + 1);
+      else if (emblaApi.canScrollNext()) emblaApi.scrollNext();
+    };
+
+    prevBtn.addEventListener('click', scrollPrev, false);
+    nextBtn.addEventListener('click', scrollNext, false);
+    emblaApi
+      .on('init', updateButtons)
+      .on('reInit', updateButtons)
+      .on('select', updateButtons)
+      .on('settle', updateButtons);
+    updateButtons();
+    requestAnimationFrame(updateButtons);
+  };
+})();
+</script>
+<script>
 (function () {
   var currentProductId = {{ (int) $productId }};
   var cfg = {
@@ -240,6 +300,9 @@
     var carousel = document.querySelector('#ww-related-products-wrap carousel-slider');
     if (carousel && typeof carousel.init === 'function') {
       carousel.init();
+      if (typeof window.wwBindThumbLikeCarouselNav === 'function') {
+        window.wwBindThumbLikeCarouselNav(carousel);
+      }
       return true;
     }
     return false;

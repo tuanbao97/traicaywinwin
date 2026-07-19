@@ -357,3 +357,21 @@ body:not(.product-detail-loading) #ww-pd-breadcrumb-skeleton {
 		width: 20%;
 	}
 }
+
+/* Prev/next: luôn hiện; disabled khi hết cuộn — giống gallery thumbnail */
+.section-related-products .embla__buttons {
+	pointer-events: none;
+	display: block !important;
+}
+
+.section-related-products .embla__button {
+	pointer-events: auto;
+	display: flex !important;
+}
+
+.section-related-products .embla__button[disabled],
+.section-related-products .embla__button:disabled {
+	opacity: 0.35;
+	cursor: default;
+	pointer-events: none;
+}
