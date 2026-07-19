@@ -60,7 +60,7 @@
       }
       if (!window.EGATheme || !window.EGATheme.publish || !window.themeConfigs) return;
       try {
-        var action = buynow ? 'buynow' : window.themeConfigs.addToCartAction || 'popup';
+        var action = buynow ? 'buynow' : window.themeConfigs.addToCartAction || 'drawer';
         window.EGATheme.publish(window.themeConfigs.productAddEvent, {
           data: response,
           action: action,
@@ -71,8 +71,11 @@
     }
 
     async function addToCartFromForm(form, btn, buynow) {
-      if (!form) throw new Error('Không tìm thấy form sản phẩm');
-      var params = ensureVariantAndQty(toParams(form), btn, form);
+      var params = form ? toParams(form) : new URLSearchParams();
+      params = ensureVariantAndQty(params, btn, form);
+      if (!params.get('variantId') && !params.get('VariantId') && !params.get('id')) {
+        throw new Error('Thiếu mã biến thể sản phẩm');
+      }
       var res = await fetch(window.themeUrl('/cart/add'), {
         method: 'POST',
         headers: {
@@ -116,6 +119,13 @@
         addToCartFromForm(form, btn, buynow)
           .catch(function (err) {
             console.error(err);
+            if (window.EGATheme && window.EGATheme.publish && window.themeConfigs && window.themeConfigs.error) {
+              try {
+                window.EGATheme.publish(window.themeConfigs.error, {
+                  message: (err && err.message) || 'Không thêm được vào giỏ hàng',
+                });
+              } catch (pubErr) {}
+            }
           })
           .finally(function () {
             setLoading(btn, false);
@@ -154,4 +164,4 @@
     );
   })();
 </script>
-<script src="100/531/894/themes/1018832/assets/cart.js?ww-cart-no-fake-compare-2" defer fetchpriority="low"></script>
+<script src="100/531/894/themes/1018832/assets/cart.js?ww-cart-boot-immediate-1" defer fetchpriority="low"></script>

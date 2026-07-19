@@ -5,7 +5,7 @@
 {{-- product.js đã được load trong theme-portals — không load lại (tránh CompareButton duplicate) --}}
 <script src="100/531/894/themes/1018832/assets/flashsale.js?1768901692132" defer fetchpriority="low"></script>
 <script src="100/531/894/themes/1018832/assets/coupon.js?1768901692132" defer fetchpriority="low"></script>
-<script src="100/531/894/themes/1018832/assets/defer-scripts.js?ww-cart-open-fix-1" defer fetchpriority="low"></script>
+<script src="100/531/894/themes/1018832/assets/defer-scripts.js?ww-cart-boot-immediate-1" defer fetchpriority="low"></script>
 
 @if (false)
   {{-- Cloudflare RUM beacon — tắt: endpoint /cdn-cgi/rum thường 500 trên host không dùng CF analytics --}}

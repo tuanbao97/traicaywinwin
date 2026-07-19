@@ -97,7 +97,7 @@
       window.themeConfigs = {
         mbBreakpoint: window.matchMedia('(max-width: 767px)'),
         lgBreakpoint: window.matchMedia('(max-width: 975px)'),
-        addToCartAction: 'popup',
+        addToCartAction: 'drawer',
         cartAction: 'drawer',
         compareProStorage: 'egaCompareProducts',
         searchStorage: 'egaSearchtorage',

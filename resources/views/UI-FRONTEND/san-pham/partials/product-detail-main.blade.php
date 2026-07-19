@@ -324,7 +324,7 @@
     </button>
 	
   
-    <button type="button" name="addtocart" class=" font-semibold  btn bg-[var(--color-addtocart-bg)] text-[var(--color-addtocart)] btn-add-to-cart w-full">
+    <button type="button" name="addtocart" class=" font-semibold  btn bg-[var(--color-addtocart-bg)] text-[var(--color-addtocart)] btn-add-to-cart add_to_cart w-full">
      THÊM VÀO GIỎ
 <br><span>Giao hàng tận nơi hoặc nhận tại cửa hàng</span>
    <span class="loading-icon gap-1 hidden items-center justify-center">

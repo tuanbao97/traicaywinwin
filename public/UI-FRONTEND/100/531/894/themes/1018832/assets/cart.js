@@ -323,21 +323,11 @@ function __wwBootCartComponents(bootFn) {
   if (typeof subscribe === "function" && window.themeConfigs && window.themeConfigs.firstInteraction) {
     subscribe(window.themeConfigs.firstInteraction, run);
   }
-  // Nếu firstInteraction đã fire trước khi cart.js kịp subscribe → vẫn boot
-  if (window.__wwFirstInteractionDone) {
+  // Boot ngay — không phụ thuộc CDN Bizweb (defer-vendors) để add-to-cart luôn hiện drawer/badge
+  if (window.__wwFirstInteractionDone || document.readyState !== "loading") {
     run();
   } else {
-    // Fallback: sau khi vendors/deferred sẵn sàng muộn hơn
-    document.addEventListener(
-      "DOMContentLoaded",
-      () => {
-        if (window.__wwFirstInteractionDone) run();
-      },
-      { once: true }
-    );
-    setTimeout(() => {
-      if (window.__wwFirstInteractionDone) run();
-    }, 1500);
+    document.addEventListener("DOMContentLoaded", run, { once: true });
   }
 }
 

@@ -113,7 +113,7 @@
       window.themeConfigs = {
         mbBreakpoint: window.matchMedia('(max-width: 767px)'),
         lgBreakpoint: window.matchMedia('(max-width: 975px)'),
-        addToCartAction: 'popup',
+        addToCartAction: 'drawer',
         cartAction: 'drawer',
         compareProStorage: 'egaCompareProducts',
         searchStorage: 'egaSearchtorage',
@@ -2510,127 +2510,11 @@ Hẹn giờ nhận hàng
 	<script src="100/531/894/themes/1018832/assets/main.js?ww-cart-open-fix-1"></script>
 	<script src="100/531/894/themes/1018832/assets/product.js?ww-dl-filename-3" defer fetchpriority="low"></script>
 	<script src="100/531/894/themes/1018832/assets/quick-view-enhance.js?ww-qv-shell-1" defer fetchpriority="low"></script>
-	<script>
-	  (function () {
-	    function csrfToken() {
-	      return (
-	        document
-	          .querySelector('meta[name="csrf-token"]')
-	          ?.getAttribute('content') || ''
-	      );
-	    }
-
-	    function toParams(form) {
-	      var fd = new FormData(form);
-	      var params = new URLSearchParams();
-	      fd.forEach(function (value, key) {
-	        if (value == null) return;
-	        params.append(key, String(value));
-	      });
-	      return params;
-	    }
-
-	    function ensureVariantAndQty(params, btn, form) {
-	      var variant =
-	        params.get('variantId') ||
-	        params.get('VariantId') ||
-	        params.get('id') ||
-	        btn?.getAttribute('data-variant-id') ||
-	        '';
-
-	      if (!variant && form) {
-	        var variantInput = form.querySelector('[name="variantId"]');
-	        if (variantInput && variantInput.value) variant = variantInput.value;
-	      }
-
-	      if (variant) {
-	        params.set('variantId', String(variant));
-	        if (!params.get('VariantId') && !params.get('id')) {
-	          params.set('VariantId', String(variant));
-	        }
-	      }
-
-	      var qty = params.get('quantity');
-	      if (!qty) params.set('quantity', '1');
-	      return params;
-	    }
-
-	    function setLoading(btn, on) {
-	      if (!btn) return;
-	      btn.dataset.loading = on ? '1' : '0';
-	      btn.style.opacity = on ? '0.75' : '';
-	      btn.style.pointerEvents = on ? 'none' : '';
-	      var loadingIcon = btn.querySelector('.loading-icon');
-	      if (loadingIcon) loadingIcon.classList.toggle('hidden', !on);
-	    }
-
-	    async function addToCart(btn) {
-	      var form = btn.closest('form');
-	      if (!form) throw new Error('Không tìm thấy form sản phẩm');
-
-	      var params = toParams(form);
-	      params = ensureVariantAndQty(params, btn, form);
-
-	      var res = await fetch(window.themeUrl('/cart/add'), {
-	        method: 'POST',
-	        headers: {
-	          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-	          'X-Requested-With': 'XMLHttpRequest',
-	          'X-CSRF-TOKEN': csrfToken(),
-	        },
-	        body: params.toString(),
-	        credentials: 'same-origin',
-	      });
-
-	      if (!res.ok) {
-	        var t = await res.text();
-	        throw new Error('Add to cart thất bại (HTTP ' + res.status + '): ' + t.slice(0, 120));
-	      }
-	      var data = await res.json();
-	      if (window.EGATheme && window.EGATheme.publish && window.themeConfigs) {
-	        try {
-	          window.EGATheme.publish(window.themeConfigs.productAddEvent, {
-	            data: data,
-	            action: window.themeConfigs.addToCartAction || 'popup',
-	          });
-	        } catch (err) {
-	          console.warn('Cart UI update skipped:', err);
-	        }
-	      }
-	      return data;
-	    }
-
-	    document.addEventListener(
-	      'click',
-	      function (e) {
-	        var btn = e.target.closest('.add_to_cart');
-	        if (!btn) return;
-	        e.preventDefault();
-	        e.stopPropagation();
-	        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-
-	        if (btn.dataset.loading === '1') return;
-	        setLoading(btn, true);
-	        addToCart(btn)
-	          .then(function () {
-	            // Chỉ cần lưu vào giỏ hàng (session) là đủ.
-	          })
-	          .catch(function (err) {
-	            console.error(err);
-	          })
-	          .finally(function () {
-	            setLoading(btn, false);
-	          });
-	      },
-	      true
-	    );
-	  })();
-	</script>
-	<script src="100/531/894/themes/1018832/assets/cart.js?ww-cart-no-fake-compare-2" defer="" fetchpriority="low"></script>
+	@include('UI-FRONTEND.common.cart-scripts')
 	<script src="100/531/894/themes/1018832/assets/flashsale.js?1768901692132" defer="" fetchpriority="low"></script>
 	<script src="100/531/894/themes/1018832/assets/coupon.js?1768901692132" defer="" fetchpriority="low"></script>
 
-	<script src="100/531/894/themes/1018832/assets/defer-scripts.js?ww-cart-open-fix-1" defer="" fetchpriority="low"></script>
+	<script src="100/531/894/themes/1018832/assets/defer-scripts.js?ww-cart-boot-immediate-1" defer="" fetchpriority="low"></script>
 
   @if (!app()->environment('local'))
     <script defer="" src="beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"6c92bbc133584e029f09e826272d3606","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>

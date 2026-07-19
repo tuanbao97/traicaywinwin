@@ -27,12 +27,18 @@ function loadDefer(){
 	if(loaded) return;
 	loaded = true;
 	loadCSS(window.themeConfigs.vendorsCssLink)
-	getScript(window.themeConfigs.vendorsJSLink, (e)=>{
+	var done = false;
+	function markReady(e){
+		if(done) return;
+		done = true;
 		window.__wwFirstInteractionDone = true;
-		publish(window.themeConfigs.firstInteraction, e)
-	})
-
-
+		try {
+			publish(window.themeConfigs.firstInteraction, e)
+		} catch (err) {}
+	}
+	getScript(window.themeConfigs.vendorsJSLink, markReady)
+	// CDN lỗi / chậm: vẫn đánh dấu firstInteraction để cart UI boot
+	setTimeout(function () { markReady(null); }, 2500);
 }
 
 

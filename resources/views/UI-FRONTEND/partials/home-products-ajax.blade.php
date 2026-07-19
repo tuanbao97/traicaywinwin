@@ -174,7 +174,7 @@
     // Gradient xanh blue nhẹ -> trắng
     var cardInnerStyle = wrapFlash
       ? ''
-      : 'border: 1px solid rgba(2, 132, 199, 0.18);"';
+      : ' style="border: 1px solid rgba(2, 132, 199, 0.18);"';
 
     var inner =
       '<card-product class="h-full card-product--vertical ww-card-opens-qv" data-product-id="' +
