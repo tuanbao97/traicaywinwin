@@ -50,19 +50,25 @@
     prevBtn = newPrev;
     nextBtn = newNext;
 
-    prevBtn.style.display = '';
-    nextBtn.style.display = '';
     var wrap = prevBtn.closest('.embla__buttons');
-    if (wrap) {
-      wrap.style.display = '';
-      wrap.hidden = false;
-    }
+    var forceVisible = function () {
+      prevBtn.style.setProperty('display', 'inline-flex', 'important');
+      nextBtn.style.setProperty('display', 'inline-flex', 'important');
+      prevBtn.style.setProperty('opacity', prevBtn.disabled ? '0.35' : '1', 'important');
+      nextBtn.style.setProperty('opacity', nextBtn.disabled ? '0.35' : '1', 'important');
+      if (wrap) {
+        wrap.style.setProperty('display', 'block', 'important');
+        wrap.hidden = false;
+        wrap.removeAttribute('hidden');
+      }
+    };
 
     var updateButtons = function () {
       if (emblaApi.canScrollPrev()) prevBtn.removeAttribute('disabled');
       else prevBtn.setAttribute('disabled', 'disabled');
       if (emblaApi.canScrollNext()) nextBtn.removeAttribute('disabled');
       else nextBtn.setAttribute('disabled', 'disabled');
+      forceVisible();
     };
     var scrollPrev = function (e) {
       e.preventDefault();

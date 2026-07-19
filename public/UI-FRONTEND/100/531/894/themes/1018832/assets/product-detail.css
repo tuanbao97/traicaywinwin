@@ -358,20 +358,25 @@ body:not(.product-detail-loading) #ww-pd-breadcrumb-skeleton {
 	}
 }
 
-/* Prev/next: luôn hiện; disabled khi hết cuộn — giống gallery thumbnail */
+/* Prev/next: luôn hiện; đầu/cuối chỉ disable — ghi đè theme (.embla__button{opacity:0} + :has both disabled) */
 .section-related-products .embla__buttons {
 	pointer-events: none;
 	display: block !important;
 }
 
+.section-related-products .embla__buttons:has([disabled] + [disabled]) {
+	display: block !important;
+}
+
 .section-related-products .embla__button {
 	pointer-events: auto;
-	display: flex !important;
+	display: inline-flex !important;
+	opacity: 1 !important;
 }
 
 .section-related-products .embla__button[disabled],
 .section-related-products .embla__button:disabled {
-	opacity: 0.35;
+	opacity: 0.35 !important;
 	cursor: default;
 	pointer-events: none;
 }
