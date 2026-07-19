@@ -143,10 +143,14 @@
         '</div>';
       if (showCompare) {
         priceBlock +=
-          '<div class="flex items-baseline gap-2 min-w-0">' +
+          '<div class="price-box__compare-row flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 min-w-0">' +
           '<span class="compare-price price--struck line-through text-sm font-medium leading-snug text-neutral-400 decoration-neutral-300/80">' +
           escapeHtml(compareLabel) +
-          '</span></div>';
+          '</span>' +
+          (discountPct > 0
+            ? '<span class="flashsale-discount-label">-' + discountPct + '%</span>'
+            : '') +
+          '</div>';
       }
       priceBlock += '</div>';
     }
@@ -268,9 +272,6 @@
       '<span class="w-1.5 h-1.5 bg-[currentColor] rounded-full animate-pulse"></span>' +
       '<span class="w-1.5 h-1.5 bg-[currentColor] rounded-full animate-pulse"></span>' +
       '</span><span class="flex items-center justify-center"><i class="icon icon-cart text-[1.35rem]"></i></span></button></div>' +
-      (showCompare && discountPct > 0
-        ? '<span class="badge sale-badge flashsale-discount-badge rounded-full">-' + discountPct + '%</span>'
-        : '') +
       '</div></div>' +
       stockRow +
       '</div></form></div></card-product>';
