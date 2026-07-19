@@ -13,7 +13,7 @@
           <div class="embla">
             <div class="embla__viewport">
               <div
-                class="embla__container product-list h-inherit -ml-2 [&>div]:pl-2 [&>div]:w-1/2 md:[&>div]:w-1/3 lg:[&>div]:w-1/5 [&>div]:shrink-0 [&>div]:grow-0"
+                class="embla__container product-list flex h-inherit -ml-2"
                 id="ww-related-products-list"
               ></div>
             </div>
@@ -170,7 +170,7 @@
       : '';
 
     return (
-      '<div class="embla__slide h-inherit">' +
+      '<div class="embla__slide h-inherit w-1/2 md:w-1/3 lg:w-1/5 flex-shrink-0 flex-grow-0 pl-2">' +
       '<card-product class="h-full card-product--vertical ww-card-opens-qv" data-product-id="' +
       escapeHtml(p.ID) +
       '">' +
@@ -228,7 +228,10 @@
       '</div></div></div>';
     var html = '';
     for (var i = 0; i < 5; i++) {
-      html += '<div class="embla__slide h-inherit">' + item + '</div>';
+      html +=
+        '<div class="embla__slide h-inherit w-1/2 md:w-1/3 lg:w-1/5 flex-shrink-0 flex-grow-0 pl-2">' +
+        item +
+        '</div>';
     }
     return html;
   }

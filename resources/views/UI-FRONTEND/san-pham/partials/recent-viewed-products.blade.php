@@ -10,7 +10,7 @@
           <div class="embla">
             <div class="embla__viewport">
               <div
-                class="embla__container product-list h-inherit -ml-2 [&>div]:pl-2 [&>div]:w-1/2 md:[&>div]:w-1/3 lg:[&>div]:w-1/5 [&>div]:shrink-0 [&>div]:grow-0"
+                class="embla__container product-list flex h-inherit -ml-2"
                 id="ww-recent-viewed-list"
               ></div>
             </div>
@@ -314,7 +314,12 @@
 
         list.innerHTML = '';
         products.forEach(function (p) {
-          list.insertAdjacentHTML('beforeend', '<div class="embla__slide h-inherit">' + buildCardHtml(p) + '</div>');
+          list.insertAdjacentHTML(
+            'beforeend',
+            '<div class="embla__slide h-inherit w-1/2 md:w-1/3 lg:w-1/5 flex-shrink-0 flex-grow-0 pl-2">' +
+              buildCardHtml(p) +
+              '</div>'
+          );
         });
 
         section.classList.remove('hidden');
