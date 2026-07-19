@@ -1,4 +1,4 @@
-{{-- Sản phẩm cùng danh mục — layout grid giống section trang chủ --}}
+{{-- Sản phẩm cùng danh mục — 1 hàng card (2/3/5) + prev/next như carousel --}}
 <section id="ww-related-products-section" class="section section-products section-related-products hidden" style="--section-margin: 64px 0 64px 0;--section-margin-mb: 32px 0 32px 0">
   <div class="container">
     <div class="section-card">
@@ -9,10 +9,24 @@
         </h2>
       </div>
       <div id="ww-related-products-wrap" class="releated-products w-full">
-        <div
-          class="product-list grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 mt-2"
-          id="ww-related-products-list"
-        ></div>
+        <carousel-slider>
+          <div class="embla">
+            <div class="embla__viewport">
+              <div
+                class="embla__container product-list h-inherit -ml-2 [&>div]:pl-2 [&>div]:w-1/2 md:[&>div]:w-1/3 lg:[&>div]:w-1/5 [&>div]:shrink-0 [&>div]:grow-0"
+                id="ww-related-products-list"
+              ></div>
+            </div>
+            <div class="embla__buttons">
+              <button class="embla__button embla__button--prev" type="button" onclick="event.stopPropagation()">
+                <i class="icon icon-carret-left"></i>
+              </button>
+              <button class="embla__button embla__button--next" type="button" onclick="event.stopPropagation()">
+                <i class="icon icon-carret-right"></i>
+              </button>
+            </div>
+          </div>
+        </carousel-slider>
       </div>
     </div>
   </div>
@@ -156,6 +170,7 @@
       : '';
 
     return (
+      '<div class="embla__slide h-inherit">' +
       '<card-product class="h-full card-product--vertical ww-card-opens-qv" data-product-id="' +
       escapeHtml(p.ID) +
       '">' +
@@ -190,7 +205,7 @@
       '<span class="w-1.5 h-1.5 bg-[currentColor] rounded-full animate-pulse"></span>' +
       '<span class="w-1.5 h-1.5 bg-[currentColor] rounded-full animate-pulse"></span>' +
       '<span class="w-1.5 h-1.5 bg-[currentColor] rounded-full animate-pulse"></span>' +
-      '</span><span class="flex items-center justify-center"><i class="icon icon-cart text-[1.35rem]"></i></span></button></div></div></div></form></div></card-product>'
+      '</span><span class="flex items-center justify-center"><i class="icon icon-cart text-[1.35rem]"></i></span></button></div></div></div></form></div></card-product></div>'
     );
   }
 
@@ -212,10 +227,19 @@
       '<span class="ww-skel-bone ww-skel-btn"></span>' +
       '</div></div></div>';
     var html = '';
-    for (var i = 0; i < cfg.limit; i++) {
-      html += item;
+    for (var i = 0; i < 5; i++) {
+      html += '<div class="embla__slide h-inherit">' + item + '</div>';
     }
     return html;
+  }
+
+  function initCarousel() {
+    var carousel = document.querySelector('#ww-related-products-wrap carousel-slider');
+    if (carousel && typeof carousel.init === 'function') {
+      carousel.init();
+      return true;
+    }
+    return false;
   }
 
   function loadRelated(categoryId, categoryName) {
@@ -267,6 +291,9 @@
         rows.forEach(function (p) {
           list.insertAdjacentHTML('beforeend', buildCardHtml(p));
         });
+        if (!initCarousel() && window.EGATheme && window.EGATheme.subscribe && window.themeConfigs) {
+          window.EGATheme.subscribe(window.themeConfigs.firstInteraction, initCarousel);
+        }
         if (window.EGATheme && window.EGATheme.publish && window.themeConfigs) {
           window.EGATheme.publish(window.themeConfigs.productLoaded);
         }
