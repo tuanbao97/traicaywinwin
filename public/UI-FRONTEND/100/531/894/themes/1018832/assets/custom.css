@@ -2402,10 +2402,15 @@ top: auto!important;
 	line-height: 1.25 !important;
 }
 
-/* Hàng giá: icon gi? c?n theo giá bán (trên), không c?n gi?a c? kh?i có giá g?c */
+/* Không có giá g?c: ch? giá c?n gi?a theo chi?u cao v?i icon gi? */
 .card-product__body .card-product__price-row {
-	align-items: flex-start;
+	align-items: center !important;
 	gap: 0.75rem;
+}
+
+/* Có giá g?c: icon gi? c?n theo hàng giá bán (trên), không b? kéo xu?ng */
+.card-product__body .card-product__price-row:has(.compare-price) {
+	align-items: flex-start !important;
 }
 
 .card-product__body .card-product__price-row .price-box {

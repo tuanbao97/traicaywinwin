@@ -460,7 +460,7 @@
       escapeHtml(p.ID) +
       '"></div>' +
       '</a>' +
-      '<div class="card-product__price-row flex justify-between items-start gap-3 w-full min-w-0">' +
+      '<div class="card-product__price-row flex justify-between gap-3 w-full min-w-0">' +
       '<a class="link flex-1 min-w-0" href="' +
       escapeHtml(href) +
       '" title="' +
