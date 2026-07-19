@@ -545,12 +545,11 @@
 
   function buildFilterTabsHtml(cat, tabPrefix) {
     var defs = [
-      { label: 'Nổi bật', boLoc: 'default' },
+      { label: 'Tất cả', boLoc: 'default' },
       { label: 'Giá tăng dần', boLoc: 'gia-tang' },
       { label: 'Giá giảm dần', boLoc: 'gia-giam' },
       { label: 'Tên từ A-Z', boLoc: 'a-z' },
       { label: 'Tên từ Z-A', boLoc: 'z-a' },
-      { label: 'Tất cả', boLoc: 'default' },
     ];
     var html =
       '<ul class="heading-tabs heading-tabs--scroll mb-4 md:mb-6 w-full max-w-full overflow-x-auto list-none flex md:gap-3 gap-2 font-semibold whitespace-nowrap">';
@@ -654,7 +653,7 @@
     var panelsHtml = buildTabPanelsHtml(
       tabPrefix,
       baseGrid,
-      useChildTabs ? Math.max(children.length + 1, 1) : 6,
+      useChildTabs ? Math.max(children.length + 1, 1) : 5,
       skHtml
     );
 
@@ -724,13 +723,12 @@
       return;
     }
 
-    beginCategoryLoads(catId, 6);
+    beginCategoryLoads(catId, 5);
     loadProducts('category', p + '-t1', { categoryId: catId, perPage: n, boLoc: 'default', trackCategoryId: catId });
     loadProducts('category', p + '-t2', { categoryId: catId, perPage: n, boLoc: 'gia-tang', trackCategoryId: catId });
     loadProducts('category', p + '-t3', { categoryId: catId, perPage: n, boLoc: 'gia-giam', trackCategoryId: catId });
     loadProducts('category', p + '-t4', { categoryId: catId, perPage: n, boLoc: 'a-z', trackCategoryId: catId });
     loadProducts('category', p + '-t5', { categoryId: catId, perPage: n, boLoc: 'z-a', trackCategoryId: catId });
-    loadProducts('category', p + '-t6', { categoryId: catId, perPage: n, boLoc: 'default', trackCategoryId: catId });
   }
 
   function insertCategorySectionsAndLoad() {
