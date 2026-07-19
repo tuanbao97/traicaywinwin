@@ -2457,18 +2457,18 @@ top: auto!important;
 	padding-top: 0;
 }
 .card-product__body .card-product__cart-btn .btn.add_to_cart {
-	width: 3.6rem;
-	height: 3.6rem;
-	min-width: 3.6rem;
-	min-height: 3.6rem;
+	width: 3.24rem;
+	height: 3.24rem;
+	min-width: 3.24rem;
+	min-height: 3.24rem;
 	padding: 0;
-	border-radius: 0.85rem;
+	border-radius: 0.76rem;
 	gap: 0;
 	color: #f97316;
 	border-color: #f97316 !important;
 }
 
-/* Icon tr?n card s?n ph?m: xanh da tr?i + to h?n d? b?m */
+/* Icon trên card s?n ph?m: xanh da tr?i + to h?n ?? b?m */
 .card-product .ww-quick-view-btn {
   display: none !important;
 }
@@ -2477,8 +2477,8 @@ top: auto!important;
   display: none !important;
 }
 .card-product .addtocart-btn {
-  width: 3.6rem !important;
-  height: 3.6rem !important;
+  width: 3.24rem !important;
+  height: 3.24rem !important;
   color: #f97316 !important;
   border-color: #f97316 !important;
 }
@@ -2487,7 +2487,7 @@ top: auto!important;
 .card-product .card-product__cart-btn .icon-cart,
 .card-product .card-product__cart-btn .icon-cart::before {
   color: #f97316 !important;
-  font-size: 1.8rem !important;
+  font-size: 1.62rem !important;
   line-height: 1;
   -webkit-text-stroke: 0.35px #f97316;
   paint-order: stroke fill;
