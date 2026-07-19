@@ -10,10 +10,11 @@
       </div>
       <div id="ww-related-products-wrap" class="releated-products w-full">
         <carousel-slider>
+          <script data-type="carousel-options" type="application/json">{"loop":false,"dragFree":false,"align":"start","containScroll":"trimSnaps"}</script>
           <div class="embla">
             <div class="embla__viewport">
               <div
-                class="embla__container product-list flex h-inherit -ml-2"
+                class="embla__container product-list flex h-inherit"
                 id="ww-related-products-list"
               ></div>
             </div>
@@ -73,17 +74,12 @@
     var scrollPrev = function (e) {
       e.preventDefault();
       e.stopPropagation();
-      var idx = emblaApi.selectedScrollSnap();
-      if (idx > 0) emblaApi.scrollTo(idx - 1);
-      else if (emblaApi.canScrollPrev()) emblaApi.scrollPrev();
+      if (emblaApi.canScrollPrev()) emblaApi.scrollPrev();
     };
     var scrollNext = function (e) {
       e.preventDefault();
       e.stopPropagation();
-      var snaps = emblaApi.scrollSnapList();
-      var idx = emblaApi.selectedScrollSnap();
-      if (idx < snaps.length - 1) emblaApi.scrollTo(idx + 1);
-      else if (emblaApi.canScrollNext()) emblaApi.scrollNext();
+      if (emblaApi.canScrollNext()) emblaApi.scrollNext();
     };
 
     prevBtn.addEventListener('click', scrollPrev, false);
@@ -93,8 +89,12 @@
       .on('reInit', updateButtons)
       .on('select', updateButtons)
       .on('settle', updateButtons);
+    if (typeof emblaApi.reInit === 'function') emblaApi.reInit();
     updateButtons();
-    requestAnimationFrame(updateButtons);
+    requestAnimationFrame(function () {
+      if (typeof emblaApi.reInit === 'function') emblaApi.reInit();
+      updateButtons();
+    });
   };
 })();
 </script>
@@ -236,7 +236,7 @@
       : '';
 
     return (
-      '<div class="embla__slide h-inherit w-1/2 md:w-1/3 lg:w-1/5 flex-shrink-0 flex-grow-0 pl-2">' +
+      '<div class="embla__slide h-inherit">' +
       '<card-product class="h-full card-product--vertical ww-card-opens-qv" data-product-id="' +
       escapeHtml(p.ID) +
       '">' +
@@ -294,10 +294,7 @@
       '</div></div></div>';
     var html = '';
     for (var i = 0; i < 5; i++) {
-      html +=
-        '<div class="embla__slide h-inherit w-1/2 md:w-1/3 lg:w-1/5 flex-shrink-0 flex-grow-0 pl-2">' +
-        item +
-        '</div>';
+      html += '<div class="embla__slide h-inherit">' + item + '</div>';
     }
     return html;
   }

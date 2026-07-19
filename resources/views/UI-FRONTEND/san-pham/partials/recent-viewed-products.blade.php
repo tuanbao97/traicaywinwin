@@ -7,10 +7,11 @@
       </div>
       <div id="ww-recent-viewed-wrap" class="releated-products w-full">
         <carousel-slider>
+          <script data-type="carousel-options" type="application/json">{"loop":false,"dragFree":false,"align":"start","containScroll":"trimSnaps"}</script>
           <div class="embla">
             <div class="embla__viewport">
               <div
-                class="embla__container product-list flex h-inherit -ml-2"
+                class="embla__container product-list flex h-inherit"
                 id="ww-recent-viewed-list"
               ></div>
             </div>
@@ -316,9 +317,7 @@
         products.forEach(function (p) {
           list.insertAdjacentHTML(
             'beforeend',
-            '<div class="embla__slide h-inherit w-1/2 md:w-1/3 lg:w-1/5 flex-shrink-0 flex-grow-0 pl-2">' +
-              buildCardHtml(p) +
-              '</div>'
+            '<div class="embla__slide h-inherit">' + buildCardHtml(p) + '</div>'
           );
         });
 
