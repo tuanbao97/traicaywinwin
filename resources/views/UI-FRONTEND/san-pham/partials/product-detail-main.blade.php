@@ -96,10 +96,10 @@
         <div class="embla__container" id="ww-pd-gallery-main"></div>
       </div>
       <div class="embla__buttons">
-        <button class="embla__button embla__button--prev" type="button">
+        <button class="embla__button embla__button--prev" type="button" disabled aria-label="Ảnh trước">
           <i class="icon icon-carret-left"></i>
         </button>
-        <button class="embla__button embla__button--next" type="button">
+        <button class="embla__button embla__button--next" type="button" aria-label="Ảnh sau">
           <i class="icon icon-carret-right"></i>
         </button>
       </div>

@@ -46,6 +46,27 @@
 	cursor: default;
 }
 
+/* Ảnh chính: luôn hiện prev/next khi >1 ảnh; đầu/cuối thì blur + disabled */
+.main-product .gallery-main {
+	position: relative;
+}
+
+.main-product .gallery-main .embla__buttons {
+	pointer-events: none;
+}
+
+.main-product .gallery-main .embla__button {
+	pointer-events: auto;
+	opacity: 1 !important;
+}
+
+.main-product .gallery-main .embla__button[disabled],
+.main-product .gallery-main .embla__button:disabled {
+	opacity: 0.35 !important;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
 @keyframes ww-pd-pulse {
 	0%,
 	100% {

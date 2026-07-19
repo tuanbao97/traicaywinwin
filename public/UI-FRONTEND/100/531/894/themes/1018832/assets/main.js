@@ -825,19 +825,47 @@ class EmblaComponent extends HTMLElement {
 
   addTogglePrevNextBtnsActive(emblaApi, prevBtn, nextBtn) {
     const togglePrevNextBtnsState = () => {
-      if (emblaApi.canScrollPrev()) prevBtn.removeAttribute("disabled");
-      else prevBtn.setAttribute("disabled", "disabled");
+      if (!prevBtn || !nextBtn) return;
+      const snaps = typeof emblaApi.scrollSnapList === "function"
+        ? emblaApi.scrollSnapList()
+        : [];
+      const multi = snaps.length > 1;
+      const idx =
+        typeof emblaApi.selectedScrollSnap === "function"
+          ? emblaApi.selectedScrollSnap()
+          : 0;
 
-      if (emblaApi.canScrollNext()) nextBtn.removeAttribute("disabled");
-      else nextBtn.setAttribute("disabled", "disabled");
+      const wrap = prevBtn.closest(".embla__buttons");
+      if (wrap) {
+        wrap.style.display = multi ? "" : "none";
+        wrap.hidden = !multi;
+      }
+
+      if (!multi || idx <= 0) prevBtn.setAttribute("disabled", "disabled");
+      else prevBtn.removeAttribute("disabled");
+
+      if (!multi || idx >= snaps.length - 1)
+        nextBtn.setAttribute("disabled", "disabled");
+      else nextBtn.removeAttribute("disabled");
     };
 
     emblaApi
       .on("select", togglePrevNextBtnsState)
       .on("init", togglePrevNextBtnsState)
-      .on("reInit", togglePrevNextBtnsState);
+      .on("reInit", togglePrevNextBtnsState)
+      .on("settle", togglePrevNextBtnsState);
+
+    // Đồng bộ ngay — tránh prev còn “mở” khi mới vào trang (ảnh đầu)
+    togglePrevNextBtnsState();
+    requestAnimationFrame(togglePrevNextBtnsState);
 
     return () => {
+      if (typeof emblaApi.off === "function") {
+        emblaApi.off("select", togglePrevNextBtnsState);
+        emblaApi.off("init", togglePrevNextBtnsState);
+        emblaApi.off("reInit", togglePrevNextBtnsState);
+        emblaApi.off("settle", togglePrevNextBtnsState);
+      }
       prevBtn.removeAttribute("disabled");
       nextBtn.removeAttribute("disabled");
     };
