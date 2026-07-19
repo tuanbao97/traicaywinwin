@@ -284,6 +284,12 @@
 		flex-basis: calc(20% - 0.4rem);
 		width: calc(20% - 0.4rem);
 	}
+
+	/* Giỏ hàng — desktop: 4 card / hàng */
+	.cart-releated-products.ww-product-row-carousel .embla__slide {
+		flex-basis: calc(25% - 0.375rem);
+		width: calc(25% - 0.375rem);
+	}
 }
 
 .ww-product-row-carousel .embla__buttons {
