@@ -13,7 +13,13 @@ use Illuminate\Support\Facades\DB;
                     Cache::forget($tagKey);
                 }
             }
-            DB::table('cache')->where('key', 'like', AppConstant::CACHE_PREFIX_DATA_UI_FRONTEND . '_%')->delete();
+            // Prefix thực tế trong DB: [laravel_cache_]CACHE_DATA_UI_FRONTEND_{md5}
+            $prefix = AppConstant::CACHE_PREFIX_DATA_UI_FRONTEND;
+            try {
+                DB::table('cache')->where('key', 'like', '%' . $prefix . '%')->delete();
+            } catch (\Throwable) {
+                // Ignore nếu store không dùng bảng cache
+            }
             Cache::forget(AppConstant::CACHE_TAG_DATA_UI_FRONTEND);
         }
     }
