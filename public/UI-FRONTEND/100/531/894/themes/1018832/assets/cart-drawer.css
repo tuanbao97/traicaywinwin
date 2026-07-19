@@ -252,3 +252,58 @@
 .rewards-item:hover .reward-title{
 	display: block
 }
+
+/* 1 hàng card (2/3/5) + prev/next — dùng chung SP liên quan / gợi ý giỏ hàng */
+.ww-product-row-carousel .embla__viewport {
+	overflow: hidden;
+}
+
+.ww-product-row-carousel .embla__container {
+	display: flex;
+	margin-left: 0 !important;
+	gap: 0.5rem;
+}
+
+.ww-product-row-carousel .embla__slide {
+	flex: 0 0 calc(50% - 0.25rem);
+	width: calc(50% - 0.25rem);
+	min-width: 0;
+	padding-left: 0 !important;
+	box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+	.ww-product-row-carousel .embla__slide {
+		flex-basis: calc(33.333333% - 0.333333rem);
+		width: calc(33.333333% - 0.333333rem);
+	}
+}
+
+@media (min-width: 1024px) {
+	.ww-product-row-carousel .embla__slide {
+		flex-basis: calc(20% - 0.4rem);
+		width: calc(20% - 0.4rem);
+	}
+}
+
+.ww-product-row-carousel .embla__buttons {
+	pointer-events: none;
+	display: block !important;
+}
+
+.ww-product-row-carousel .embla__buttons:has([disabled] + [disabled]) {
+	display: block !important;
+}
+
+.ww-product-row-carousel .embla__button {
+	pointer-events: auto;
+	display: inline-flex !important;
+	opacity: 1 !important;
+}
+
+.ww-product-row-carousel .embla__button[disabled],
+.ww-product-row-carousel .embla__button:disabled {
+	opacity: 0.35 !important;
+	cursor: default;
+	pointer-events: none;
+}

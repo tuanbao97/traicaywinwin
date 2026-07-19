@@ -3,21 +3,21 @@
     <div class=" w-full h-full flex">
       <div class="portal-overlay"></div>
       <div class=" cart-drawer-related-products animation fade-in flex items-center justify-center" data-animation="fade-in" id="PortalClose-cart-related-drawer">
-        <related-products class="cart-releated-products w-full fade-in dnone lg:block hidden" data-skip-search="1" data-limit="5">
+        <related-products class="cart-releated-products ww-product-row-carousel w-full fade-in dnone lg:block hidden" data-skip-search="1" data-limit="10">
           <carousel-slider>
+            <script data-type="carousel-options" type="application/json">{"loop":false,"dragFree":false,"align":"start","containScroll":"trimSnaps"}</script>
             <div class="embla lg:pb-[var(--spacing-10)]">
               <h2 class="text-h4 text-center mb-5 font-semibold text-white">
                 Sản phẩm gợi ý
               </h2>
               <div class="embla__viewport w-full overflow-hidden min-w-0">
-                <div class="embla__container product-list flex h-inherit [&>div]:px-2 [&>div]:w-full md:[&>div]:w-[75%] xl:[&>div]:w-1/3 [&>div]:grow-0 [&>div]:shrink-0 [&>div:first-child]:ml-auto [&>div:last-child]:mr-auto"></div>
+                <div class="embla__container product-list flex h-inherit"></div>
               </div>
-              <div class="embla__buttons dnone md:block">
+              <div class="embla__buttons">
                 <button class="embla__button embla__button--prev" onclick="event.stopPropagation()" type="button">
                   <i class="icon icon-carret-left"></i>
                 </button>
-
-                <button class="embla__button embla__button--next " onclick="event.stopPropagation()" type="button">
+                <button class="embla__button embla__button--next" onclick="event.stopPropagation()" type="button">
                   <i class="icon icon-carret-right"></i>
                 </button>
               </div>
@@ -39,16 +39,28 @@
                 <rewards-bar> </rewards-bar>
                 <div class="cart-table"></div>
                 <div class="lg:hidden w-full mt-auto">
-                  <related-products class="cart-releated-products hidden" data-skip-search="1" data-product-type="row">
+                  <related-products class="cart-releated-products ww-product-row-carousel hidden" data-skip-search="1" data-product-type="row" data-limit="10">
                     <div class=" mb-2">
                       <h2 class="text-base font-semibold">
                         Sản phẩm gợi ý
                       </h2>
                     </div>
-                    <div class="overflow-hidden">
-                      <div class="flex overflow-x-auto no-scrollbar product-list [&>div]:flex-grow-0  [&>div]:flex-shrink-0  [&>div]:w-[75%] gap-2 ">
+                    <carousel-slider>
+                      <script data-type="carousel-options" type="application/json">{"loop":false,"dragFree":false,"align":"start","containScroll":"trimSnaps"}</script>
+                      <div class="embla">
+                        <div class="embla__viewport w-full overflow-hidden min-w-0">
+                          <div class="embla__container product-list flex h-inherit"></div>
+                        </div>
+                        <div class="embla__buttons">
+                          <button class="embla__button embla__button--prev" onclick="event.stopPropagation()" type="button">
+                            <i class="icon icon-carret-left"></i>
+                          </button>
+                          <button class="embla__button embla__button--next" onclick="event.stopPropagation()" type="button">
+                            <i class="icon icon-carret-right"></i>
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    </carousel-slider>
                   </related-products>
                 </div>
               </div>

@@ -57,6 +57,67 @@ function syncCartBadge(count) {
 
 window.__wwSyncCartBadge = syncCartBadge;
 
+/** Prev/next luôn hiện; đầu/cuối disable — giống thumbnail gallery / SP liên quan */
+window.wwBindThumbLikeCarouselNav = function (carousel) {
+  if (!carousel || !carousel.emblaApi) return;
+  var emblaApi = carousel.emblaApi;
+  var prevBtn = carousel.querySelector(".embla__button--prev");
+  var nextBtn = carousel.querySelector(".embla__button--next");
+  if (!prevBtn || !nextBtn) return;
+
+  var newPrev = prevBtn.cloneNode(true);
+  var newNext = nextBtn.cloneNode(true);
+  prevBtn.replaceWith(newPrev);
+  nextBtn.replaceWith(newNext);
+  prevBtn = newPrev;
+  nextBtn = newNext;
+
+  var wrap = prevBtn.closest(".embla__buttons");
+  var forceVisible = function () {
+    prevBtn.style.setProperty("display", "inline-flex", "important");
+    nextBtn.style.setProperty("display", "inline-flex", "important");
+    prevBtn.style.setProperty("opacity", prevBtn.disabled ? "0.35" : "1", "important");
+    nextBtn.style.setProperty("opacity", nextBtn.disabled ? "0.35" : "1", "important");
+    if (wrap) {
+      wrap.style.setProperty("display", "block", "important");
+      wrap.hidden = false;
+      wrap.removeAttribute("hidden");
+    }
+  };
+
+  var updateButtons = function () {
+    if (emblaApi.canScrollPrev()) prevBtn.removeAttribute("disabled");
+    else prevBtn.setAttribute("disabled", "disabled");
+    if (emblaApi.canScrollNext()) nextBtn.removeAttribute("disabled");
+    else nextBtn.setAttribute("disabled", "disabled");
+    forceVisible();
+  };
+  var scrollPrev = function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (emblaApi.canScrollPrev()) emblaApi.scrollPrev();
+  };
+  var scrollNext = function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (emblaApi.canScrollNext()) emblaApi.scrollNext();
+  };
+
+  prevBtn.addEventListener("click", scrollPrev, false);
+  nextBtn.addEventListener("click", scrollNext, false);
+  emblaApi
+    .on("init", updateButtons)
+    .on("reInit", updateButtons)
+    .on("select", updateButtons)
+    .on("settle", updateButtons);
+  if (typeof emblaApi.reInit === "function") emblaApi.reInit();
+  updateButtons();
+  requestAnimationFrame(function () {
+    if (typeof emblaApi.reInit === "function") emblaApi.reInit();
+    updateButtons();
+  });
+};
+
 function wwEscapeHtml(value) {
   return String(value ?? "")
     .replace(/&/g, "&amp;")
@@ -187,7 +248,12 @@ function renderCartRecommendations(products) {
     box.classList.remove("hidden", "no-products", "no-products-content");
 
     const carousel = box.querySelector("carousel-slider");
-    if (carousel && typeof carousel.init === "function") carousel.init();
+    if (carousel && typeof carousel.init === "function") {
+      carousel.init();
+      if (typeof window.wwBindThumbLikeCarouselNav === "function") {
+        window.wwBindThumbLikeCarouselNav(carousel);
+      }
+    }
   });
 
   if (window.EGATheme && window.EGATheme.publish && window.themeConfigs) {
@@ -196,7 +262,7 @@ function renderCartRecommendations(products) {
 }
 
 function loadCartRecommendations() {
-  return fetch(themeApiUrl("/cart/recommendations?limit=8"), {
+  return fetch(themeApiUrl("/cart/recommendations?limit=10"), {
     credentials: "same-origin",
     headers: { Accept: "application/json", "X-Requested-With": "XMLHttpRequest" },
   })

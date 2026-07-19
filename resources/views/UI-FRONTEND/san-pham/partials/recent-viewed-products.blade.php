@@ -1,5 +1,5 @@
 {{-- Sản phẩm đã xem — 1 hàng card (2/3/5) + prev/next như carousel --}}
-<section id="recent-view-coll" class="section section-products section-related-products hidden" style="--section-margin: 64px 0 64px 0;--section-margin-mb: 32px 0 32px 0">
+<section id="recent-view-coll" class="section section-products section-related-products ww-product-row-carousel hidden" style="--section-margin: 64px 0 64px 0;--section-margin-mb: 32px 0 32px 0">
   <div class="container">
     <div class="section-card">
       <div class="heading-bar py-3 px-5 text-center mb-2">

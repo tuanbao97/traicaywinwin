@@ -164,4 +164,4 @@
     );
   })();
 </script>
-<script src="100/531/894/themes/1018832/assets/cart.js?ww-cart-boot-immediate-1" defer fetchpriority="low"></script>
+<script src="100/531/894/themes/1018832/assets/cart.js?ww-cart-suggest-row-1" defer fetchpriority="low"></script>
