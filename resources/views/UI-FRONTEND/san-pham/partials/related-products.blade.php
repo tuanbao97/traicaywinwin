@@ -131,11 +131,7 @@
     var priceInt = Math.round(Number(p.GIA_CA) || 0);
     var priceLabel = formatPriceShortVnd(priceInt);
     var compareInt = Math.round(Number(p.GIA_GOC) || 0);
-    var discountPct = 0;
     var showCompare = priceInt > 0 && compareInt > priceInt;
-    if (showCompare) {
-      discountPct = Math.min(99, Math.max(1, Math.round((1 - priceInt / compareInt) * 100)));
-    }
     var compareLabel = showCompare ? formatPriceShortVnd(compareInt) : '';
     var hov = hoverUrl(p);
     var hasHover = hov !== '';
@@ -152,11 +148,7 @@
             ? '<div class="price-box__compare-row flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 min-w-0">' +
               '<span class="compare-price price--struck line-through text-sm font-medium text-neutral-400">' +
               escapeHtml(compareLabel) +
-              '</span>' +
-              (discountPct > 0
-                ? '<span class="flashsale-discount-label">-' + discountPct + '%</span>'
-                : '') +
-              '</div>'
+              '</span></div>'
             : '') +
           '</div>';
 
@@ -195,7 +187,7 @@
       '<a class="link block" href="' + escapeHtml(href) + '" title="' + escapeHtml(title) + '">' +
       '<div class="card-product__title text-base line-clamp-3">' + escapeHtml(title) + '</div>' +
       '</a>' +
-      '<div class="card-product__price-row flex justify-between items-center gap-3 w-full min-w-0">' +
+      '<div class="card-product__price-row flex justify-between items-start gap-3 w-full min-w-0">' +
       '<a class="link flex-1 min-w-0" href="' + escapeHtml(href) + '" title="' + escapeHtml(title) + '">' +
       '<div class="price-box flex-1 min-w-0 flex flex-col items-start gap-1">' + priceBlock + '</div>' +
       '</a>' +
