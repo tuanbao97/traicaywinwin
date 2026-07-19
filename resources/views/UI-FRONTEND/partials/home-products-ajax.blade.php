@@ -404,6 +404,79 @@
     }
   }
 
+  function productSellPrice(p) {
+    var n = Math.round(Number(p && p.GIA_CA) || 0);
+    return n > 0 ? n : null;
+  }
+
+  function productNameKey(p) {
+    return String((p && p.TEN_SAN_PHAM) || '').trim().toLowerCase();
+  }
+
+  /** Sort toàn bộ list theo giá bán / tên — dùng cho tab sắp xếp trang chủ */
+  function sortProductsByBoLoc(rows, boLoc) {
+    var list = Array.isArray(rows) ? rows.slice() : [];
+    var mode = boLoc || 'default';
+    if (mode === 'default') return list;
+
+    list.sort(function (a, b) {
+      if (mode === 'gia-tang' || mode === 'gia-giam') {
+        var pa = productSellPrice(a);
+        var pb = productSellPrice(b);
+        var aEmpty = pa == null;
+        var bEmpty = pb == null;
+        if (aEmpty !== bEmpty) return aEmpty ? 1 : -1;
+        if (pa !== pb) return mode === 'gia-tang' ? pa - pb : pb - pa;
+        return Number(a.ID || 0) - Number(b.ID || 0);
+      }
+      if (mode === 'a-z' || mode === 'z-a') {
+        var cmp = productNameKey(a).localeCompare(productNameKey(b), 'vi', { sensitivity: 'base' });
+        if (cmp !== 0) return mode === 'a-z' ? cmp : -cmp;
+        return Number(a.ID || 0) - Number(b.ID || 0);
+      }
+      return 0;
+    });
+    return list;
+  }
+
+  function renderProductsInto(el, rows, section) {
+    if (!el) return;
+    if (!rows || !rows.length) {
+      el.innerHTML = buildEmptyProductsHtml();
+      return;
+    }
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      html += buildCardHtml(rows[i], { wrapFlash: section === 'flash' });
+    }
+    el.innerHTML = html;
+  }
+
+  function fetchAllCategoryProducts(categoryId) {
+    var params = new URLSearchParams();
+    params.set('PAGE', '1');
+    params.set('PER_PAGE', '9999');
+    params.set('IS_GET_ALL_ELEMENTS', 'true');
+    params.set('BO_LOC', 'default');
+    params.append('DANH_MUC_SAN_PHAM_ID[]', String(categoryId));
+
+    return fetch(cfg.apiUrl + '?' + params.toString(), {
+      method: 'GET',
+      headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+      credentials: 'same-origin',
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        if (!data || data.STATUS !== true || !data.DATAS || !data.DATAS.PRODUCT) {
+          throw new Error((data && data.STATUS_DETAIL) || 'Phản hồi không hợp lệ');
+        }
+        return data.DATAS.PRODUCT.DATA || [];
+      });
+  }
+
   function loadProducts(section, containerSelector, opts) {
     var el = document.querySelector(containerSelector);
     if (!el) return;
@@ -454,11 +527,7 @@
           }
           return;
         }
-        var html = '';
-        for (var i = 0; i < rows.length; i++) {
-          html += buildCardHtml(rows[i], { wrapFlash: section === 'flash' });
-        }
-        el.innerHTML = html;
+        renderProductsInto(el, rows, section);
         if (section === 'flash') {
           showHomeBlock(getFlashSectionEl());
         } else if (categoryId) {
@@ -723,12 +792,48 @@
       return;
     }
 
-    beginCategoryLoads(catId, 5);
-    loadProducts('category', p + '-t1', { categoryId: catId, perPage: n, boLoc: 'default', trackCategoryId: catId });
-    loadProducts('category', p + '-t2', { categoryId: catId, perPage: n, boLoc: 'gia-tang', trackCategoryId: catId });
-    loadProducts('category', p + '-t3', { categoryId: catId, perPage: n, boLoc: 'gia-giam', trackCategoryId: catId });
-    loadProducts('category', p + '-t4', { categoryId: catId, perPage: n, boLoc: 'a-z', trackCategoryId: catId });
-    loadProducts('category', p + '-t5', { categoryId: catId, perPage: n, boLoc: 'z-a', trackCategoryId: catId });
+    // Section thường: lấy ALL sản phẩm rồi sort theo giá bán / tên cho từng tab
+    var sortTabs = [
+      { idx: 1, boLoc: 'default' },
+      { idx: 2, boLoc: 'gia-tang' },
+      { idx: 3, boLoc: 'gia-giam' },
+      { idx: 4, boLoc: 'a-z' },
+      { idx: 5, boLoc: 'z-a' },
+    ];
+    beginCategoryLoads(catId, 1);
+    for (var s = 0; s < sortTabs.length; s++) {
+      var skEl = document.querySelector(p + '-t' + sortTabs[s].idx);
+      if (skEl) skEl.innerHTML = buildProductGridSkeletonHtml(n, false);
+    }
+
+    fetchAllCategoryProducts(catId)
+      .then(function (allRows) {
+        var hasAny = allRows && allRows.length > 0;
+        for (var t = 0; t < sortTabs.length; t++) {
+          var tab = sortTabs[t];
+          var el = document.querySelector(p + '-t' + tab.idx);
+          if (!el) continue;
+          if (!hasAny) {
+            el.innerHTML = buildEmptyProductsHtml();
+            continue;
+          }
+          var sorted = sortProductsByBoLoc(allRows, tab.boLoc).slice(0, n);
+          renderProductsInto(el, sorted, 'category');
+        }
+        noteCategoryLoadResult(catId, hasAny);
+        if (hasAny) {
+          window.dispatchEvent(
+            new CustomEvent('home-product-cards-loaded', { detail: { section: 'category', categoryId: catId } })
+          );
+        }
+      })
+      .catch(function () {
+        for (var t = 0; t < sortTabs.length; t++) {
+          var el = document.querySelector(p + '-t' + sortTabs[t].idx);
+          if (el) el.innerHTML = buildEmptyProductsHtml();
+        }
+        noteCategoryLoadResult(catId, false);
+      });
   }
 
   function insertCategorySectionsAndLoad() {

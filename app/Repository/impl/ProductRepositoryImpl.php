@@ -285,17 +285,16 @@ class ProductRepositoryImpl extends BaseRepository implements ProductRepository
                     }
                     break;
                 case 'gia-tang':
-                    if ($isApiPublic === true) {
-                        $query->orderByRaw('CASE WHEN p.PRICE IS NULL OR p.PRICE <= 0 THEN 1 ELSE 0 END ASC');
-                        $query->orderByRaw('COALESCE(NULLIF(p.PRICE, 0), 999999999999999) ASC');
-                        $query->orderByRaw('CASE WHEN p.PRODUCT_HOT = ? THEN 0 ELSE 1 END', [true]);
-                        $query->orderBy('p.UPD_DT', 'desc');
-                    } else {
-                        $query->orderByRaw('COALESCE(p.PRICE, 999999999999999) ASC');
-                    }
+                    // Giá bán tăng dần; sản phẩm không giá / liên hệ (PRICE null|<=0) xuống cuối
+                    $query->orderByRaw('CASE WHEN p.PRICE IS NULL OR p.PRICE <= 0 THEN 1 ELSE 0 END ASC');
+                    $query->orderByRaw('COALESCE(NULLIF(p.PRICE, 0), 999999999999999) ASC');
+                    $query->orderBy('p.ID', 'asc');
                     break;
                 case 'gia-giam':
-                    $query->orderByRaw('COALESCE(p.PRICE, -1) DESC');
+                    // Giá bán giảm dần; sản phẩm không giá / liên hệ xuống cuối
+                    $query->orderByRaw('CASE WHEN p.PRICE IS NULL OR p.PRICE <= 0 THEN 1 ELSE 0 END ASC');
+                    $query->orderByRaw('COALESCE(NULLIF(p.PRICE, 0), -1) DESC');
+                    $query->orderBy('p.ID', 'desc');
                     break;
                 case 'a-z':
                     $query->orderBy('p.NAME', 'asc');
