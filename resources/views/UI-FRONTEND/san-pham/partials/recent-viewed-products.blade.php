@@ -1,4 +1,4 @@
-{{-- Sản phẩm đã xem: localStorage + API list (DANH_SACH_SAN_PHAM_ID) --}}
+{{-- Sản phẩm đã xem — layout grid giống section trang chủ --}}
 <section id="recent-view-coll" class="section section-products section-related-products hidden" style="--section-margin: 64px 0 64px 0;--section-margin-mb: 32px 0 32px 0">
   <div class="container">
     <div class="section-card">
@@ -6,21 +6,10 @@
         <h2 class="text-h4 heading font-semibold">Sản phẩm đã xem</h2>
       </div>
       <div id="ww-recent-viewed-wrap" class="releated-products w-full">
-        <carousel-slider>
-          <div class="embla">
-            <div class="embla__viewport">
-              <div class="embla__container product-list h-inherit [&>div:first-of-type]:-ml-2 [&>div]:pl-2 [&>div]:w-[61.3%] md:[&>div]:w-[27%] xl:[&>div]:w-1/5 [&>div]:flex_0 [&>div]:shrink-0" id="ww-recent-viewed-list"></div>
-            </div>
-            <div class="embla__buttons">
-              <button class="embla__button embla__button--prev" type="button" onclick="event.stopPropagation()">
-                <i class="icon icon-carret-left"></i>
-              </button>
-              <button class="embla__button embla__button--next" type="button" onclick="event.stopPropagation()">
-                <i class="icon icon-carret-right"></i>
-              </button>
-            </div>
-          </div>
-        </carousel-slider>
+        <div
+          class="product-list grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 mt-2"
+          id="ww-recent-viewed-list"
+        ></div>
       </div>
     </div>
   </div>
@@ -35,7 +24,7 @@
     defaultImg: @json(asset('image/UI-BACKEND/default-image.png')),
     detailPath: '/san-pham/chi-tiet',
     frameSrc: @json(asset('UI-FRONTEND/images/Khung vien xanh.png')),
-    limit: 8,
+    limit: 10,
   };
 
   function joinAppUrl(pathRel, updDt) {
@@ -311,25 +300,11 @@
 
         list.innerHTML = '';
         products.forEach(function (p) {
-          var slide = document.createElement('div');
-          slide.className = 'embla__slide h-inherit';
-          slide.innerHTML = buildCardHtml(p);
-          list.appendChild(slide);
+          list.insertAdjacentHTML('beforeend', buildCardHtml(p));
         });
 
         section.classList.remove('hidden');
 
-        function initCarousel() {
-          var carousel = document.querySelector('#ww-recent-viewed-wrap carousel-slider');
-          if (carousel && typeof carousel.init === 'function') {
-            carousel.init();
-            return true;
-          }
-          return false;
-        }
-        if (!initCarousel() && window.EGATheme && window.EGATheme.subscribe && window.themeConfigs) {
-          window.EGATheme.subscribe(window.themeConfigs.firstInteraction, initCarousel);
-        }
         if (window.EGATheme && window.EGATheme.publish && window.themeConfigs) {
           window.EGATheme.publish(window.themeConfigs.productLoaded);
         }
