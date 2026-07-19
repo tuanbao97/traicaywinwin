@@ -1456,7 +1456,7 @@ card-product {
 	animation-delay: 0.22s;
 }
 
-/* Header bones (section skeleton) ? kích th??c explicit, không ph? thu?c Tailwind utilities */
+/* Header bones (section skeleton) ? k?ch th??c explicit, kh?ng ph? thu?c Tailwind utilities */
 .section-home-products-skeleton .ww-skel-bone {
 	display: block;
 	border-radius: 0.4rem;
@@ -1722,15 +1722,29 @@ body.ega-theme #cart-drawer .overflow-x-auto {
 	min-width: 0;
 }
 
-/* Tr?nh chip l?c gi? / tab sort k?o r?ng viewport tr?n mobile */
+/* Tránh chip l?c giá / tab sort kéo r?ng viewport trên mobile ? desktop gi? overflow visible ?? sticky menu trái ho?t ??ng */
+@media (max-width: 1279px) {
+	body.ega-theme.search,
+	body.ww-all-products {
+		overflow-x: hidden;
+		max-width: 100%;
+		position: relative;
+	}
+
+	html:has(body.ega-theme.search),
+	html:has(body.ww-all-products) {
+		overflow-x: hidden;
+		max-width: 100%;
+	}
+}
+
 body.ega-theme.search,
 body.ww-all-products {
-	overflow-x: hidden;
 	max-width: 100%;
 	position: relative;
 }
 
-/* Ch? thu h?p v?ng n?i dung l?c/grid ? gi? .container max-width nh? trang ch? (c? margin L/R) */
+/* Ch? thu h?p vùng n?i dung l?c/grid ? gi? .container max-width nh? trang ch? (có margin L/R) */
 body.ega-theme.search main .ww-search-layout,
 body.ww-all-products main .ww-search-layout,
 body.ega-theme.search main .min-w-0,
@@ -1749,13 +1763,6 @@ body.ww-all-products .section-main-search,
 body.ega-theme.search main,
 body.ww-all-products main {
 	min-width: 0;
-	max-width: 100%;
-	overflow-x: clip;
-}
-
-html:has(body.ega-theme.search),
-html:has(body.ww-all-products) {
-	overflow-x: hidden;
 	max-width: 100%;
 }
 
@@ -1988,6 +1995,36 @@ html:has(body.ww-all-products) {
 
 	body.ww-all-products .index-container > div:first-child > .sticky {
 		width: 100%;
+	}
+}
+
+/* Trang ch? / t?m ki?m / danh s?ch: menu tr?i sticky khi scroll c?t ph?i */
+@media (min-width: 1280px) {
+	body.ega-theme.index .index-container,
+	body.ega-theme.search .index-container,
+	body.ww-all-products .index-container {
+		align-items: start;
+	}
+
+	.ww-home-sidebar,
+	body.ega-theme.index .index-container > div:first-child,
+	body.ega-theme.search .index-container > div:first-child {
+		align-self: start;
+		width: 100%;
+		max-width: 300px;
+	}
+
+	.ww-home-sidebar-sticky,
+	.index-container > .ww-home-sidebar > .sticky,
+	.index-container > div:first-child > .sticky {
+		position: sticky;
+		position: -webkit-sticky;
+		/* top-[88px] kh?ng c? trong CSS theme ? g?n t??ng minh */
+		top: calc(var(--header-height, 6.4rem) + 1.5rem);
+		width: 100%;
+		z-index: 10;
+		max-height: calc(100vh - var(--header-height, 6.4rem) - 2rem);
+		overflow-y: auto;
 	}
 }
 

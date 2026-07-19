@@ -36,8 +36,8 @@
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/icon.css?1768901692132" media="all">
     <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1">
     <link rel="stylesheet" href="100/531/894/themes/1018832/assets/global.css?ww-scroll-mid-1" media="all">
-    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-skel-title-6">
-    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-skel-title-6" media="all">
+    <link rel="preload" as="style" media="all" href="100/531/894/themes/1018832/assets/custom.css?ww-home-sidebar-sticky-1">
+    <link rel="stylesheet" href="100/531/894/themes/1018832/assets/custom.css?ww-home-sidebar-sticky-1" media="all">
     <link
       rel="stylesheet"
       href="100/531/894/themes/1018832/assets/quickview.css?ww-qv-btn-bold-circle-2"
@@ -346,13 +346,6 @@
     <style id="ww-top-banner-fix">
       html {
         background: #f0f9ff !important;
-        /* Chặn thanh scroll ngang lúc Embla/carousel chưa init → tránh layout “nhỏ rồi to” trên mobile */
-        overflow-x: clip;
-      }
-      @supports not (overflow: clip) {
-        html {
-          overflow-x: hidden;
-        }
       }
       html,
       body.ega-theme {
@@ -361,12 +354,25 @@
         max-width: 100%;
       }
       body.ega-theme {
-        overflow-x: clip;
         width: 100%;
       }
-      @supports not (overflow: clip) {
+      /* Mobile: chặn scroll ngang — KHÔNG áp dụng desktop (phá sticky menu trái) */
+      @media (max-width: 1279px) {
+        html {
+          overflow-x: clip;
+        }
+        @supports not (overflow: clip) {
+          html {
+            overflow-x: hidden;
+          }
+        }
         body.ega-theme {
-          overflow-x: hidden;
+          overflow-x: clip;
+        }
+        @supports not (overflow: clip) {
+          body.ega-theme {
+            overflow-x: hidden;
+          }
         }
       }
       /* Carousel: luôn cắt ngang trước khi JS Embla chạy */

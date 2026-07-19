@@ -1,5 +1,5 @@
-  <div class=" dnone xl:block relative z-10  pl-4.5" style="    --navigation-width: 282px;">
-    <div class="sticky top-[88px]">
+  <div class="ww-home-sidebar dnone xl:block relative z-10 pl-4.5" style="--navigation-width: 282px;">
+    <div class="ww-home-sidebar-sticky sticky">
 
     <div class=" bg-white rounded  relative">
       <div class="text-h5 p-3 font-semibold">Danh mục sản phẩm</div>
