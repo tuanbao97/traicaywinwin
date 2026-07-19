@@ -792,15 +792,24 @@
       return;
     }
 
-    // Section thường: lấy ALL sản phẩm rồi sort theo giá bán / tên cho từng tab
+    // Section thường:
+    // - Tab "Tất cả": sort + limit giống Giỏ trái cây (API BO_LOC=default, PER_PAGE=n)
+    // - Tab giá/tên: get ALL → sort theo giá bán/tên → limit n
     var sortTabs = [
-      { idx: 1, boLoc: 'default' },
       { idx: 2, boLoc: 'gia-tang' },
       { idx: 3, boLoc: 'gia-giam' },
       { idx: 4, boLoc: 'a-z' },
       { idx: 5, boLoc: 'z-a' },
     ];
-    beginCategoryLoads(catId, 1);
+    beginCategoryLoads(catId, 2);
+
+    loadProducts('category', p + '-t1', {
+      categoryId: catId,
+      perPage: n,
+      boLoc: 'default',
+      trackCategoryId: catId,
+    });
+
     for (var s = 0; s < sortTabs.length; s++) {
       var skEl = document.querySelector(p + '-t' + sortTabs[s].idx);
       if (skEl) skEl.innerHTML = buildProductGridSkeletonHtml(n, false);
