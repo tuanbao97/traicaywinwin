@@ -195,6 +195,7 @@
                       </picture>
                     </a>
                   </div>
+                  {{-- Banner quà tặng thiếu nhi — tạm ẩn
                   <div class="embla__slide flex-[0_0_100%] overflow-hidden rounded">
                     <a class="block" href="https://traicaywinwin.com/" title="Giỏ quà &amp; combo — Ưu đãi">
                       <picture>
@@ -203,6 +204,7 @@
                       </picture>
                     </a>
                   </div>
+                  --}}
                 </div>
               </div>
               <div class="embla__dots bottom-2 md:absolute md:left-1/2 mt-3 md:mt-0 md:-translate-x-1/2"></div>
