@@ -266,7 +266,7 @@
 					  <img class="object-contain" loading="lazy" width="24" height="24" src="100/531/894/themes/1018832/assets/policies_icon_3.png?1768901692132" alt="Giao hàng miễn phí trong 24h (chỉ áp dụng khu vực nội thành)">
 					</div>
 					<div class="">
-					  <span class="font-semibold block">Tư vẫn nhanh chóng</span>
+					  <span class="font-semibold block">Tư vấn nhanh chóng</span>
 					  <span class="text-xs">Hỗ trợ khách hàng 24/7</span>
 					</div>
 				  </div>
