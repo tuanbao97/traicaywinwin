@@ -1039,19 +1039,40 @@ product-form.loading .product-cta .btn .loading-icon {
 @media (max-width: 767px) {
   .cro-btns:has(.cro-btn-item) {
     display: block;
-    /* fixed: sticky b? h?ng khi body/html c? overflow-x (trang danh s?ch SP / t?m ki?m) */
     position: fixed !important;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 0 !important;
     width: 100%;
     z-index: 40;
     margin: 0;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding: 0 !important;
+    min-height: 0;
+    background-color: var(--color-background, #fff);
+    -webkit-animation: none !important;
+    animation: none !important;
+    -webkit-transform: none !important;
+    transform: none !important;
   }
 
-  /* Ch?a ch? cu?i trang ?? n?i dung kh?ng b? menu che */
+  /* Safe-area + white bg on same node => no white gap under icons */
+  .cro-btns:has(.cro-btn-item) > .bg-background {
+    width: 100%;
+    min-height: 5.6rem;
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    box-sizing: border-box;
+    background-color: var(--color-background, #fff);
+    -webkit-animation: none !important;
+    animation: none !important;
+    -webkit-transform: none !important;
+    transform: none !important;
+  }
+
   body.ega-theme:has(.cro-btns .cro-btn-item) {
+    padding-bottom: calc(5.6rem + constant(safe-area-inset-bottom));
     padding-bottom: calc(5.6rem + env(safe-area-inset-bottom, 0px));
   }
 }
@@ -2402,13 +2423,13 @@ top: auto!important;
 	line-height: 1.25 !important;
 }
 
-/* Không có giá g?c: ch? giá c?n gi?a theo chi?u cao v?i icon gi? */
+/* Kh?ng c? gi? g?c: ch? gi? c?n gi?a theo chi?u cao v?i icon gi? */
 .card-product__body .card-product__price-row {
 	align-items: center !important;
 	gap: 0.75rem;
 }
 
-/* Có giá g?c: icon gi? c?n theo hàng giá bán (trên), không b? kéo xu?ng */
+/* C? gi? g?c: icon gi? c?n theo h?ng gi? b?n (tr?n), kh?ng b? k?o xu?ng */
 .card-product__body .card-product__price-row:has(.compare-price) {
 	align-items: flex-start !important;
 }
@@ -2468,7 +2489,7 @@ top: auto!important;
 	border-color: #f97316 !important;
 }
 
-/* Icon trên card s?n ph?m: xanh da tr?i + to h?n ?? b?m */
+/* Icon tr?n card s?n ph?m: xanh da tr?i + to h?n ?? b?m */
 .card-product .ww-quick-view-btn {
   display: none !important;
 }
