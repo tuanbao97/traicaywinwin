@@ -1058,9 +1058,10 @@ product-form.loading .product-cta .btn .loading-icon {
   /* Safe-area + white bg on same node => no white gap under icons */
   .cro-btns:has(.cro-btn-item) > .bg-background {
     width: 100%;
-    min-height: 5.6rem;
-    padding-bottom: constant(safe-area-inset-bottom);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    min-height: 6.4rem;
+    padding-top: 0.8rem;
+    padding-bottom: calc(0.6rem + constant(safe-area-inset-bottom));
+    padding-bottom: calc(0.6rem + env(safe-area-inset-bottom, 0px));
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     box-sizing: border-box;
@@ -1071,9 +1072,14 @@ product-form.loading .product-cta .btn .loading-icon {
     transform: none !important;
   }
 
+  .cro-btns:has(.cro-btn-item) .cro-btn-item {
+    padding-top: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+  }
+
   body.ega-theme:has(.cro-btns .cro-btn-item) {
-    padding-bottom: calc(5.6rem + constant(safe-area-inset-bottom));
-    padding-bottom: calc(5.6rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(7.2rem + constant(safe-area-inset-bottom));
+    padding-bottom: calc(7.2rem + env(safe-area-inset-bottom, 0px));
   }
 }
 .promo-box__body p {
